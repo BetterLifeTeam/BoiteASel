@@ -14,7 +14,7 @@ class MemberType extends AbstractType
         $builder
             ->add('name')
             ->add('firstname')
-            ->add('role')
+            ->add('roles')
             ->add('email')
             ->add('password')
             ->add('money')
