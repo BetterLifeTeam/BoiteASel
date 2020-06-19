@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DutyType{% endblock %}
+
+{% block body %}
+    <h1>DutyType</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ duty_type.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ duty_type.title }}</td>
+            </tr>
+            <tr>
+                <th>HourlyPrice</th>
+                <td>{{ duty_type.hourlyPrice }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ duty_type.status ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>NoVote</th>
+                <td>{{ duty_type.noVote ? duty_type.noVote|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>YesVote</th>
+                <td>{{ duty_type.yesVote ? duty_type.yesVote|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>VoteCommentary</th>
+                <td>{{ duty_type.voteCommentary ? duty_type.voteCommentary|json_encode : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('duty_type_index') }}">back to list</a>
+
+    <a href="{{ path('duty_type_edit', {'id': duty_type.id}) }}">edit</a>
+
+    {{ include('duty_type/_delete_form.html.twig') }}
+{% endblock %}

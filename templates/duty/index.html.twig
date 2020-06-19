@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Duty index{% endblock %}
+
+{% block body %}
+    <h1>Duty index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>CreatedAt</th>
+                <th>CheckedAt</th>
+                <th>AskerValidAt</th>
+                <th>OffererValidAt</th>
+                <th>DoneAt</th>
+                <th>SetbackAt</th>
+                <th>Duration</th>
+                <th>Place</th>
+                <th>Status</th>
+                <th>Price</th>
+                <th>YesVote</th>
+                <th>NoVote</th>
+                <th>VoteCommentary</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for duty in duties %}
+            <tr>
+                <td>{{ duty.id }}</td>
+                <td>{{ duty.title }}</td>
+                <td>{{ duty.description }}</td>
+                <td>{{ duty.createdAt ? duty.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ duty.checkedAt ? duty.checkedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ duty.askerValidAt ? duty.askerValidAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ duty.offererValidAt ? duty.offererValidAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ duty.doneAt ? duty.doneAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ duty.setbackAt ? duty.setbackAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ duty.duration }}</td>
+                <td>{{ duty.place }}</td>
+                <td>{{ duty.status }}</td>
+                <td>{{ duty.price }}</td>
+                <td>{{ duty.yesVote ? duty.yesVote|join(', ') : '' }}</td>
+                <td>{{ duty.noVote ? duty.noVote|join(', ') : '' }}</td>
+                <td>{{ duty.voteCommentary ? duty.voteCommentary|json_encode : '' }}</td>
+                <td>
+                    <a href="{{ path('duty_show', {'id': duty.id}) }}">show</a>
+                    <a href="{{ path('duty_edit', {'id': duty.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="17">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('duty_new') }}">Create new</a>
+{% endblock %}
