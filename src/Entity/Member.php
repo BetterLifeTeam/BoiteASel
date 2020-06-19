@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\MemberRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\MemberRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=MemberRepository::class)
  */
-class Member
+class Member implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -32,7 +33,7 @@ class Member
     /**
      * @ORM\Column(type="array")
      */
-    private $role = [];
+    private $roles = [];
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -117,14 +118,19 @@ class Member
         return $this;
     }
 
-    public function getRole(): ?array
-    {
-        return $this->role;
+    //Provi. les roles sont tous members
+    public function getRoles(){
+        return ['ROLE_MEMBER'];
     }
 
-    public function setRole(array $role): self
+    // public function getRoles(): ?array
+    // {
+    //     return $this->roles;
+    // }
+
+    public function setRoles(array $roles): self
     {
-        $this->role = $role;
+        $this->roles = $roles;
 
         return $this;
     }
@@ -332,6 +338,14 @@ class Member
         return $this;
     }
 
+    public function getUsername(){
+        return $this->email;
+    }
+
+    public function eraseCredentials() {}
+
+    public function getSalt() {}
+    
     public function __toString(){
         return $this->firstname." ".$this->name;
     }
