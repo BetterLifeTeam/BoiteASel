@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Duty{% endblock %}
+
+{% block body %}
+    <h1>Duty</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ duty.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ duty.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ duty.description }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ duty.createdAt ? duty.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CheckedAt</th>
+                <td>{{ duty.checkedAt ? duty.checkedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>AskerValidAt</th>
+                <td>{{ duty.askerValidAt ? duty.askerValidAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>OffererValidAt</th>
+                <td>{{ duty.offererValidAt ? duty.offererValidAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DoneAt</th>
+                <td>{{ duty.doneAt ? duty.doneAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>SetbackAt</th>
+                <td>{{ duty.setbackAt ? duty.setbackAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ duty.duration }}</td>
+            </tr>
+            <tr>
+                <th>Place</th>
+                <td>{{ duty.place }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ duty.status }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ duty.price }}</td>
+            </tr>
+            <tr>
+                <th>YesVote</th>
+                <td>{{ duty.yesVote ? duty.yesVote|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>NoVote</th>
+                <td>{{ duty.noVote ? duty.noVote|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>VoteCommentary</th>
+                <td>{{ duty.voteCommentary ? duty.voteCommentary|json_encode : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('duty_index') }}">back to list</a>
+
+    <a href="{{ path('duty_edit', {'id': duty.id}) }}">edit</a>
+
+    {{ include('duty/_delete_form.html.twig') }}
+{% endblock %}

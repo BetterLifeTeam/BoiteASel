@@ -345,4 +345,8 @@ class Member implements UserInterface
     public function eraseCredentials() {}
 
     public function getSalt() {}
+    
+    public function __toString(){
+        return $this->firstname." ".$this->name;
+    }
 }
