@@ -11,6 +11,7 @@
     {{ form_row(form.password, {'label': 'Mot de passe', 'attr': {'placeholder': 'Bientot générer par email...' }}) }}
     {{ form_row(form.money, {'label': 'Grain de sel attribuée..', 'attr': {'placeholder': 'Grain de sel du membre...' }}) }}
     {{ form_row(form.address, {'label': 'Addresse ( facultatif )', 'attr': {'placeholder': 'Addresse facultatif si privée...' }}) }}
+    {{ form_row(form.roles, {'label': 'Roles (sera "Membre" si laissé vide)', 'attr': {'placeholder': 'Roles l\'utilisateur' }}) }}
 
     <button type="submit" class="btn btn-success">Valider</button>
     {{ form_end(form)}}
