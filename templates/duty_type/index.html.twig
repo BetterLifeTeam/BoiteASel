@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DutyType index{% endblock %}
+
+{% block body %}
+    <h1>DutyType index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>HourlyPrice</th>
+                <th>Status</th>
+                <th>NoVote</th>
+                <th>YesVote</th>
+                <th>VoteCommentary</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for duty_type in duty_types %}
+            <tr>
+                <td>{{ duty_type.id }}</td>
+                <td>{{ duty_type.title }}</td>
+                <td>{{ duty_type.hourlyPrice }}</td>
+                <td>{{ duty_type.status ? 'Yes' : 'No' }}</td>
+                <td>{{ duty_type.noVote ? duty_type.noVote|join(', ') : '' }}</td>
+                <td>{{ duty_type.yesVote ? duty_type.yesVote|join(', ') : '' }}</td>
+                <td>{{ duty_type.voteCommentary ? duty_type.voteCommentary|json_encode : '' }}</td>
+                <td>
+                    <a href="{{ path('duty_type_show', {'id': duty_type.id}) }}">show</a>
+                    <a href="{{ path('duty_type_edit', {'id': duty_type.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('duty_type_new') }}">Create new</a>
+{% endblock %}

@@ -134,4 +134,8 @@ class Conversation
 
         return $this;
     }
+
+    public function __toString(){
+        return strval($this->id);
+    }
 }
