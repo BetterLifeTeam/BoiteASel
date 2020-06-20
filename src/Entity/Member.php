@@ -120,10 +120,11 @@ class Member implements UserInterface
 
     //Provi. les roles sont tous members
     public function getRoles(){
-        return ['ROLE_MEMBER'];
+        // return gettype(['ROLE_MEMBER']);
+        return gettype($this->roles);
     }
 
-    // public function getRoles(): ?array
+    // public function getRolesAsArray(): ?array
     // {
     //     return $this->roles;
     // }
