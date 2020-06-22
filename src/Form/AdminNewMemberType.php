@@ -7,12 +7,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AdminMemberType extends AbstractType
+class AdminNewMemberType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('money')
+            ->add('name')
+            ->add('firstname')
+            ->add('email')
         ;
     }
 

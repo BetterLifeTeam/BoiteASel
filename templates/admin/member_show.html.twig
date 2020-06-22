@@ -7,18 +7,18 @@
 
     <table class="table">
         <tbody>
-            <tr>
+            {# <tr>
                 <th>Id</th>
                 <td>{{ member.id }}</td>
-            </tr>
+            </tr> #}
             <tr>
-                <th>Name</th>
-                <td>{{ member.name }}</td>
+                <th>Nom Prénom</th>
+                <td>{{ member.firstname }} {{ member.name }}</td>
             </tr>
-            <tr>
+            {# <tr>
                 <th>Firstname</th>
                 <td>{{ member.firstname }}</td>
-            </tr>
+            </tr> #}
             <tr>
                 <th>Roles</th>
                 <td>{{ member.roles ? member.roles|join(', ') : '' }}</td>
@@ -27,10 +27,10 @@
                 <th>Email</th>
                 <td>{{ member.email }}</td>
             </tr>
-            <tr>
+            {# <tr>
                 <th>Password</th>
                 <td>{{ member.password }}</td>
-            </tr>
+            </tr> #}
             <tr>
                 <th>Money</th>
                 <td>{{ member.money }}</td>
@@ -46,5 +46,5 @@
 
     <a href="{{ path('admin_member_edit', {'id': member.id}) }}">edit</a>
 
-    {{ include('member/_delete_form.html.twig') }}
+    {{ include('admin/_delete_form_member.html.twig') }}
 {% endblock %}

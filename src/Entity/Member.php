@@ -7,6 +7,7 @@ use App\Repository\MemberRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * @ORM\Entity(repositoryClass=MemberRepository::class)
@@ -121,7 +122,12 @@ class Member implements UserInterface
     //Provi. les roles sont tous members
     public function getRoles(){
         // return gettype(['ROLE_MEMBER']);
-        return gettype($this->roles);
+        // $toReturn = '';
+        // foreach ($$this->roles as $value) {
+        //     $toReturn .= $value.', ';
+        // }
+        // return substr($toReturn, 0, strlen($toReturn));
+        return $this->roles;
     }
 
     // public function getRolesAsArray(): ?array
