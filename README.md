@@ -1,2 +1,2 @@
 # BoiteASel
-Adding link to discord
+Adding link to a discord channel
