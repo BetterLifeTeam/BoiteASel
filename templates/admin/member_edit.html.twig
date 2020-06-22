@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Member{% endblock %}
+
+{% block body %}
+    <h1>Edit Member</h1>
+
+    {{ include('admin/_form_member.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('admin_members_list') }}">back to list</a>
+
+    {{ include('admin/_delete_form_member.html.twig') }}
+{% endblock %}
