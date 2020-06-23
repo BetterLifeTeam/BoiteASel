@@ -23,8 +23,6 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            // Ne remonte pas dans security.yaml pour encoder en bcrypt ! a étudier après 
-
             $hash = $encoder->encodePassword($member, $member->getPassword());
             $member->setPassword($hash);
 

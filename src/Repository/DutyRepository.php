@@ -22,29 +22,25 @@ class DutyRepository extends ServiceEntityRepository
     // /**
     //  * @return Duty[] Returns an array of Duty objects
     //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Duty
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
+    public function findByKey($params, $filter){
+        return $this->createQueryBuilder('duty')
+            ->andWhere('duty.title LIKE :value OR duty.description LIKE :value OR duty.place LIKE :value')
+            ->setParameter('value', '%'.$params.'%')
+            ->orderBy('duty.createdAt', $filter)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->execute();
     }
-    */
+
+    public function findByKeyAndType($params, $filter, $type = null){
+        return $this->createQueryBuilder('duty')
+            ->andWhere('duty.title LIKE :value OR duty.description LIKE :value OR duty.place LIKE :value')
+            ->setParameter('value', '%'.$params.'%')
+            ->andWhere('duty.dutyType = :type')
+            ->setParameter('type', $type)
+            ->orderBy('duty.createdAt', $filter)
+            ->getQuery()
+            ->execute();
+    }
+
 }
