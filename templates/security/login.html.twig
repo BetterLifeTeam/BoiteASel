@@ -1,17 +1,32 @@
 {% extends "base.html.twig" %}
 
-{% block body %}
-    <h1>Connexion </h1>
+{% block title %}Connexion{% endblock %}
 
-    <form action="{{ path('security_login') }}" method="post">
-        <div class="form-group">
-            <input placeholder="Addresse email..." required name="_username" type="text" class="form-control" >
+{% block body %}
+    <main role="main" class="container-lg" id="login-page">
+        <div class="row">
+            <form class="col-lg-6 col-md-12" id="login-form">
+                <h1 class="h1 text-primary text-center mb-4">CONNEXION</h1>
+
+                <div class="form-group mb-2">
+                    <label class="text" for="inputEmail">Adresse mail :</label>
+                    <input type="email" class="form-control text" id="inputEmail" name="_username" aria-describedby="emailHelp" required>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label class="text" for="inputPaswword">Mot de passe :</label>
+                    <input type="password" class="form-control text" id="inputPaswword" name="_password" required>
+                </div>
+
+                <div class="text-center">
+                    <a class="btn btn-primary" href="/"><i class="fas fa-chevron-left"></i> Retour</a>
+                    <button type="submit" class="btn btn-primary m-auto" id="btn-login">Se connecter</button>
+                </div>
+            </form>
+
+            <figure class="text-center col-xl-12">
+                <img src="{{ asset('assets/img/BoiteASel.png') }}" alt="Logo BoiteASel">
+            </figure>
         </div>
-        <div class="form-group">
-            <input placeholder="Mot de passe..." required name="_password" type="passwoord" class="form-control" >
-        </div>
-        <div class="form_group">
-        <button type="submit" class="btn btn-success"> Connexion </button>
-        </div>
-    </form>
+    </main>
 {% endblock %}
