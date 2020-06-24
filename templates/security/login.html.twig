@@ -3,9 +3,9 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
-    <main role="main" class="container-lg" id="login-page">
-        <div class="row">
-            <form class="col-lg-6 col-md-12" id="login-form">
+    <main role="main" class="container-lg" id="login_page">
+        <div class="row p-2">
+            <form class="col-lg-6 col-md-12" id="login_form" action="{{ path('security_login') }}" method="post">
                 <h1 class="h1 text-primary text-center mb-4">CONNEXION</h1>
 
                 <div class="form-group mb-2">

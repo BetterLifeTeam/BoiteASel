@@ -1,45 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Member index{% endblock %}
+{% block title %}Gestion des membres{% endblock %}
 
 {% block body %}
-    <h1>Member index</h1>
+    <main role="main" class="container-fluid" id="admin_members">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="h1 text-primary text-center mb-4">GESTION DES MEMBRES</h1>
+            </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nom Prénom</th>
-                <th>Roles</th>
-                <th>Money</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for member in members %}
-            <tr>
-                <td>{{ member.name }} {{ member.firstname }}</td>
-                <td>{{ member.roles ? member.roles|join(', ') : '' }}</td>
-                <td>{{ member.money }}</td>
-                <td>
-                    <a href="{{ path('admin_member_show', {'id': member.id}) }}">show</a>
-                    <a href="{{ path('admin_member_edit', {'id': member.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <div class="col-lg-9 p-4">
+                <div id="members_list">
+                    <h4 class="text mb-4">Liste des membres :</h4>
+                    <table id="table_members_list" class="table table-hover"
+                           data-pagination="true"
+                           data-toggle="table"
+                           data-search="true"
+                           data-show-search-button="true"
+                           data-page-size="10">
+                        <thead>
+                        <tr>
+                            <th class="text-center" data-sortable="true">Nom Prénom</th>
+                            <th class="text-center" data-sortable="true">Rôle</th>
+                            <th class="text-center" data-sortable="true">Grains de sel</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for member in members %}
+                            <tr>
+                                <td>{{ member.name }} {{ member.firstname }}</td>
+                                <td class="text-center">{{ member.roles ? member.roles|join(', ') : '' }}</td>
+                                <td class="text-center">{{ member.money }}</td>
+                                <td class="text-center">
+                                    <a class="btn btn-secondary" href="{{ path('admin_member_show', {'id': member.id}) }}"><i class="fas fa-eye"></i></a>
+                                    <a class="btn btn-success" href="{{ path('admin_member_edit', {'id': member.id}) }}"><i class="fas fa-pen"></i></a>
+                                    <a class="btn btn-alert" href="{{ path('admin_member_edit', {'id': member.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="9">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-    {# <a href="{{ path('admin_member_new') }}">Create new</a> #}
+            <div class="col-lg-3 p-4">
+                <div id="member_add">
+                    <h4 class="text-white text-center mb-4">Ajouter un membre :</h4>
 
-    <hr>
-
-    <h1>Create new Member</h1>
-
-    {{ include('admin/members/_form_member.html.twig') }}
-
-    {# <a href="{{ path('member_index') }}">back to list</a> #}
+                    {{ include('admin/members/_form_member.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </main>
 {% endblock %}

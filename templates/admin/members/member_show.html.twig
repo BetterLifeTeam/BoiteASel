@@ -3,48 +3,53 @@
 {% block title %}Member{% endblock %}
 
 {% block body %}
-    <h1>Member</h1>
+    <main role="main"id="admin_member_show">
+        <section class="container-lg">
+            <div class="row p-2">
+                <form class="col-lg-6 col-md-12" id="member_form">
+                    <div class="row">
+                        <div class="col-sm d-flex justify-content-center flex-column">
+                            <h4 class="text-primary mb-0">{{ member.firstname }} {{ member.name }}</h4>
+                            <hr class="mb-1 mt-1">
+                        </div>
+                        <div class="col-sm-auto text-sm-right">
+                            <img src="{{ asset('assets/img/abstract-shapes-10.svg') }}" width="75" alt="Elements graphiques">
+                        </div>
+                    </div>
 
-    <table class="table">
-        <tbody>
-            {# <tr>
-                <th>Id</th>
-                <td>{{ member.id }}</td>
-            </tr> #}
-            <tr>
-                <th>Nom Prénom</th>
-                <td>{{ member.firstname }} {{ member.name }}</td>
-            </tr>
-            {# <tr>
-                <th>Firstname</th>
-                <td>{{ member.firstname }}</td>
-            </tr> #}
-            <tr>
-                <th>Roles</th>
-                <td>{{ member.roles ? member.roles|join(', ') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ member.email }}</td>
-            </tr>
-            {# <tr>
-                <th>Password</th>
-                <td>{{ member.password }}</td>
-            </tr> #}
-            <tr>
-                <th>Money</th>
-                <td>{{ member.money }}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>{{ member.address }}</td>
-            </tr>
-        </tbody>
-    </table>
+                    <div class="form-group row mb-0">
+                        <label for="staticEmail" class="col-sm-4 mb-0"><small>ADRESSE MAIL :</small></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext p-0" id="staticEmail" value="{{ member.email }}">
+                        </div>
+                    </div>
 
-    <a href="{{ path('admin_members_list') }}">back to list</a>
+                    <div class="form-group row mb-0">
+                        <label for="staticEmail" class="col-sm-4 mb-0"><small>ROLE :</small></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext p-0" id="staticEmail" value="{{ member.roles ? member.roles|join(', ') : '' }}">
+                        </div>
+                    </div>
 
-    <a href="{{ path('admin_member_edit', {'id': member.id}) }}">edit</a>
+                    <div class="form-group row mb-0">
+                        <label for="staticEmail" class="col-sm-4 mb-0"><small>GRAINS DE SEL :</small></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext p-0" id="staticEmail" value="{{ member.money }}">
+                        </div>
+                    </div>
 
-    {{ include('admin/members/_delete_form_member.html.twig') }}
+                    <div class="form-group row mb-0">
+                        <label for="staticEmail" class="col-sm-4 mb-0"><small>ADRESSE :</small></label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly class="form-control-plaintext p-0" id="staticEmail" value="{{ member.address }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group text-right mb-0">
+                        <a class="btn text-primary" href="{{ path('admin_members_list') }}"><i class="fas fa-chevron-left"></i> Retour</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
 {% endblock %}

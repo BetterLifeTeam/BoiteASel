@@ -5,6 +5,7 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-table.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/fontawesome/css/fontawesome.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.css') }}">
             <link rel="stylesheet" href="{{ asset('build/app.css') }}">
@@ -22,6 +23,8 @@
         {% block scripts %}
             <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
             <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
+            <script src="{{ asset('assets/js/bootstrap-table.js') }}"></script>
+            <script src="{{ asset('assets/js/bootstrap-table-fr-FR.js') }}"></script>
             <script src="{{ asset('assets/js/bootstrap.bundle.js') }}"></script>
             <script src="{{ asset('build/app.js') }}"></script>
         {% endblock %}
