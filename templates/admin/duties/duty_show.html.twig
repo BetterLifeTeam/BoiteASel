@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Duty
+{% endblock %}
+
+{% block body %}
+	<h1>Duty</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Title</th>
+				<td>{{ duty.title }}</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ duty.description }}</td>
+			</tr>
+			<tr>
+				<th>CreatedAt</th>
+				<td>{{ duty.createdAt ? duty.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th>SetbackAt</th>
+				<td>{{ duty.setbackAt ? duty.setbackAt|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Duration</th>
+				<td>{{ duty.duration }}</td>
+			</tr>
+			<tr>
+				<th>Place</th>
+				<td>{{ duty.place }}</td>
+			</tr>
+			<tr>
+				<th>Status</th>
+				<td>{{ duty.status }}</td>
+			</tr>
+			<tr>
+				<th>Price</th>
+				<td>{{ duty.price }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	{# Renvoie true si le user est co #}
+	{# {% if app.user %}{% endif %} #}
+
+    <h2>Les commentaires : </h2>
+	<section id="commentaire">
+		{% for key,commentary in duty.voteCommentary %}
+			<div class="comment">
+				<div class="row">
+					<div class="col-3">
+						{{ key }}
+					</div>
+					<div class="col">
+						{{ commentary }}
+					</div>
+				</div>
+                <hr>
+			</div>
+		{% endfor %}
+	</section>
+    <h2>Ajouter un commentaire :</h2>
+
+	{{ form(commentaryForm) }}
+
+
+		<a href="{{ path('duties_to_check') }}">back to list</a>
+
+		<a href="{{ path('admin_duty_edit', {'id': duty.id}) }}">edit</a>
+
+		{# {{ include('admin/duties/_delete_form_duty.html.twig') }} #}
+	{% endblock %}

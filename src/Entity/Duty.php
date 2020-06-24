@@ -90,7 +90,7 @@ class Duty
     private $noVote = [];
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      */
     private $voteCommentary = [];
 

@@ -18,16 +18,19 @@ class MemberController extends AbstractController
     /**
      * @Route("/", name="member_index", methods={"GET"})
      */
+/*
     public function index(MemberRepository $memberRepository): Response
     {
         return $this->render('member/index.html.twig', [
             'members' => $memberRepository->findAll(),
         ]);
     }
+*/
 
     /**
      * @Route("/new", name="member_new", methods={"GET","POST"})
      */
+/*
     public function new(Request $request): Response
     {
         $member = new Member();
@@ -47,6 +50,7 @@ class MemberController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+*/
 
     /**
      * @Route("/{id}", name="member_show", methods={"GET"})
@@ -78,9 +82,11 @@ class MemberController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/{id}", name="member_delete", methods={"DELETE"})
      */
+/*
     public function delete(Request $request, Member $member): Response
     {
         if ($this->isCsrfTokenValid('delete'.$member->getId(), $request->request->get('_token'))) {
@@ -91,4 +97,5 @@ class MemberController extends AbstractController
 
         return $this->redirectToRoute('member_index');
     }
+*/
 }

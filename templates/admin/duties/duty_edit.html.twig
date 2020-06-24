@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Duty{% endblock %}
+
+{% block body %}
+    <h1>Edit Duty</h1>
+
+    {{ include('admin/duties/_form_duty.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('duties_to_check') }}">back to list</a>
+
+    {# {{ include('duty/_delete_form.html.twig') }} #}
+{% endblock %}
