@@ -81,6 +81,7 @@ class DutyController extends AbstractController
     /**
      * @Route("/{id}", name="duty_delete", methods={"DELETE"})
      */
+    /*
     public function delete(Request $request, Duty $duty): Response
     {
         if ($this->isCsrfTokenValid('delete'.$duty->getId(), $request->request->get('_token'))) {
@@ -91,4 +92,5 @@ class DutyController extends AbstractController
 
         return $this->redirectToRoute('duty_index');
     }
+    */
 }
