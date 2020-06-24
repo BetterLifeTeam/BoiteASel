@@ -31,12 +31,12 @@
 					<td>{{ duty.yesVote|length }}
 						/
 						{{ nbVoter }}
-						<small>({{ ((duty.yesVote|length)*100)/ nbVoter }}%)</small>
+						<small>({{ (((duty.yesVote|length)*100)/ nbVoter)|round(2) }}%)</small>
 					</td>
 					<td>{{ duty.noVote|length }}
 						/
 						{{ nbVoter }}
-						<small>({{ ((duty.noVote|length)*100)/ nbVoter }}%)</small>
+						<small>({{ (((duty.noVote|length)*100)/ nbVoter)|round(2) }}%)</small>
 					</td>
 					<td>
 						{# Evidemment là on va mettre des icônes #}
