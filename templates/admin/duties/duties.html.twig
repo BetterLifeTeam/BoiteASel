@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Duty index
+{% endblock %}
+
+{% block body %}
+	<h1>Duty index</h1>
+
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Date</th>
+				<th>Status</th>
+				<th>Price</th>
+				<th>YesVote<span style="display:block;font-size:8px;">(votes / votants)</span>
+				</th>
+				<th>NoVote<span style="display:block;font-size:8px;">(votes / votants)</span>
+				</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for duty in duties %}
+				<tr>
+					<td>{{ duty.title }}</td>
+					<td>{{ (duty.status == "not checked") ? duty.createdAt|date('Y-m-d H:i:s') : duty.setbackAt|date('Y-m-d H:i:s') }}</td>
+					<td>{{ duty.status }}</td>
+					<td>{{ duty.price }}</td>
+					<td>{{ duty.yesVote|length }}
+						/
+						{{ nbVoter }}
+						<small>({{ ((duty.yesVote|length)*100)/ nbVoter }}%)</small>
+					</td>
+					<td>{{ duty.noVote|length }}
+						/
+						{{ nbVoter }}
+						<small>({{ ((duty.noVote|length)*100)/ nbVoter }}%)</small>
+					</td>
+					<td>
+						{# Evidemment là on va mettre des icônes #}
+						<a href="{{ path('admin_duty_show', {'id': duty.id}) }}">show</a>
+						{% if app.user.id not in duty.yesVote and app.user.id not in duty.noVote %}
+							<a href="{{ path('admin_duty_vote', {'id': duty.id, 'vote': 'yes'}) }}">vote yes</a>
+							<a href="{{ path('admin_duty_vote', {'id': duty.id, 'vote': 'no'}) }}">vote no</a>
+						{% endif %}
+
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="17">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	{# <a href="{{ path('duty_new') }}">Create new</a> #}
+{% endblock %}

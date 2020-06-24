@@ -19,6 +19,20 @@ class MemberRepository extends ServiceEntityRepository
         parent::__construct($registry, Member::class);
     }
 
+    public function countAdminAndSupAdmin(){
+        
+        // $entityManager = $this->getEntityManager();
+
+        $qb = $this->createQueryBuilder('m')
+                    ->select('count(m)')
+                    ->where('m.roles LIKE :admin')
+                    ->orWhere('m.roles LIKE :supadmin')
+                    ->setParameters(array('admin'=>'%ROLE_ADMIN%', 'supadmin'=>'%ROLE_SUPER_ADMIN%'));
+
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
     // /**
     //  * @return Member[] Returns an array of Member objects
     //  */
