@@ -1,0 +1,80 @@
+@import "variables";
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background-color: $lightGray;
+}
+
+/* ---------- CSS BoiteASel Header ---------- */
+@import "header";
+
+/* ---------- CSS BoiteASel Body ---------- */
+@import "login";
+
+/* ---------- CSS BoiteASel Footer ---------- */
+
+.text {
+    color: $gray;
+}
+.text-primary {
+    color: $primary !important;
+}
+.text-secondary {
+    color: $secondary !important;
+}
+.text-accent {
+    color: $accent !important;
+}
+.text-success {
+    color: $success !important;
+}
+.text-alert {
+    color: $alert !important;
+}
+text-white {
+    color: $white;
+}
+
+
+.btn-primary {
+    background-color: $primary;
+    color: $white;
+    border: $primary;
+
+    &:hover {
+        background-color: $lightBlue;
+    }
+
+    &:focus {
+        background-color: $primary;
+        color: $white;
+        border: $primary;
+        box-shadow: none;
+    }
+}
+
+.btn-secondary {
+    background-color: $secondary;
+    color: $white;
+    border: $secondary;
+
+    &:hover {
+        background-color: $lightBlue;
+    }
+
+    &:focus {
+        background-color: $secondary;
+        color: $white;
+        border: $secondary;
+        box-shadow: none;
+    }
+}
