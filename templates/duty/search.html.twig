@@ -71,7 +71,7 @@
                                     <p class="card-text w-100 mb-0 text-right text"><small>{{ duty.asker.name }} {{ duty.asker.firstname }}</small></p>
                                     <p class="card-text w-100 text-right text"><small class="text-muted">Posté le {{ duty.createdAt ? duty.createdAt|date('d-m-Y') : '' }}</small></p>
                                     <a href="#" class="btn btn-primary"><small>Proposer mes services</small></a>
-                                    <a href="#" class="btn btn-primary"><small>Contacter l'auteur</small></a>
+                                    <a href="{{ path('new_conversation_index', {'duty': duty.id, 'asker': duty.asker.id }) }}" class="btn btn-primary"><small>Contacter l'auteur</small></a>
                                 </div>
                             </div>
                         </div>
@@ -85,6 +85,5 @@
                 </div>
             </section>
         </div>
-
     </main>
 {% endblock %}

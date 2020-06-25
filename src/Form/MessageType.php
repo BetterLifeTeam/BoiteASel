@@ -6,6 +6,7 @@ use App\Entity\Message;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class MessageType extends AbstractType
 {
@@ -13,9 +14,7 @@ class MessageType extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('createdAt')
-            ->add('conversation')
-            ->add('sender')
+            ->add('Envoyer', SubmitType::class)
         ;
     }
 
