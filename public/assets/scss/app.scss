@@ -25,6 +25,7 @@ body {
 
 /* ---------- CSS BoiteASel Footer ---------- */
 
+
 .text {
     color: $gray;
 }
@@ -41,7 +42,7 @@ body {
     color: $success !important;
 }
 .text-alert {
-    color: $alert !important;
+    color: $danger !important;
 }
 text-white {
     color: $white;
@@ -53,6 +54,7 @@ text-white {
 .text-light {
     font-weight: lighter;
 }
+
 
 .bg-primary {
     background-color: $primary !important;
@@ -66,8 +68,8 @@ text-white {
 .bg-success {
     background-color: $success !important;
 }
-.bg-alert {
-    background-color: $alert !important;
+.bg-danger {
+    background-color: $danger !important;
 }
 
 
@@ -87,7 +89,6 @@ text-white {
         box-shadow: none;
     }
 }
-
 .btn-secondary {
     background-color: $secondary;
     color: $white;
@@ -104,7 +105,6 @@ text-white {
         box-shadow: none;
     }
 }
-
 .btn-accent {
     background-color: $accent;
     color: $white;
@@ -121,7 +121,6 @@ text-white {
         box-shadow: none;
     }
 }
-
 .btn-turquoise {
     background-color: $turquoise;
     color: $white;
@@ -138,11 +137,10 @@ text-white {
         box-shadow: none;
     }
 }
-
-.btn-alert {
-    background-color: $alert;
+.btn-danger {
+    background-color: $danger;
     color: $white;
-    border: $alert;
+    border: $danger;
 
     &:hover {
         background-color: $gray;
@@ -150,13 +148,12 @@ text-white {
     }
 
     &:focus {
-        background-color: $alert;
+        background-color: $danger;
         color: $white;
-        border: $alert;
+        border: $danger;
         box-shadow: none;
     }
 }
-
 .btn-white {
     background-color: $white;
     color: $primary;
@@ -173,4 +170,10 @@ text-white {
         border: $white;
         box-shadow: none;
     }
+}
+
+.alert-danger {
+    background-color: rgba(230, 67, 72, 0.4);
+    color: $white;
+    border: 1px solid $danger;
 }

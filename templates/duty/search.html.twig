@@ -3,40 +3,6 @@
 {% block title %}Annonces{% endblock %}
 
 {% block body %}
-{#    <table class="table">#}
-{#        <thead>#}
-{#            <tr>#}
-{#                <th>Title</th>#}
-{#                <th>Type</th>#}
-{#                <th>Description</th>#}
-{#                <th>CreatedAt</th>#}
-{#                <th>Nom</th>#}
-{#                <th>Prenom</th>#}
-{#                <th>actions</th>#}
-{#            </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#        {% for duty in duties %}#}
-{#            <tr>#}
-{#                <td>{{ duty.title }}</td>#}
-{#                <td>{{ duty.dutyType.title }}</td>#}
-{#                <td>{{ duty.description }}</td>#}
-{#                <td>{{ duty.createdAt ? duty.createdAt|date('Y-m-d H:i:s') : '' }}</td>#}
-{#                <td>{{ duty.asker.name }}</td>#}
-{#                <td>{{ duty.asker.firstname }}</td>#}
-{#                <td>#}
-{#                    <a href="{{ path('duty_show', {'id': duty.id}) }}">show</a>#}
-{#                    <a href="{{ path('duty_edit', {'id': duty.id}) }}">edit</a>#}
-{#                </td>#}
-{#            </tr>#}
-{#        {% else %}#}
-{#            <tr>#}
-{#                <td colspan="17">no records found</td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{#        </tbody>#}
-{#    </table>#}
-
     <main role="main" class="container-fluid container-sm" id="duty_page">
         <div class="row">
             <section class="col-lg-12 mb-4">
@@ -107,6 +73,12 @@
                                     <a href="#" class="btn btn-primary"><small>Proposer mes services</small></a>
                                     <a href="#" class="btn btn-primary"><small>Contacter l'auteur</small></a>
                                 </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="col-12">
+                            <div class="alert alert-danger text-center" role="alert">
+                                Aucune annonce trouvée
                             </div>
                         </div>
                     {% endfor %}
