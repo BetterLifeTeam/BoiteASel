@@ -111,7 +111,7 @@ class AppFixtures extends Fixture
                 $duty
                     ->setCheckedAt($faker->dateTimeBetween($duty->getCreatedAt(), "-1 week", "Europe/Paris"));
             }
-            if ($i % 5 != 0) {
+            if ($i % 10 != 0) {
                 $duty
                     ->setAskerValidAt($faker->dateTimeBetween($duty->getCreatedAt(), "-1 week", "Europe/Paris"));
             }
@@ -121,13 +121,13 @@ class AppFixtures extends Fixture
                     ->setOffererValidAt($faker->dateTimeBetween($duty->getAskerValidAt(), "-1 week", "Europe/Paris"));
             }
             // Les 5/6 du temps
-            if ($i % 6 != 0) {
+            if ($i % 8 != 0) {
                 if ($duty->getOfferer()) {
                     $duty
-                        ->setDoneAt($faker->dateTimeBetween($duty->getOffererValidAt(), "-1 week", "Europe/Paris"));
+                        ->setDoneAt($faker->dateTimeBetween($duty->getOffererValidAt(), "now", "Europe/Paris"));
                 } else {
                     $duty
-                        ->setDoneAt($faker->dateTimeBetween($duty->getCreatedAt(), "-1 week", "Europe/Paris"));
+                        ->setDoneAt($faker->dateTimeBetween($duty->getCreatedAt(), "now", "Europe/Paris"));
                 }
             }
             // Les 1/5 du temps
@@ -138,13 +138,13 @@ class AppFixtures extends Fixture
             //Les différents endroits possibles
             $places = array("dans le jardin", "dans la maison", "ailleurs en extérieur", "ailleurs en intérieur", "autre");
             $duty
-                ->setDuration($faker->randomDigit())
+                ->setDuration($faker->randomDigitNot(0))
                 ->setPlace($places[rand(0, count($places) - 1)]);
 
             if ($duty->getSetbackAt()) {
                 $duty
                     ->setStatus("setback");
-            } elseif ($duty->getDoneAt() < new DateTime()) {
+            } elseif ($duty->getAskerValidAt() && $duty->getOffererValidAt() && $duty->getDoneAt() && $duty->getDoneAt() < new DateTime()) {
                 $duty
                     ->setStatus("finished");
             } elseif ($duty->getOffererValidAt()) {
@@ -201,9 +201,10 @@ class AppFixtures extends Fixture
                     ->setCreatedAt($faker->dateTimeBetween("-1 year", "-1 week", "Europe/Paris"));
             }
 
-            $manager->persist($conversation);
+           
 
             // Générer des messages par conversation
+            $prevDate = "";
             for ($j=0; $j < rand(10, 30); $j++) { 
                 $message = new Message();
 
@@ -217,13 +218,23 @@ class AppFixtures extends Fixture
                     $message
                         ->setSender($conversation->getMember2());
                 }
+                $date = $faker->dateTimeBetween($conversation->getCreatedAt(), 'now', "Europe/Paris");
                 $message
                     ->setContent($faker->sentences(3, true))
-                    ->setCreatedAt($faker->dateTimeBetween($conversation->getCreatedAt(), 'now', "Europe/Paris"));
+                    ->setCreatedAt($date);
 
                 $manager->persist($message);
+                
+                if ($date > $prevDate) {
+                    $conversation->setLastActivity($date);
+                }
+
+                $prevDate = $date;
 
             }
+
+
+            $manager->persist($conversation);
 
         }
 
@@ -246,9 +257,61 @@ class AppFixtures extends Fixture
     }
 }
 
-// SELECT m.name, m.firstname, m.id, SUM(d.price) as higher, MAX(d.done_at) as total
-// FROM member as m
-// LEFT JOIN duty as d on m.id=d.offerer_id
-// WHERE d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)
-// AND d.done_at is not NULL
-// ORDER BY higher DESC
+/****** Sélection des 5 membres les plus aidants *******/
+/*
+SELECT m.name, m.firstname, m.id, 
+(SELECT SUM(d.price) FROM duty as d WHERE offerer_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)) as higher, 
+(SELECT MAX(du.done_at) FROM duty as du WHERE du.offerer_id=m.id) as last_duty
+FROM member as m
+ORDER BY higher DESC
+LIMIT 5
+*/
+
+/****** Sélection des 5 membres les plus aidés *******/
+/*
+SELECT m.name, m.firstname, m.id, 
+(SELECT SUM(d.price) FROM duty as d WHERE asker_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)) as higher, 
+(SELECT MAX(du.done_at) FROM duty as du WHERE du.asker_id=m.id) as last_duty
+FROM member as m  
+ORDER BY `higher`  DESC
+LIMIT 5
+*/
+
+/****** Sélection des 20 derniers services rendus *******/
+/*
+SELECT d.id, concat(askM.firstname, ' ', askM.name) as asker, concat(offM.firstname, ' ', offM.name) as offerer, dt.title as type, d.created_at, d.done_at, d.price
+FROM duty as d
+LEFT JOIN member as askM on d.asker_id=askM.id
+LEFT JOIN member as offM on d.offerer_id=offM.id
+LEFT JOIN duty_type as dt on d.duty_type_id=dt.id
+WHERE d.status = "finished"
+ORDER BY d.done_at DESC
+LIMIT 20
+*/
+
+/****** Sélection des types d'activités *******/
+/*
+SELECT dt.id, dt.title, dt.hourly_price, 
+(select count(d.id) from duty as d where d.duty_type_id = dt.id) as howMany,
+(select sum(du.price) from duty as du where du.duty_type_id = dt.id) as saltAmount
+FROM duty_type as dt
+*/
+
+/****** Sélection des volumes d'échange *******/
+// /!\ Il faudra ici faire une boucle et les date de début et de fin de semaine seront données à chaque tour de boucle //
+/*
+        ## Version exemple avec des dates données ##
+SELECT
+(select sum(d1.price) from duty as d1 where d1.status = "finished" and d1.done_at between "2020-04-18 17:08:48" AND "2020-05-01 03:04:09") as saltAmount,
+(select count(d2.id) from duty as d2 where d2.status = "finished" and d2.done_at between "2020-04-18 17:08:48" AND "2020-05-01 03:04:09") as dutiesAmount
+FROM duty as d
+LIMIT 1
+
+        ## Version qu'il faudra intégrer ##
+SELECT
+(select sum(d1.price) from duty as d1 where d1.status = "finished" and d1.done_at between :weekStart AND :weekEnd) as saltAmount,
+(select count(d2.id) from duty as d2 where d2.status = "finished" and d2.done_at between :weekStart AND :weekEnd) as dutiesAmount
+FROM duty as d
+LIMIT 1
+
+*/
