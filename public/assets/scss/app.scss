@@ -18,6 +18,7 @@ body {
 @import "header";
 
 /* ---------- CSS BoiteASel Body ---------- */
+@import "admin_members";
 @import "login";
 
 /* ---------- CSS BoiteASel Footer ---------- */
@@ -42,6 +43,22 @@ body {
 }
 text-white {
     color: $white;
+}
+
+.bg-primary {
+    background-color: $primary !important;
+}
+.bg-secondary {
+    background-color: $secondary !important;
+}
+.bg-accent {
+    background-color: $accent !important;
+}
+.bg-success {
+    background-color: $success !important;
+}
+.bg-alert {
+    background-color: $alert !important;
 }
 
 
@@ -75,6 +92,40 @@ text-white {
         background-color: $secondary;
         color: $white;
         border: $secondary;
+        box-shadow: none;
+    }
+}
+.btn-alert {
+    background-color: $alert;
+    color: $white;
+    border: $alert;
+
+    &:hover {
+        background-color: $gray;
+    }
+
+    &:focus {
+        background-color: $alert;
+        color: $white;
+        border: $alert;
+        box-shadow: none;
+    }
+}
+
+.btn-white {
+    background-color: $white;
+    color: $primary;
+    border: $white;
+
+    &:hover {
+        background-color: $lightGray;
+        color: $gray;
+    }
+
+    &:focus {
+        background-color: $white;
+        color: $primary;
+        border: $white;
         box-shadow: none;
     }
 }
