@@ -29,8 +29,8 @@
                 <td>{{ duty.asker.name }}</td>
                 <td>{{ duty.asker.firstname }}</td>
                 <td>
-                    <a href="{{ path('duty_show', {'id': duty.id}) }}">show</a>
-                    <a href="{{ path('duty_edit', {'id': duty.id}) }}">edit</a>
+                    <a href="{{ path('duty_show', {'id': duty.id}) }}">Voir</a>
+                    <a href="{{ path('new_conversation_index', {'duty': duty.id, 'asker': duty.asker.id }) }}">Démarrer une conversation</a>
                 </td>
             </tr>
         {% else %}
