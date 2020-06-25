@@ -35,16 +35,21 @@ class Conversation
     private $duty;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="conversations")
+     * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="conversationsAsMember1")
      * @ORM\JoinColumn(nullable=false)
      */
     private $member1;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="conversations")
+     * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="conversationsAsMember2")
      * @ORM\JoinColumn(nullable=false)
      */
     private $member2;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $lastActivity;
 
     public function __construct()
     {
@@ -137,5 +142,17 @@ class Conversation
 
     public function __toString(){
         return strval($this->id);
+    }
+
+    public function getLastActivity(): ?\DateTimeInterface
+    {
+        return $this->lastActivity;
+    }
+
+    public function setLastActivity(\DateTimeInterface $lastActivity): self
+    {
+        $this->lastActivity = $lastActivity;
+
+        return $this;
     }
 }

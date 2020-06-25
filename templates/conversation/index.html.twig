@@ -8,20 +8,13 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>CreatedAt</th>
-                <th>actions</th>
+                <th>Sujet</th>
             </tr>
         </thead>
         <tbody>
         {% for conversation in conversations %}
             <tr>
-                <td>{{ conversation.id }}</td>
-                <td>{{ conversation.createdAt ? conversation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('conversation_show', {'id': conversation.id}) }}">show</a>
-                    <a href="{{ path('conversation_edit', {'id': conversation.id}) }}">edit</a>
-                </td>
+                <td><a href="{{ path('conversation_msg_index', {'selectedConversation': conversation.id}) }}">{{ conversation.duty.title }}</a></td>
             </tr>
         {% else %}
             <tr>
@@ -31,5 +24,30 @@
         </tbody>
     </table>
 
-    <a href="{{ path('conversation_new') }}">Create new</a>
+    {% if message %}
+     <table class="table">
+        <thead>
+            <tr>
+                <th>Message</th>
+                <th>Auteur</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for msg in message %}
+            <tr>
+                <td>{{ msg.content }}</td>
+                <td>{{ msg.sender }}</td>
+            </tr>
+            {# <a href="{{ path('conversation_msg_index', {'conv': selectedConversation, 'duty': selectedConversation.duty.id }) }}">Démarrer une conversation</a> #}
+        {% else %}
+            <tr>
+                <td colspan="3">Aucun Message</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    
+    {{ form(form) }}
+
 {% endblock %}
