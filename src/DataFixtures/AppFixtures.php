@@ -201,9 +201,10 @@ class AppFixtures extends Fixture
                     ->setCreatedAt($faker->dateTimeBetween("-1 year", "-1 week", "Europe/Paris"));
             }
 
-            $manager->persist($conversation);
+           
 
             // Générer des messages par conversation
+            $prevDate = "";
             for ($j=0; $j < rand(10, 30); $j++) { 
                 $message = new Message();
 
@@ -217,13 +218,23 @@ class AppFixtures extends Fixture
                     $message
                         ->setSender($conversation->getMember2());
                 }
+                $date = $faker->dateTimeBetween($conversation->getCreatedAt(), 'now', "Europe/Paris");
                 $message
                     ->setContent($faker->sentences(3, true))
-                    ->setCreatedAt($faker->dateTimeBetween($conversation->getCreatedAt(), 'now', "Europe/Paris"));
+                    ->setCreatedAt($date);
 
                 $manager->persist($message);
+                
+                if ($date > $prevDate) {
+                    $conversation->setLastActivity($date);
+                }
+
+                $prevDate = $date;
 
             }
+
+
+            $manager->persist($conversation);
 
         }
 

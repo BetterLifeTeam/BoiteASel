@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+	<h1>Dashboard</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Top 5 des dépanneurs</th>
+				<th>Gains</th>
+				<th>Dernière aide</th>
+			</tr>
+		</thead>
+		<tbody>
+			{# {% for giver in fiveGivers %}
+				<tr>
+					<td>{{ giver.memberName }}</td>
+					<td>{{ giver.higher }}</td>
+					<td>{{ giver.lastDuty }}</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="9">no records found</td>
+				</tr>
+			{% endfor %} #}
+		</tbody>
+	</table>
+
+{% endblock %}
