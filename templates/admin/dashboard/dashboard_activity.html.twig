@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+	<h1>Dashboard</h1>
+	<h2>Actualités</h2>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Demandeur</th>
+				<th>Dépanneur</th>
+				<th>Type</th>
+				<th>Créée le
+				</th>
+				<th>Fait le
+				</th>
+				<th>Prix</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for actuality in activities %}
+				<tr>
+					<td>{{ actuality.asker }}</td>
+					<td>{{ actuality.offerer }}</td>
+					<td>{{ actuality.type }}</td>
+					<td>{{ actuality.created_at }}</td>
+					<td>{{ actuality.done_at }}</td>
+					<td>{{ actuality.price }}</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="9">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

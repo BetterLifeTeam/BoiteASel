@@ -2,12 +2,13 @@
 
 namespace App\Repository;
 
-use App\Entity\Member;
+use DateTime;
 use App\Entity\Duty;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Member;
 use Doctrine\ORM\Query\ResultSetMapping;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Member|null find($id, $lockMode = null, $lockVersion = null)
@@ -33,67 +34,137 @@ class MemberRepository extends ServiceEntityRepository
             ->orWhere('m.roles LIKE :supadmin')
             ->setParameters(array('admin' => '%ROLE_ADMIN%', 'supadmin' => '%ROLE_SUPER_ADMIN%'));
 
-
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function getHelpers()
+    public function getHelpers($limit = null)
     {
-        /*
-        SELECT m.name, m.firstname, m.id, 
-        (SELECT SUM(d.price) FROM duty as d WHERE offerer_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)) as higher, 
-        (SELECT MAX(du.done_at) FROM duty as du WHERE du.offerer_id=m.id) as last_duty
+
+        $sql = 'SELECT concat(m.firstname, " ", m.name) as memberName, m.id, 
+        (SELECT SUM(d.price) FROM duty as d WHERE d.offerer_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)) as higher, 
+        (SELECT MAX(du.done_at) FROM duty as du WHERE du.offerer_id=m.id AND du.status="finished") as last_duty
         FROM member as m
-        ORDER BY higher DESC
-        LIMIT 5
-        */
+        ORDER BY higher DESC';
 
+        if ($limit != null) {
+            $sql .= " LIMIT ".$limit;
+        }
 
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
 
-        $rsm = new ResultSetMapping();
+        return $stmt->fetchAll();
+        // return $sql;
 
-        // $query = $this->getEntityManager()->createNativeQuery('SELECT concat(m.name, " ", m.firstname) as memberName, m.id, 
-        // (SELECT SUM(d.price) FROM duty as d WHERE offerer_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)) as higher, 
-        // (SELECT MAX(du.done_at) FROM duty as du WHERE du.offerer_id=m.id) as last_duty
-        // FROM member as m
-        // ORDER BY higher DESC LIMIT 5', $rsm);
-        // $query = $this->getEntityManager()->createNativeQuery('SELECT * FROM member', $rsm);
-
-        $rsm->addEntityResult("\App\Entity\Member", "m")
-            ->addEntityResult("\App\Entity\Duty", "d")
-            ->addEntityResult("\App\Entity\Duty", "du")
-            ->addFieldResult("m", 'concat(m.name, " ", m.firstname)', "memberName")
-            ->addFieldResult("m", 'id', "id")
-            ->addScalarResult('(SELECT SUM(d.price) FROM duty as d WHERE offerer_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK))', 'higher')
-            ->addScalarResult('(SELECT MAX(du.done_at) FROM duty as du WHERE du.offerer_id=m.id)', 'lastDuty');
-
-        $sql = 'SELECT concat(m.name, " ", m.firstname) as memberName, m.id, 
-        (SELECT SUM(d.price) FROM duty as d WHERE offerer_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)) as higher, 
-        (SELECT MAX(du.done_at) FROM duty as du WHERE du.offerer_id=m.id) as last_duty
-        FROM member as m
-        ORDER BY higher DESC 
-        LIMIT 5';
-
-        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
-
-        return $query->getResult();
-
-        // $sql = 'SELECT concat(m.name, " ", m.firstname) as memberName, m.id, 
-        // (SELECT SUM(d.price) FROM duty as d WHERE offerer_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)) as higher, 
-        // (SELECT MAX(du.done_at) FROM duty as du WHERE du.offerer_id=m.id) as last_duty
-        // FROM member as m
-        // ORDER BY higher DESC';
-
-        // if ($limit != null) {
-        //     $sql .= "LIMIT " . $limit;
-        // }
-        
-        // $rsm = new ResultSetMappingBuilder($this->getEntityManager());
-        // $rsm->add
-
-        return $query->getScalarResult();
     }
 
+    public function getAskers()
+    {
+
+        $sql = 'SELECT concat(m.firstname, " ", m.name) as memberName, m.id, 
+        (SELECT SUM(d.price) FROM duty as d WHERE asker_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)) as `lower`, 
+        (SELECT MAX(du.done_at) FROM duty as du WHERE du.asker_id=m.id) as last_duty
+        FROM member as m  
+        ORDER BY `lower` DESC
+        LIMIT 5';
+
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+    }
+
+    public function getActualites($limit = null)
+    {
+
+        $sql = 'SELECT d.id, concat(askM.firstname, " ", askM.name) as asker, concat(offM.firstname, " ", offM.name) as offerer, dt.title as type, d.created_at, d.done_at, d.price
+        FROM duty as d
+        LEFT JOIN member as askM on d.asker_id=askM.id
+        LEFT JOIN member as offM on d.offerer_id=offM.id
+        LEFT JOIN duty_type as dt on d.duty_type_id=dt.id
+        WHERE d.status = "finished"
+        ORDER BY d.done_at DESC';
+
+        if ($limit != null) {
+            $sql .= " LIMIT ".$limit;
+        }
+        
+
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+    }
+
+    public function getTypeActivites()
+    {
+
+        $sql = 'SELECT dt.id, dt.title, dt.hourly_price, 
+        (select count(d.id) from duty as d where d.duty_type_id = dt.id) as howMany,
+        (select sum(du.price) from duty as du where du.duty_type_id = dt.id) as saltAmount
+        FROM duty_type as dt';        
+
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+    }
+
+    public function getVolumesEchanges()
+    {
+        date_default_timezone_set("Europe/Paris");
+
+        $startDate = date("Y-m-d H:i:s", strtotime("-2 months")); 
+        $endDate = date("Y-m-d H:i:s", strtotime("1 weeks", strtotime($startDate)));
+        
+        $startDateTime = new DateTime($startDate);
+        $endDateTime = new DateTime($endDate);
+        $interval = $startDateTime->diff(new DateTime());
+
+        $toReturn = [];
+        
+        while ($interval->days > 4) {
+
+            $sql = 'SELECT
+            (select sum(d1.price) from duty as d1 where d1.status = "finished" and d1.done_at between "'.$startDate.'" AND "'.$endDate.'") as saltAmount,
+            (select count(d2.id) from duty as d2 where d2.status = "finished" and d2.done_at between "'.$startDate.'" AND "'.$endDate.'") as dutiesAmount
+            FROM duty as d
+            LIMIT 1';
+    
+            $em = $this->getEntityManager();
+            $stmt = $em->getConnection()->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+
+            $toReturn[] = array(
+                "weekStart" => date("d/m/Y", strtotime($startDate)),
+                "weekEnd" => date("d/m/Y", strtotime($endDate)),
+                "saltAmount" => $result[0]["saltAmount"],
+                "dutiesAmount" => $result[0]["dutiesAmount"],
+            );
+
+            $startDate = date("Y-m-d H:i:s", strtotime("1 weeks", strtotime($startDate))); 
+            $endDate = date("Y-m-d H:i:s", strtotime("1 weeks", strtotime($startDate)));
+            $startDateTime = new DateTime($startDate);
+            $endDateTime = new DateTime($endDate);
+            $interval = $startDateTime->diff(new DateTime());
+        }
+
+        $toReturn[array_key_last($toReturn)]["weekEnd"] = date("d/m/Y");
+
+        return $toReturn;
+
+    }
+
+
+    
     // /**
     //  * @return Member[] Returns an array of Member objects
     //  */
