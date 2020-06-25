@@ -1,0 +1,37 @@
+#duty_page {
+  padding: 5rem 0;
+
+  #duty_search_form {
+    border-bottom: 2px solid $primary;
+
+    #duty_search {
+      background-color: $white;
+      padding: 2rem;
+
+      .form-group {
+        margin-bottom: 0;
+      }
+
+      input {
+        border: none;
+        background-color: $lightGray;
+        color: $gray;
+      }
+    }
+
+    #duty_filters {
+      padding: 1rem 2rem;
+      background-color: $primary;
+
+      .form-group {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .card {
+    .btn {
+      padding: 0.375rem 0.75rem;
+      font-size: 15px;
+    }
+  }
+}

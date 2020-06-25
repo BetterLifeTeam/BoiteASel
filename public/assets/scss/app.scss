@@ -12,6 +12,7 @@ html {
 body {
     height: 100%;
     background-color: $lightGray;
+    font-family: "Open Sans";
 }
 
 /* ---------- CSS BoiteASel Header ---------- */
@@ -19,6 +20,7 @@ body {
 
 /* ---------- CSS BoiteASel Body ---------- */
 @import "admin_members";
+@import "duties";
 @import "login";
 
 /* ---------- CSS BoiteASel Footer ---------- */
@@ -43,6 +45,13 @@ body {
 }
 text-white {
     color: $white;
+}
+
+.text-bold {
+    font-weight: bolder;
+}
+.text-light {
+    font-weight: lighter;
 }
 
 .bg-primary {
@@ -95,6 +104,41 @@ text-white {
         box-shadow: none;
     }
 }
+
+.btn-accent {
+    background-color: $accent;
+    color: $white;
+    border: $accent;
+
+    &:hover {
+        background-color: $lightBlue;
+    }
+
+    &:focus {
+        background-color: $accent;
+        color: $white;
+        border: $accent;
+        box-shadow: none;
+    }
+}
+
+.btn-turquoise {
+    background-color: $turquoise;
+    color: $white;
+    border: $turquoise;
+
+    &:hover {
+        background-color: $lightBlue;
+    }
+
+    &:focus {
+        background-color: $turquoise;
+        color: $white;
+        border: $turquoise;
+        box-shadow: none;
+    }
+}
+
 .btn-alert {
     background-color: $alert;
     color: $white;
@@ -102,6 +146,7 @@ text-white {
 
     &:hover {
         background-color: $gray;
+        color: $white;
     }
 
     &:focus {
