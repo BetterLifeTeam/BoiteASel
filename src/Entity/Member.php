@@ -69,7 +69,12 @@ class Member implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="member1")
      */
-    private $conversations;
+    private $conversationsAsMember1;
+    
+    /**
+     * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="member2")
+     */
+    private $conversationsAsMember2;
 
     /**
      * @ORM\OneToMany(targetEntity=Duty::class, mappedBy="asker")
@@ -85,9 +90,10 @@ class Member implements UserInterface
     {
         $this->messages = new ArrayCollection();
         $this->notifications = new ArrayCollection();
-        $this->conversations = new ArrayCollection();
+        $this->conversationsAsMember1 = new ArrayCollection();
         $this->dutyAsAsker = new ArrayCollection();
         $this->dutyAsOfferer = new ArrayCollection();
+        $this->conversationsAsMember2 = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -255,28 +261,31 @@ class Member implements UserInterface
     /**
      * @return Collection|Conversation[]
      */
-    public function getConversations(): Collection
+    public function getConversationsAsMember1(): Collection
     {
-        return $this->conversations;
+        return $this->conversationsAsMember1;
     }
 
-    public function addConversation(Conversation $conversation): self
+    public function addConversationAsMember1(Conversation $conversationsAsMember1): self
     {
-        if (!$this->conversations->contains($conversation)) {
-            $this->conversations[] = $conversation;
-            $conversation->setMember1($this);
+        if (!$this->$conversationsAsMember1s->contains($conversationsAsMember1)) {
+            $this->$conversationsAsMember1s[] = $conversationsAsMember1;
+            $conversationsAsMember1->setMember1($this);
         }
 
         return $this;
     }
 
-    public function removeConversation(Conversation $conversation): self
+    public function removeConversationAsMember1(Conversation $conversationsAsMember1): self
     {
-        if ($this->conversations->contains($conversation)) {
-            $this->conversations->removeElement($conversation);
+        if ($this->conversations->contains($conversationsAsMember1)) {
+            $this->conversations->removeElement($conversationsAsMember1);
             // set the owning side to null (unless already changed)
-            if ($conversation->getMember1() === $this) {
-                $conversation->setMember1(null);
+            if ($conversationsAsMember1->getMember1() === $this) {
+                $conversationsAsMember1->setMember1(null);
+            }
+            if ($conversationsAsMember1->getMember2() === $this) {
+                $conversationsAsMember1->setMember2(null);
             }
         }
 
@@ -355,5 +364,36 @@ class Member implements UserInterface
     
     public function __toString(){
         return $this->firstname." ".$this->name;
+    }
+
+    /**
+     * @return Collection|Conversation[]
+     */
+    public function getConversationsAsMember2(): Collection
+    {
+        return $this->conversationsAsMember2;
+    }
+
+    public function addConversationsAsMember2(Conversation $conversationsAsMember2): self
+    {
+        if (!$this->conversationsAsMember2->contains($conversationsAsMember2)) {
+            $this->conversationsAsMember2[] = $conversationsAsMember2;
+            $conversationsAsMember2->setMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversationsAsMember2(Conversation $conversationsAsMember2): self
+    {
+        if ($this->conversationsAsMember2->contains($conversationsAsMember2)) {
+            $this->conversationsAsMember2->removeElement($conversationsAsMember2);
+            // set the owning side to null (unless already changed)
+            if ($conversationsAsMember2->getMember() === $this) {
+                $conversationsAsMember2->setMember(null);
+            }
+        }
+
+        return $this;
     }
 }

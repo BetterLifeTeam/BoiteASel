@@ -1,0 +1,103 @@
+#admin_members {
+  padding: 2em 5em;
+
+  h4 {
+    text-decoration: underline;
+  }
+
+  #members_list {
+    background-color: $white;
+    padding: 2rem;
+    border-radius: 0.2rem;
+
+    .input-group-append {
+      button {
+        background-color: $primary;
+      }
+    }
+
+    #table_members_list {
+      border-left: none;
+      border-right: none;
+      border-bottom: 2px solid $primary;
+
+      thead {
+        background-color: $primary;
+        color: $white;
+        border: none;
+
+        th {
+          border-right: 2px solid $white;
+
+          &:last-child {
+            border: none;
+          }
+        }
+      }
+      tbody {
+        tr:hover {
+          background-color: $lightGray;
+        }
+        td {
+          border: none;
+
+          .btn {
+            padding: 0.375rem 0.5rem;
+            font-size: 11px;
+          }
+        }
+      }
+    }
+
+    .pagination {
+      .page-link {
+        border: 1px solid $primary;
+        color: $primary;
+        background-color: $white;
+
+        &:hover {
+          background-color: $primary;
+          color: $white;
+        }
+      }
+    }
+  }
+
+  #member_add {
+    background: linear-gradient(to bottom, $primary, $lightBlue);
+    padding: 2em;
+    border-radius: 0.2rem;
+
+    label {
+      margin-bottom: 5px;
+      color: $white;
+    }
+  }
+}
+
+#admin_member_show {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  #member_form {
+    background-color: $white;
+    margin: 2em auto;
+    border-radius: 0.2em;
+    padding: 2em;
+
+    hr {
+      border-bottom: 2px solid $primary;
+      width: 20rem;
+    }
+
+    label {
+      color: $gray;
+    }
+
+    input {
+      color: $gray;
+    }
+  }
+}

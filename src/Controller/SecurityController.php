@@ -23,8 +23,6 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            // Ne remonte pas dans security.yaml pour encoder en bcrypt ! a étudier après 
-
             $hash = $encoder->encodePassword($member, $member->getPassword());
             $member->setPassword($hash);
 
@@ -42,14 +40,14 @@ class SecurityController extends AbstractController
      * @Route("/connexion", name="security_login")
     */
     public function login(){
-            return $this->render('security/login.html.twig');
+        return $this->render('security/login.html.twig');
     }
 
     /**
      * @Route("/deconnexion", name="security_logout")
     */
     public function logout(){
-        return $this->render('security/login.html.twig');
+        return $this->render('home/index.html.twig');
     }
 
 }

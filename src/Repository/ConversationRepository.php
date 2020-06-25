@@ -22,6 +22,16 @@ class ConversationRepository extends ServiceEntityRepository
     // /**
     //  * @return Conversation[] Returns an array of Conversation objects
     //  */
+
+    public function findUserConversation($user){
+        return $this->createQueryBuilder('conversation')
+            ->andWhere('conversation.member1 = :value OR conversation.member2 = :value')
+            ->setParameter('value', $user)
+            ->orderBy('conversation.lastActivity', 'DESC')
+            ->getQuery()
+            ->execute();
+    }
+
     /*
     public function findByExampleField($value)
     {

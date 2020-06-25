@@ -1,0 +1,36 @@
+#BoiteASel-header {
+  background-color: $white;
+  padding: 0.5em 1em;
+
+  .navbar-toggler-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    i {
+      color: $primary;
+    }
+  }
+
+  .nav-link {
+    color: $secondary;
+
+    &:hover {
+      color: $gray;
+    }
+  }
+
+  .dropdown-menu {
+    padding: 0;
+
+    .dropdown-item {
+      color: $secondary;
+      padding: 5px;
+
+      &:hover {
+        background-color: $lightBlue;
+        color: $white;
+      }
+    }
+  }
+}

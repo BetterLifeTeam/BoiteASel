@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Duty index{% endblock %}
+
+{% block body %}
+    <h1>Mes annonces</h1>
+    
+    {{ form(search_form) }}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>CreatedAt</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for duty in duties %}
+            <tr>
+                <td>{{ duty.title }}</td>
+                <td>{{ duty.dutyType.title }}</td>
+                <td>{{ duty.description }}</td>
+                <td>{{ duty.createdAt ? duty.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ duty.asker.name }}</td>
+                <td>{{ duty.asker.firstname }}</td>
+                <td>
+                    <a href="{{ path('duty_show', {'id': duty.id}) }}">Voir</a>
+                    <a href="{{ path('new_conversation_index', {'duty': duty.id, 'asker': duty.asker.id }) }}">Démarrer une conversation</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="17">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('duty_new') }}">Create new</a>
+{% endblock %}
