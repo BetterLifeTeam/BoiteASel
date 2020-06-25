@@ -12,6 +12,7 @@ use App\Form\AdminNewMemberType;
 use App\Form\AdminEditMemberType;
 use App\Repository\DutyRepository;
 use App\Repository\MemberRepository;
+use App\Form\SuperAdminEditMemberType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -103,7 +104,12 @@ class AdminController extends AbstractController
      */
     public function editMember(Request $request, Member $member): Response
     {
-        $form = $this->createForm(AdminEditMemberType::class, $member);
+        if (in_array("ROLE_SUPER_ADMIN", $this->getUser()->getRoles())) {
+            $form = $this->createForm(SuperAdminEditMemberType::class, $member);
+        } elseif(in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
+            $form = $this->createForm(AdminEditMemberType::class, $member);
+        }
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -297,4 +303,11 @@ class AdminController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    ######################## PARTIE GESTION DES DROITS #############################
+
+    
+    
+    ######################## PARTIE TABLEAU DE BORD #############################
+
 }
