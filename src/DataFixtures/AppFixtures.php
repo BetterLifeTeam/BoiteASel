@@ -277,3 +277,30 @@ WHERE d.status = "finished"
 ORDER BY d.done_at DESC
 LIMIT 20
 */
+
+/****** Sélection des types d'activités *******/
+/*
+SELECT dt.id, dt.title, dt.hourly_price, 
+(select count(d.id) from duty as d where d.duty_type_id = dt.id) as howMany,
+(select sum(du.price) from duty as du where du.duty_type_id = dt.id) as saltAmount
+FROM duty_type as dt
+*/
+
+/****** Sélection des volumes d'échange *******/
+// /!\ Il faudra ici faire une boucle et les date de début et de fin de semaine seront données à chaque tour de boucle //
+/*
+        ## Version exemple avec des dates données ##
+SELECT
+(select sum(d1.price) from duty as d1 where d1.status = "finished" and d1.done_at between "2020-04-18 17:08:48" AND "2020-05-01 03:04:09") as saltAmount,
+(select count(d2.id) from duty as d2 where d2.status = "finished" and d2.done_at between "2020-04-18 17:08:48" AND "2020-05-01 03:04:09") as dutiesAmount
+FROM duty as d
+LIMIT 1
+
+        ## Version qu'il faudra intégrer ##
+SELECT
+(select sum(d1.price) from duty as d1 where d1.status = "finished" and d1.done_at between :weekStart AND :weekEnd) as saltAmount,
+(select count(d2.id) from duty as d2 where d2.status = "finished" and d2.done_at between :weekStart AND :weekEnd) as dutiesAmount
+FROM duty as d
+LIMIT 1
+
+*/
