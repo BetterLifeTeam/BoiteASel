@@ -302,12 +302,38 @@ class AdminController extends AbstractController
             'duty' => $duty,
             'form' => $form->createView(),
         ]);
-    }
-
-    ######################## PARTIE GESTION DES DROITS #############################
-
-    
+    }    
     
     ######################## PARTIE TABLEAU DE BORD #############################
 
+    /**
+     * @Route("/dashboard", name="admin_dashboard", methods={"GET"})
+     */
+    public function dashboard(MemberRepository $memberRepository){
+        return $this->render('admin/dashboard/dashboard.html.twig', [
+            'fiveGivers' => $memberRepository->getHelpers(5),
+            'fiveAsker' => $memberRepository->getAskers(5),
+            'twentyActualites' => $memberRepository->getActualites(20),
+            'allDutyTypes' => $memberRepository->getTypeActivites(),
+            'volumesEchanges' => $memberRepository->getVolumesEchanges(),
+        ]);
+    }
+
+    /**
+     * @Route("/dashboard/givers", name="admin_dashboard_givers", methods={"GET"})
+    */
+    public function dashboardGivers(MemberRepository $memberRepository){
+        return $this->render('admin/dashboard/dashboard_givers.html.twig', [
+            'givers' => $memberRepository->getHelpers(),
+        ]);
+    }
+
+    /**
+     * @Route("/dashboard/activity", name="admin_dashboard_activity", methods={"GET"})
+    */
+    public function dashboardActuality(MemberRepository $memberRepository){
+        return $this->render('admin/dashboard/dashboard_activity.html.twig', [
+            'activities' => $memberRepository->getActualites(),
+        ]);
+    }
 }

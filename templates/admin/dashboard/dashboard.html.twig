@@ -1,0 +1,159 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+	<h1>Dashboard</h1>
+
+	<h2>Qui fait quoi ?</h2>
+
+	<table class="table">
+		<button>
+			<a href="{{ path("admin_dashboard_givers") }}">En savoir plus</a>
+		</button>
+		<thead>
+			<tr>
+				<th>Top 5 des dépanneurs</th>
+				<th>Gains</th>
+				<th>Dernière aide</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for giver in fiveGivers %}
+				<tr>
+					<td>{{ giver.memberName }}</td>
+					<td>{{ giver.higher }}</td>
+					<td>{{ giver.last_duty }}</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="9">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+
+	<table class="table">
+		<button>
+			<a href="{{ path("admin_dashboard_givers") }}">En savoir plus</a>
+		</button>
+		<thead>
+			<tr>
+				<th>Top 5 des demandeurs</th>
+				<th>Perte</th>
+				<th>Dernière aide</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for asker in fiveAsker %}
+				<tr>
+					<td>{{ asker.memberName }}</td>
+					<td>{{ asker.lower }}</td>
+					<td>{{ asker.last_duty }}</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="9">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<h2>Actualités</h2>
+
+	<table class="table">
+		<button>
+			<a href="{{ path("admin_dashboard_activity") }}">En savoir plus</a>
+		</button>
+		<thead>
+			<tr>
+				<th>Demandeur</th>
+				<th>Dépanneur</th>
+				<th>Type</th>
+				<th>Créée le
+				</th>
+				<th>Fait le
+				</th>
+				<th>Prix</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for actuality in twentyActualites %}
+				<tr>
+					<td>{{ actuality.asker }}</td>
+					<td>{{ actuality.offerer }}</td>
+					<td>{{ actuality.type }}</td>
+					<td>{{ actuality.created_at }}</td>
+					<td>{{ actuality.done_at }}</td>
+					<td>{{ actuality.price }}</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="9">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<h2>Type d'activité</h2>
+
+	<table class="table">
+		<button>
+			<a href="{{ path("admin_dashboard_activity") }}">En savoir plus</a>
+		</button>
+		<thead>
+			<tr>
+				<th>Intitulée</th>
+				<th>Prix par heure</th>
+				<th>Nombre de service</th>
+				<th>Gain en jeux
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for dutyType in allDutyTypes %}
+				<tr>
+					<td>{{ dutyType.title }}</td>
+					<td>{{ dutyType.hourly_price }}</td>
+					<td>{{ dutyType.howMany }}</td>
+					<td>{{ dutyType.saltAmount }}</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="9">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<h2>Volumes des échanges</h2>
+
+	<table class="table">
+		<button>
+			<a href="{{ path("admin_dashboard_activity") }}">En savoir plus</a>
+		</button>
+		<thead>
+			<tr>
+				<th>Début semaine</th>
+				<th>Fin semaine</th>
+				<th>Total des gains</th>
+				<th>Nombre de services rendus</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for week in volumesEchanges %}
+				<tr>
+					<td>{{ week.weekStart }}</td>
+					<td>{{ week.weekEnd }}</td>
+					<td>{{ week.saltAmount }}</td>
+					<td>{{ week.dutiesAmount }}</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="9">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}
