@@ -23,7 +23,7 @@
                                 Mon espace
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdown-account">
-                                <a class="dropdown-item" href="#"><i class="fas fa-user"></i> Mon profil</a>
+                                <a class="dropdown-item" href="{{ path('member_show', { 'id' : app.user.id } ) }}"><i class="fas fa-user"></i> Mon profil</a>
                                 <a class="dropdown-item" href="#"><i class="far fa-clipboard"></i> Mes annonces</a>
                                 <a class="dropdown-item" href="/deconnexion"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
                             </div>
