@@ -16,13 +16,14 @@ class SearchDutyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('search', TextType::class)
+            ->add('search', TextType::class, ['label' => false], ['required' => false])
             ->add('type', EntityType::class, [
                 'class' => DutyType::class,
                 'choice_label' => 'title',
                 'attr' =>  ['onchange' => 'this.form.submit()'],
                 'required' => false,
                 'placeholder' => 'Tous',
+                'label' => false
             ])
             ->add('order', ChoiceType::class, [
                 'choices'  => [
@@ -31,6 +32,7 @@ class SearchDutyType extends AbstractType
                 ],
                 'attr' =>  ['onchange' => 'this.form.submit()'],
                 'required' => false,
+                'label' => false
             ])
             ->add('Rechercher', SubmitType::class)
         ;
