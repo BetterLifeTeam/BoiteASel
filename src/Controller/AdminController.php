@@ -46,7 +46,6 @@ class AdminController extends AbstractController
         $form = $this->createForm(AdminNewMemberType::class, $member);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
 

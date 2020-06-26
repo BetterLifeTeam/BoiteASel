@@ -3,30 +3,32 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
-    <main role="main" class="container-lg" id="login_page">
-        <div class="row p-2">
-            <form class="col-lg-6 col-md-12" id="login_form" action="{{ path('security_login') }}" method="post">
-                <h1 class="h1 text-primary text-center mb-4">CONNEXION</h1>
+    <main role="main" id="login_page">
+        <div class="container-md">
+            <div class="row">
+                <form class="col-lg-6 col-md-12" id="login_form" action="{{ path('security_login') }}" method="post">
+                    <h1 class="h1 text-primary text-center mb-4">CONNEXION</h1>
 
-                <div class="form-group mb-2">
-                    <label class="text" for="inputEmail">Adresse mail :</label>
-                    <input type="email" class="form-control text" id="inputEmail" name="_username" aria-describedby="emailHelp" required>
-                </div>
+                    <div class="form-group mb-2">
+                        <label class="text" for="inputEmail">Adresse mail :</label>
+                        <input type="email" class="form-control text" id="inputEmail" name="_username" aria-describedby="emailHelp" required>
+                    </div>
 
-                <div class="form-group mb-4">
-                    <label class="text" for="inputPaswword">Mot de passe :</label>
-                    <input type="password" class="form-control text" id="inputPaswword" name="_password" required>
-                </div>
+                    <div class="form-group mb-4">
+                        <label class="text" for="inputPaswword">Mot de passe :</label>
+                        <input type="password" class="form-control text" id="inputPaswword" name="_password" required>
+                    </div>
 
-                <div class="text-center">
-                    <a class="btn btn-primary" href="/"><i class="fas fa-chevron-left"></i> Retour</a>
-                    <button type="submit" class="btn btn-primary m-auto">Se connecter</button>
-                </div>
-            </form>
+                    <div class="text-center">
+                        <a class="btn btn-primary" href="/"><i class="fas fa-chevron-left"></i> Retour</a>
+                        <button type="submit" class="btn btn-primary m-auto">Se connecter</button>
+                    </div>
+                </form>
 
-            <figure class="text-center col-xl-12">
-                <img src="{{ asset('assets/img/BoiteASel.png') }}" alt="Logo BoiteASel">
-            </figure>
+                <figure class="text-center col-xl-12">
+                    <img src="{{ asset('assets/img/BoiteASel.png') }}" alt="Logo BoiteASel">
+                </figure>
+            </div>
         </div>
     </main>
 {% endblock %}

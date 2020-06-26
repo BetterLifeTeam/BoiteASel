@@ -375,3 +375,138 @@
     }
   }
 }
+
+#admin_members_list {
+  padding: 2em 5em;
+
+  #members_list {
+    background-color: $white;
+    padding: 2rem;
+    border-radius: 0.2rem;
+
+    .input-group-append {
+      button {
+        background-color: $secondary;
+      }
+    }
+
+    #table_members {
+      border-left: none;
+      border-right: none;
+      border-bottom: 2px solid $secondary;
+
+      thead {
+        background-color: $secondary;
+        color: $white;
+        border: none;
+
+        th {
+          border-right: 2px solid $white;
+
+          &:last-child {
+            border: none;
+          }
+        }
+      }
+
+      tbody {
+        tr:hover {
+          background-color: $lightGray;
+        }
+
+        td {
+          border: none;
+
+          .btn {
+            padding: 0.375rem 0.5rem;
+            font-size: 11px;
+          }
+        }
+      }
+    }
+
+    .pagination {
+      .page-link {
+        border: 1px solid $secondary;
+        color: $secondary;
+        background-color: $white;
+
+        &:hover {
+          background-color: $secondary;
+          color: $white;
+        }
+      }
+    }
+  }
+
+}
+
+#admin_actuality {
+  padding: 2em 5em;
+
+  .input-group-append {
+    button {
+      background-color: $primary;
+    }
+  }
+
+  #actuality_list {
+    background-color: $white;
+    padding: 2rem;
+    border-radius: 0.2rem;
+
+    .input-group-append {
+      button {
+        background-color: $primary;
+      }
+    }
+
+    #table_actuality {
+      border-left: none;
+      border-right: none;
+      border-bottom: 2px solid $primary;
+
+      thead {
+        background-color: $primary;
+        color: $white;
+        border: none;
+
+        th {
+          border-right: 2px solid $white;
+
+          &:last-child {
+            border: none;
+          }
+        }
+      }
+
+      tbody {
+        tr:hover {
+          background-color: $lightGray;
+        }
+
+        td {
+          border: none;
+
+          .btn {
+            padding: 0.375rem 0.5rem;
+            font-size: 11px;
+          }
+        }
+      }
+    }
+
+    .pagination {
+      .page-link {
+        border: 1px solid $primary;
+        color: $primary;
+        background-color: $white;
+
+        &:hover {
+          background-color: $primary;
+          color: $white;
+        }
+      }
+    }
+  }
+}

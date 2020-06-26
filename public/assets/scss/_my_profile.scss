@@ -1,0 +1,87 @@
+#my_profile_page {
+  padding: 5rem 0;
+
+  #profile_form {
+    background-color: $white;
+    margin: 2em auto;
+    border-radius: 0.2em;
+    padding: 2em;
+
+    hr {
+      border-bottom: 2px solid $primary;
+      width: 20rem;
+    }
+
+    label {
+      color: $gray;
+    }
+
+    input {
+      color: $gray;
+    }
+
+    #duties_asked {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      //float: right;
+      width: 200px;
+      height: 200px;
+      border: 5px solid $primary;
+      border-radius: 10rem;
+      text-align:center;
+      box-shadow: 1px 1px 12px $primary;
+
+      span {
+        color: $primary;
+        font-size: 24px;
+      }
+    }
+
+    #duties_offered {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 200px;
+      height: 200px;
+      border: 5px solid $secondary;
+      border-radius: 10rem;
+      text-align:center;
+      box-shadow: 1px 1px 12px $secondary;
+
+      span {
+        color: $secondary;
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+#my_profile_edit {
+  padding: 5rem 1rem;
+
+  #profile_edit_form {
+    background-color: $white;
+    margin: 2em auto;
+    border-radius: 0.2em;
+    padding: 2em;
+
+    .form-group {
+      margin-bottom: 1rem;
+
+      label {
+        margin-bottom: 5px;
+      }
+
+      .btn {
+        background-color: $primary;
+        color: $white;
+        border: $primary;
+
+        &:hover {
+          background-color: $lightBlue;
+        }
+      }
+    }
+  }
+}
