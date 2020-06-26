@@ -15,10 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MemberController extends AbstractController
 {
+
+    public function nice_dump($data)
+    {
+        highlight_string("<?php\n\$data =\n" . var_export($data, true) . ";\n?>");
+    }
+
     /**
      * @Route("/", name="member_index", methods={"GET"})
      */
-/*
+    /*
     public function index(MemberRepository $memberRepository): Response
     {
         return $this->render('member/index.html.twig', [
@@ -30,7 +36,7 @@ class MemberController extends AbstractController
     /**
      * @Route("/new", name="member_new", methods={"GET","POST"})
      */
-/*
+    /*
     public function new(Request $request): Response
     {
         $member = new Member();
@@ -59,6 +65,8 @@ class MemberController extends AbstractController
     {
         return $this->render('member/show.html.twig', [
             'member' => $member,
+            'asAsker' => count($member->getDutyAsAsker()),
+            'asOfferer' => count($member->getDutyAsOfferer()),
         ]);
     }
 
@@ -86,7 +94,7 @@ class MemberController extends AbstractController
     /**
      * @Route("/{id}", name="member_delete", methods={"DELETE"})
      */
-/*
+    /*
     public function delete(Request $request, Member $member): Response
     {
         if ($this->isCsrfTokenValid('delete'.$member->getId(), $request->request->get('_token'))) {
