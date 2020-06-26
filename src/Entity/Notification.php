@@ -38,6 +38,21 @@ class Notification
      */
     private $member;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="originNotifications")
+     */
+    private $originMember;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Duty::class)
+     */
+    private $duty;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,5 +104,45 @@ class Notification
         $this->member = $member;
 
         return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getOriginMember(): ?Member
+    {
+        return $this->originMember;
+    }
+
+    public function setOriginMember(?Member $originMember): self
+    {
+        $this->originMember = $originMember;
+
+        return $this;
+    }
+
+    public function getDuty(): ?Duty
+    {
+        return $this->duty;
+    }
+
+    public function setDuty(?Duty $duty): self
+    {
+        $this->duty = $duty;
+
+        return $this;
+    }
+
+    public function __toString(){
+        return $this->content;
     }
 }
