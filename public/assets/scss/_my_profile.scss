@@ -58,7 +58,7 @@
 }
 
 #my_profile_edit {
-  padding: 5rem 0;
+  padding: 5rem 1rem;
 
   #profile_edit_form {
     background-color: $white;
@@ -72,15 +72,15 @@
       label {
         margin-bottom: 5px;
       }
-    }
 
-    .btn {
-      background-color: $primary;
-      color: $white;
-      border: $primary;
+      .btn {
+        background-color: $primary;
+        color: $white;
+        border: $primary;
 
-      &:hover {
-        background-color: $lightBlue;
+        &:hover {
+          background-color: $lightBlue;
+        }
       }
     }
   }

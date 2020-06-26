@@ -57,7 +57,14 @@
                             l'adresse mail indiquée pour informer le nouveau membre de la création de son compte.</p>
                     </div>
 
-                    {{ include('admin/members/_form_member.html.twig') }}
+                    {{ form_start(form) }}
+                        {{ form_widget(form) }}
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-white">{{ button_label|default('Ajouter') }}</button>
+                        </div>
+
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>

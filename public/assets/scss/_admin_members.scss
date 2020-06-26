@@ -100,10 +100,7 @@
 }
 
 #admin_member_edit {
-  height: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: 5rem 1rem;
 
   #member_edit_form {
     background-color: $white;
@@ -111,17 +108,30 @@
     border-radius: 0.2em;
     padding: 2em;
 
-    hr {
-      border-bottom: 2px solid $primary;
-      width: 20rem;
+    .form-group {
+      margin-bottom: 1rem;
+
+      label {
+        margin-bottom: 5px;
+      }
+
+      .btn {
+        background-color: $primary;
+        color: $white;
+        border: $primary;
+
+        &:hover {
+          background-color: $lightBlue;
+        }
+      }
     }
 
-    label {
-      color: $gray;
+    #super_admin_edit_member_roles {
+      input {
+        background-color: $primary;
+      }
     }
 
-    input {
-      color: $gray;
-    }
+
   }
 }
