@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Duty;
 use App\Form\DutyType;
+use App\Form\DutyTypeType;
 use App\Form\SearchDutyType;
 use App\Entity\DutyType as DutyT;
 use App\Repository\DutyRepository;
@@ -96,12 +97,26 @@ class DutyController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="duty_show", methods={"GET"})
+     * @Route("/{id}", name="duty_show", methods={"GET","POST"})
      */
-    public function show(Duty $duty): Response
+    public function show($id, Request $request, Duty $duty): Response
     {
+        $dutyType = new DutyT();
+        $form = $this->createForm(DutyTypeType::class, $dutyType);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $dutyType->setStatus(false);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($dutyType);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('duty_show', array("id" => $id));
+        }
+
         return $this->render('duty/show.html.twig', [
             'duty' => $duty,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -128,7 +143,6 @@ class DutyController extends AbstractController
     /**
      * @Route("/{id}", name="duty_delete", methods={"DELETE"})
      */
-    /*
     public function delete(Request $request, Duty $duty): Response
     {
         if ($this->isCsrfTokenValid('delete'.$duty->getId(), $request->request->get('_token'))) {
@@ -139,5 +153,4 @@ class DutyController extends AbstractController
 
         return $this->redirectToRoute('duty_index');
     }
-    */
 }

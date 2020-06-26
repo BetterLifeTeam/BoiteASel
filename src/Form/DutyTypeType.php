@@ -6,6 +6,7 @@ use App\Entity\DutyType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class DutyTypeType extends AbstractType
 {
@@ -14,10 +15,7 @@ class DutyTypeType extends AbstractType
         $builder
             ->add('title')
             ->add('hourlyPrice')
-            ->add('status')
-            ->add('noVote')
-            ->add('yesVote')
-            ->add('voteCommentary')
+            ->add('Proposer', SubmitType::class)
         ;
     }
 
