@@ -1,60 +1,120 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Duty index
-{% endblock %}
+{% block title %}Liste des annonces{% endblock %}
 
 {% block body %}
-	<h1>Duty index</h1>
+	<main role="main" class="container-fluid" id="admin_duties_list">
+		<div class="row">
+			<div class="col-12 mb-4">
+				<div id="duties_list">
+					<h1 class="h1 text-secondary text-center">LISTE DES ANNONCES</h1>
+					<table id="table_duties" class="table table-hover table-striped"
+						   data-pagination="true"
+						   data-toggle="table"
+						   data-search="true"
+						   data-show-search-button="true"
+						   data-page-size="10"
+						   data-page-list="">
+						<thead>
+							<tr>
+								<th class="text-center" data-sortable="true">Titre</th>
+								<th class="text-center" data-sortable="true">Date</th>
+								<th class="text-center" data-sortable="true">Statut</th>
+								<th class="text-center" data-sortable="true">Prix</th>
+								<th class="text-center" data-sortable="true">Votes OUI<span style="display:block;font-size:8px;">(votes / votants)</span></th>
+								<th class="text-center" data-sortable="true">Votes NON<span style="display:block;font-size:8px;">(votes / votants)</span></th>
+								<th class="text-center" data-sortable="true">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for duty in duties %}
+								<tr>
+									<td class="text-center">{{ duty.title }}</td>
+									<td class="text-center">{{ (duty.status == "not checked") ? duty.createdAt|date('d/m/Y') : duty.setbackAt|date('d/m/Y') }}</td>
+									<td class="text-center">{{ duty.status }}</td>
+									<td class="text-center">{{ duty.price }}</td>
+									<td class="text-center">
+										{{ duty.yesVote|length }} / {{ nbVoter }}
+										<small>({{ (((duty.yesVote|length)*100)/ nbVoter)|round(2) }}%)</small>
+									</td>
+									<td class="text-center">
+										{{ duty.noVote|length }} / {{ nbVoter }}
+										<small>({{ (((duty.noVote|length)*100)/ nbVoter)|round(2) }}%)</small>
+									</td>
+									<td class="text-center">
+										<a class="btn btn-secondary" href="{{ path('admin_duty_show', {'id': duty.id}) }}"><i class="fas fa-eye"></i></a>
+										{% if app.user.id not in duty.yesVote and app.user.id not in duty.noVote %}
+											<a class="btn btn-success" href="{{ path('admin_duty_vote', {'id': duty.id, 'vote': 'yes'}) }}"><i class="fas fa-check"></i></a>
+											<a class="btn btn-danger" href="{{ path('admin_duty_vote', {'id': duty.id, 'vote': 'no'}) }}"><i class="fas fa-times"></i></a>
+										{% endif %}
+									</td>
+								</tr>
+							{% else %}
+								<tr>
+									<td colspan="9">Aucun résultat trouvé</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="col-12 text-right">
+				<a class="btn text-secondary" href="{{ path('admin_dashboard') }}"><i class="fas fa-chevron-left"></i> Retour</a>
+			</div>
+		</div>
+	</main>
+{#	<h1>Duty index</h1>#}
 
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Date</th>
-				<th>Status</th>
-				<th>Price</th>
-				<th>YesVote<span style="display:block;font-size:8px;">(votes / votants)</span>
-				</th>
-				<th>NoVote<span style="display:block;font-size:8px;">(votes / votants)</span>
-				</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for duty in duties %}
-				<tr>
-					<td>{{ duty.title }}</td>
-					<td>{{ (duty.status == "not checked") ? duty.createdAt|date('Y-m-d H:i:s') : duty.setbackAt|date('Y-m-d H:i:s') }}</td>
-					<td>{{ duty.status }}</td>
-					<td>{{ duty.price }}</td>
-					<td>{{ duty.yesVote|length }}
-						/
-						{{ nbVoter }}
-						<small>({{ (((duty.yesVote|length)*100)/ nbVoter)|round(2) }}%)</small>
-					</td>
-					<td>{{ duty.noVote|length }}
-						/
-						{{ nbVoter }}
-						<small>({{ (((duty.noVote|length)*100)/ nbVoter)|round(2) }}%)</small>
-					</td>
-					<td>
-						{# Evidemment là on va mettre des icônes #}
-						<a href="{{ path('admin_duty_show', {'id': duty.id}) }}">show</a>
-						{% if app.user.id not in duty.yesVote and app.user.id not in duty.noVote %}
-							<a href="{{ path('admin_duty_vote', {'id': duty.id, 'vote': 'yes'}) }}">vote yes</a>
-							<a href="{{ path('admin_duty_vote', {'id': duty.id, 'vote': 'no'}) }}">vote no</a>
-						{% endif %}
+{#	<table class="table">#}
+{#		<thead>#}
+{#			<tr>#}
+{#				<th>Title</th>#}
+{#				<th>Date</th>#}
+{#				<th>Status</th>#}
+{#				<th>Price</th>#}
+{#				<th>YesVote<span style="display:block;font-size:8px;">(votes / votants)</span>#}
+{#				</th>#}
+{#				<th>NoVote<span style="display:block;font-size:8px;">(votes / votants)</span>#}
+{#				</th>#}
+{#				<th>actions</th>#}
+{#			</tr>#}
+{#		</thead>#}
+{#		<tbody>#}
+{#			{% for duty in duties %}#}
+{#				<tr>#}
+{#					<td>{{ duty.title }}</td>#}
+{#					<td>{{ (duty.status == "not checked") ? duty.createdAt|date('Y-m-d H:i:s') : duty.setbackAt|date('Y-m-d H:i:s') }}</td>#}
+{#					<td>{{ duty.status }}</td>#}
+{#					<td>{{ duty.price }}</td>#}
+{#					<td>{{ duty.yesVote|length }}#}
+{#						/#}
+{#						{{ nbVoter }}#}
+{#						<small>({{ (((duty.yesVote|length)*100)/ nbVoter)|round(2) }}%)</small>#}
+{#					</td>#}
+{#					<td>{{ duty.noVote|length }}#}
+{#						/#}
+{#						{{ nbVoter }}#}
+{#						<small>({{ (((duty.noVote|length)*100)/ nbVoter)|round(2) }}%)</small>#}
+{#					</td>#}
+{#					<td>#}
+{#						#}{# Evidemment là on va mettre des icônes #}
+{#						<a href="{{ path('admin_duty_show', {'id': duty.id}) }}">show</a>#}
+{#						{% if app.user.id not in duty.yesVote and app.user.id not in duty.noVote %}#}
+{#							<a href="{{ path('admin_duty_vote', {'id': duty.id, 'vote': 'yes'}) }}">vote yes</a>#}
+{#							<a href="{{ path('admin_duty_vote', {'id': duty.id, 'vote': 'no'}) }}">vote no</a>#}
+{#						{% endif %}#}
 
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="17">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+{#					</td>#}
+{#				</tr>#}
+{#			{% else %}#}
+{#				<tr>#}
+{#					<td colspan="17">no records found</td>#}
+{#				</tr>#}
+{#			{% endfor %}#}
+{#		</tbody>#}
+{#	</table>#}
 
-	{# <a href="{{ path('duty_new') }}">Create new</a> #}
+{#	#}{# <a href="{{ path('duty_new') }}">Create new</a> #}
 {% endblock %}
