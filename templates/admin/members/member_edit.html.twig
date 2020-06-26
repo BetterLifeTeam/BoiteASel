@@ -3,11 +3,21 @@
 {% block title %}Edit Member{% endblock %}
 
 {% block body %}
-    <h1>Edit Member</h1>
+{#    <h1>Edit Member</h1>#}
 
-    {{ include('admin/members/_form_member.html.twig', {'button_label': 'Update'}) }}
+{#    {{ include('admin/members/_form_member.html.twig', {'button_label': 'Update'}) }}#}
 
-    <a href="{{ path('admin_members_list') }}">back to list</a>
+{#    <a href="{{ path('admin_members_list') }}">back to list</a>#}
 
-    {{ include('admin/members/_delete_form_member.html.twig') }}
+{#    {{ include('admin/members/_delete_form_member.html.twig') }}#}
+
+    <main role="main" class="container-md" id="admin_member_edit">
+        <div class="row">
+            <form class="col-lg-7" id="member_edit_form">
+                <h1 class="h1 text-primary text-center mb-4">MODIFIER UN MEMBRE</h1>
+                {{ include('admin/members/_form_member.html.twig', {'button_label': 'Update'}) }}
+            </form>
+        </div>
+        <div id="background_blue"></div>
+    </main>
 {% endblock %}
