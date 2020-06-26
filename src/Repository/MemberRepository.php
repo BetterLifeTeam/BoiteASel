@@ -40,7 +40,7 @@ class MemberRepository extends ServiceEntityRepository
     public function getHelpers($limit = null)
     {
 
-        $sql = 'SELECT concat(m.firstname, " ", m.name) as memberName, m.id, 
+        $sql = 'SELECT m.firstname, m.name, m.id, 
         (SELECT SUM(d.price) FROM duty as d WHERE d.offerer_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)) as higher, 
         (SELECT MAX(du.done_at) FROM duty as du WHERE du.offerer_id=m.id AND du.status="finished") as last_duty
         FROM member as m
@@ -62,7 +62,7 @@ class MemberRepository extends ServiceEntityRepository
     public function getAskers()
     {
 
-        $sql = 'SELECT concat(m.firstname, " ", m.name) as memberName, m.id, 
+        $sql = 'SELECT m.firstname, m.name, m.id, 
         (SELECT SUM(d.price) FROM duty as d WHERE asker_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)) as `lower`, 
         (SELECT MAX(du.done_at) FROM duty as du WHERE du.asker_id=m.id) as last_duty
         FROM member as m  
@@ -80,7 +80,7 @@ class MemberRepository extends ServiceEntityRepository
     public function getActualites($limit = null)
     {
 
-        $sql = 'SELECT d.id, concat(askM.firstname, " ", askM.name) as asker, concat(offM.firstname, " ", offM.name) as offerer, dt.title as type, d.created_at, d.done_at, d.price
+        $sql = 'SELECT d.id, askM.firstname as askerFirstName, askM.name as askerName, offM.firstname as offererFirstName, offM.name as offererName, dt.title as type, d.created_at, d.done_at, d.price
         FROM duty as d
         LEFT JOIN member as askM on d.asker_id=askM.id
         LEFT JOIN member as offM on d.offerer_id=offM.id

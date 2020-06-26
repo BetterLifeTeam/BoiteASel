@@ -1,0 +1,377 @@
+#dashboard_page {
+  padding: 2em 5em;
+
+  h4 {
+    text-decoration: underline;
+  }
+
+  #top_lists {
+    background-color: $white;
+    padding: 2rem;
+    border-radius: 0.2rem;
+
+    .fixed-table-toolbar {
+      float: right;
+
+      .dropdown-menu {
+        padding: 0;
+
+        .dropdown-item {
+          color: $secondary;
+          padding: 5px 1rem;
+          font-size: 12px;
+
+          &:hover {
+            background-color: $secondary;
+            color: $white;
+          }
+        }
+      }
+    }
+
+    #givers_list {
+
+      .input-group-append {
+        button {
+          background-color: $secondary;
+        }
+      }
+
+      #table_top_givers {
+        border-left: none;
+        border-right: none;
+        border-bottom: 2px solid $secondary;
+
+        thead {
+          background-color: $secondary;
+          color: $white;
+          border: none;
+
+          th {
+            border-right: 2px solid $white;
+
+            &:last-child {
+              border: none;
+            }
+          }
+        }
+
+        tbody {
+          tr:hover {
+            background-color: $lightGray;
+          }
+
+          td {
+            border: none;
+
+            .btn {
+              padding: 0.375rem 0.5rem;
+              font-size: 11px;
+            }
+          }
+        }
+      }
+    }
+
+    #askers_list {
+
+      .input-group-append {
+        button {
+          background-color: $secondary;
+        }
+      }
+
+      #table_top_askers {
+        border-left: none;
+        border-right: none;
+        border-bottom: 2px solid $secondary;
+
+        thead {
+          background-color: $secondary;
+          color: $white;
+          border: none;
+
+          th {
+            border-right: 2px solid $white;
+
+            &:last-child {
+              border: none;
+            }
+          }
+        }
+
+        tbody {
+          tr:hover {
+            background-color: $lightGray;
+          }
+
+          td {
+            border: none;
+
+            .btn {
+              padding: 0.375rem 0.5rem;
+              font-size: 11px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+
+  #actuality_list {
+    background-color: $white;
+    padding: 2rem;
+    border-radius: 0.2rem;
+
+    .input-group-append {
+      button {
+        background-color: $turquoise;
+      }
+    }
+
+    .fixed-table-toolbar {
+      float: right;
+
+      .export {
+        .dropdown-toggle {
+          background-color: $turquoise;
+        }
+      }
+
+      .dropdown-menu {
+        padding: 0;
+
+        .dropdown-item {
+          color: $turquoise;
+          padding: 5px 1rem;
+          font-size: 12px;
+
+          &:hover {
+            background-color: $turquoise;
+            color: $white;
+          }
+        }
+      }
+    }
+
+    #table_actuality {
+      border-left: none;
+      border-right: none;
+      border-bottom: 2px solid $turquoise;
+
+      thead {
+        background-color: $turquoise;
+        color: $white;
+        border: none;
+
+        th {
+          border-right: 2px solid $white;
+
+          &:last-child {
+            border: none;
+          }
+        }
+      }
+
+      tbody {
+        tr:hover {
+          background-color: $lightGray;
+        }
+
+        td {
+          border: none;
+
+          .btn {
+            padding: 0.375rem 0.5rem;
+            font-size: 11px;
+          }
+        }
+      }
+    }
+
+    .pagination {
+      .page-link {
+        border: 1px solid $turquoise;
+        color: $turquoise;
+        background-color: $white;
+
+        &:hover {
+          background-color: $turquoise;
+          color: $white;
+        }
+      }
+    }
+  }
+
+  #activity_type_list {
+    background-color: $white;
+    padding: 2rem;
+    border-radius: 0.2rem;
+
+    .input-group-append {
+      button {
+        background-color: $primary;
+      }
+    }
+
+    .fixed-table-toolbar {
+      float: right;
+
+      .export {
+        .dropdown-toggle {
+          background-color: $primary;
+        }
+      }
+
+      .dropdown-menu {
+        padding: 0;
+
+        .dropdown-item {
+          color: $primary;
+          padding: 5px 1rem;
+          font-size: 12px;
+
+          &:hover {
+            background-color: $primary;
+            color: $white;
+          }
+        }
+      }
+    }
+
+    #table_activity_type {
+      border-left: none;
+      border-right: none;
+      border-bottom: 2px solid $primary;
+
+      thead {
+        background-color: $primary;
+        color: $white;
+        border: none;
+
+        th {
+          border-right: 2px solid $white;
+
+          &:last-child {
+            border: none;
+          }
+        }
+      }
+
+      tbody {
+        tr:hover {
+          background-color: $lightGray;
+        }
+
+        td {
+          border: none;
+
+          .btn {
+            padding: 0.375rem 0.5rem;
+            font-size: 11px;
+          }
+        }
+      }
+    }
+
+    .pagination {
+      .page-link {
+        border: 1px solid $primary;
+        color: $primary;
+        background-color: $white;
+
+        &:hover {
+          background-color: $primary;
+          color: $white;
+        }
+      }
+    }
+  }
+
+  #exchanges_list {
+    background-color: $white;
+    padding: 2rem;
+    border-radius: 0.2rem;
+
+    .input-group-append {
+      button {
+        background-color: $accent;
+      }
+    }
+
+    .fixed-table-toolbar {
+      float: right;
+
+      .export {
+        .dropdown-toggle {
+          background-color: $accent;
+        }
+      }
+
+      .dropdown-menu {
+        padding: 0;
+
+        .dropdown-item {
+          color: $accent;
+          padding: 5px 1rem;
+          font-size: 12px;
+
+          &:hover {
+            background-color: $accent;
+            color: $white;
+          }
+        }
+      }
+    }
+
+    #table_exchanges {
+      border-left: none;
+      border-right: none;
+      border-bottom: 2px solid $accent;
+
+      thead {
+        background-color: $accent;
+        color: $white;
+        border: none;
+
+        th {
+          border-right: 2px solid $white;
+
+          &:last-child {
+            border: none;
+          }
+        }
+      }
+
+      tbody {
+        tr:hover {
+          background-color: $lightGray;
+        }
+
+        td {
+          border: none;
+
+          .btn {
+            padding: 0.375rem 0.5rem;
+            font-size: 11px;
+          }
+        }
+      }
+    }
+
+    .pagination {
+      .page-link {
+        border: 1px solid $accent;
+        color: $accent;
+        background-color: $white;
+
+        &:hover {
+          background-color: $accent;
+          color: $white;
+        }
+      }
+    }
+  }
+}
