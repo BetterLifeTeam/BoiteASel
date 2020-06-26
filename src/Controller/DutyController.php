@@ -80,7 +80,7 @@ class DutyController extends AbstractController
         $user = $this->getUser();
         if ($form->isSubmitted() && $form->isValid()) {
             $duty->setCreatedAt(new \DateTime('now'));
-            $duty->setStatus('not_checked');
+            $duty->setStatus('not checked');
             $duty->setAsker($user);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($duty);
