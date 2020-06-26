@@ -19,6 +19,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class ConversationController extends AbstractController
 {
+
+    public function nice_dump($data)
+    {
+        highlight_string("<?php\n\$data =\n" . var_export($data, true) . ";\n?>");
+    }
+
     /**
      * @Route("/", name="conversation_index", methods={"GET","POST"})
      * @Route("/{selectedConversation}", name="conversation_msg_index", methods={"GET","POST"})
@@ -27,15 +33,23 @@ class ConversationController extends AbstractController
     {        
         $user = $this->getUser();
 
-        $conversationRepository = $this->getDoctrine()->getRepository(Conversation::class);
         $conversations = $conversationRepository->findUserConversation($user);
 
+        if(empty($conversations)){
+            $this->nice_dump($conversations);
+            $noForm = $this->createFormBuilder([]);
+            return $this->render('conversation/index.html.twig', [
+                'conversations' => $conversations,
+                'message' => array(),
+                'form' => "",
+            ]);
+        }
         if($selectedConversation){
             $selectedConv = $conversationRepository->findOneBy(['id' => $selectedConversation]);
             $conversation = $selectedConv->getMessages();
         }else{
-            $selectedConversation = end($conversations)->getId();
-            $conversation = end($conversations)->getMessages();
+            $selectedConversation = $conversations[0]->getId();
+            $conversation = $conversations[0]->getMessages();
         }
 
         $message = new Message();
@@ -46,7 +60,6 @@ class ConversationController extends AbstractController
             $message->setCreatedAt(new \DateTime('now'));
             $message->setSender($user);
 
-            $conversationRepository = $this->getDoctrine()->getRepository(Conversation::class);
             $conv = $conversationRepository->findOneBy(['id' => $selectedConversation]);
             $conv->addMessage($message);
             $conv->setLastActivity(new \DateTime('now'));
@@ -58,8 +71,8 @@ class ConversationController extends AbstractController
 
         return $this->render('conversation/index.html.twig', [
             'conversations' => $conversations,
-            // 'selectedConversation' => $selectedConversation,
             'message' => $conversation,
+            'selectedConversation' => $selectedConversation,
             'form' => $form->createView(),
         ]);
     }
