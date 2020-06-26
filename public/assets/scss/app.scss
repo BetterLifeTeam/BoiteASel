@@ -5,10 +5,6 @@
     margin: 0;
 }
 
-html {
-    height: 100%;
-}
-
 body {
     height: 100%;
     background-color: $lightGray;
@@ -24,6 +20,7 @@ body {
 
 @import "duties";
 @import "login";
+@import "my_profile";
 
 /* ---------- CSS BoiteASel Footer ---------- */
 

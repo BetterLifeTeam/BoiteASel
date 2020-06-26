@@ -1,11 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Member{% endblock %}
+{% block title %}Modifier mon profil{% endblock %}
 
 {% block body %}
-    <h1>Edit Member</h1>
+    <main role="main" id="my_profile_edit">
+        <div class="container-md">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="h1 text-primary text-center mb-3">MODIFIER MON PROFIL</h1>
+                </div>
 
-    {{ include('member/_form.html.twig', {'button_label': 'Update'}) }}
+                {{ include('member/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+            </div>
+            <div id="background_blue"></div>
+        </div>
+    </main>
+{#    <h1>test</h1>#}
+
+{#    {{ include('member/_form.html.twig', {'button_label': 'Update'}) }}#}
 
     {# <a href="{{ path('member_index') }}">back to list</a> #}
 

@@ -1,61 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Member
-{% endblock %}
+{% block title %}Mon profil{% endblock %}
 
 {% block body %}
-	<h1>Member</h1>
+	<main role="main" id="my_profile_page">
+		<div class="container-md">
+			<div class="row p-2">
+				<form class="col-lg-8 col-md-12" id="profile_form">
+					<div class="row">
+						<div class="col-sm">
+							<p class="w-50 mb-0">
+								<span class="h4 text-primary mb-0">{{ member.firstname }} {{ member.name }}</span>
+								<a class="btn text-primary float-right pb-0 pt-0" href="{{ path('member_edit', {'id': member.id}) }}"><i class="fas fa-pen"></i></a>
+							</p>
+							<hr class="mb-1 mt-1 w-50">
+						</div>
+						<div class="col-sm-auto text-sm-right">
+							<img src="{{ asset('assets/img/abstract-shapes-10.svg') }}" width="85" alt="Elements graphiques">
+						</div>
+					</div>
 
-    {# Tu les as là comme ça t'en fais ce que tu veux #}
+					<div class="form-group row mb-0">
+						<label for="staticEmail" class="col-sm-3 mb-0"><small>ADRESSE MAIL :</small></label>
+						<div class="col-sm-9">
+							<input type="text" readonly class="form-control-plaintext p-0" id="staticEmail" value="{{ member.email }}">
+						</div>
+					</div>
 
-	<div>
-		<h2>Services demandés</h2>
-		<p> {{ asAsker }} </p>
-	</div>
-	<div>
-		<h2>Services rendus</h2>
-		<p> {{ asOfferer }} </p>
-	</div>
+					<div class="form-group row mb-0">
+						<label for="staticEmail" class="col-sm-3 mb-0"><small>ROLE :</small></label>
+						<div class="col-sm-9">
+							<input type="text" readonly class="form-control-plaintext p-0" id="staticEmail" value="{{ member.roles ? member.roles|join(', ') : '' }}">
+						</div>
+					</div>
 
+					<div class="form-group row mb-0">
+						<label for="staticEmail" class="col-sm-3 mb-0"><small>GRAINS DE SEL :</small></label>
+						<div class="col-sm-9">
+							<input type="text" readonly class="form-control-plaintext p-0" id="staticEmail" value="{{ member.money }}">
+						</div>
+					</div>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Nom</th>
-				<td>{{ member.name }}</td>
-			</tr>
-			<tr>
-				<th>Prénom</th>
-				<td>{{ member.firstname }}</td>
-			</tr>
-			<tr>
-				<th>Adresse mail</th>
-				<td>{{ member.email }}</td>
-			</tr>
-			<tr>
-				<th>Rôle</th>
-                {% if member.roles|length == 3 %}
-                    <td>super-administrateur</td>
-                {% elseif member.roles|length == 2 %}
-                    <td>administrateur</td>
-                {% else  %}
-                    <td>membre</td>
-                {% endif %}
-			</tr>
-			<tr>
-				<th>Balance</th>
-				<td>{{ member.money }}</td>
-			</tr>
-			<tr>
-				<th>Adresse postale</th>
-				<td>{{ member.address }}</td>
-			</tr>
-		</tbody>
-	</table>
+					<div class="form-group row mb-4">
+						<label for="staticEmail" class="col-sm-3 mb-0"><small>ADRESSE :</small></label>
+						<div class="col-sm-9">
+							<input type="text" readonly class="form-control-plaintext p-0" id="staticEmail" value="{{ member.address }}">
+						</div>
+					</div>
 
-	{# <a href="{{ path('member_index') }}">back to list</a> #}
+					<div class="row">
+						<div class="col-lg-5 col-sm-12 m-lg-auto mb-sm-4">
+{#							<div class="align-items-lg-end align-items-md-center">#}
+								<div class="ml-auto mr-auto" id="duties_asked">Services demandés<br><span>{{ asAsker }}</span></div>
+{#							</div>#}
+						</div>
+						<div class="col-lg-5 col-sm-12 m-lg-auto">
+{#							<div class="align-items-lg-end align-items-md-center">#}
+								<div class="ml-auto mr-auto" id="duties_offered">Services rendus<br><span>{{ asOfferer }}</span></div>
+{#							</div>#}
+						</div>
+					</div>
 
-	<a href="{{ path('member_edit', {'id': member.id}) }}">edit</a>
-
-	{# {{ include('member/_delete_form.html.twig') }} #}
+					<div class="form-group text-right mb-0">
+						<a class="btn text-primary" href="/"><i class="fas fa-chevron-left"></i> Retour</a>
+					</div>
+				</form>
+			</div>
+			<div id="background_blue"></div>
+		</div>
+	</main>
 {% endblock %}
