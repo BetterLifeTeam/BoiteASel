@@ -71,6 +71,19 @@ class MemberController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/duties", name="member_duties", methods={"GET"})
+     */
+    public function myDuties(Member $member): Response
+    {
+        // $this->nice_dump($member->getDutyAsAsker());
+
+        return $this->render('member/myduties.html.twig', [
+            'member' => $member,
+            'asAsker' => $member->getDutyAsAsker(),
+        ]);
+    }
+
+    /**
      * @Route("/{id}/edit", name="member_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Member $member): Response
