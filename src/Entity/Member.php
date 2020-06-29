@@ -86,6 +86,11 @@ class Member implements UserInterface
      */
     private $dutyAsOfferer;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="originMember")
+     */
+    private $originNotifications;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
@@ -94,6 +99,7 @@ class Member implements UserInterface
         $this->dutyAsAsker = new ArrayCollection();
         $this->dutyAsOfferer = new ArrayCollection();
         $this->conversationsAsMember2 = new ArrayCollection();
+        $this->originNotifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -391,6 +397,37 @@ class Member implements UserInterface
             // set the owning side to null (unless already changed)
             if ($conversationsAsMember2->getMember() === $this) {
                 $conversationsAsMember2->setMember(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getOriginNotifications(): Collection
+    {
+        return $this->originNotifications;
+    }
+
+    public function addOriginNotification(Notification $originNotification): self
+    {
+        if (!$this->originNotifications->contains($originNotification)) {
+            $this->originNotifications[] = $originNotification;
+            $originNotification->setOriginMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOriginNotification(Notification $originNotification): self
+    {
+        if ($this->originNotifications->contains($originNotification)) {
+            $this->originNotifications->removeElement($originNotification);
+            // set the owning side to null (unless already changed)
+            if ($originNotification->getOriginMember() === $this) {
+                $originNotification->setOriginMember(null);
             }
         }
 

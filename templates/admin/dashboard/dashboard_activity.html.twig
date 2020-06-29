@@ -1,39 +1,51 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+	<main role="main" class="container-fluid" id="admin_actuality">
+		<div class="row">
+			<div class="col-12 mb-4">
+				<div id="actuality_list">
+					<h1 class="h1 text-secondary text-center">ACTUALITE</h1>
+					<table id="table_actuality" class="table table-hover table-striped"
+						   data-pagination="true"
+						   data-toggle="table"
+						   data-search="true"
+						   data-show-search-button="true"
+						   data-page-size="10"
+						   data-page-list="">
+						<thead>
+						<tr>
+							<th class="text-center" data-sortable="true">Demandeur</th>
+							<th class="text-center" data-sortable="true">Dépanneur</th>
+							<th class="text-center" data-sortable="true">Type</th>
+							<th class="text-center" data-sortable="true">Créé le</th>
+							<th class="text-center" data-sortable="true">Fait le</th>
+							<th class="text-center" data-sortable="true">Prix</th>
+						</tr>
+						</thead>
+						<tbody>
+						{% for actuality in activities %}
+							<tr>
+								<td class="text-center">{{ actuality.askerFirstName }} {{ actuality.askerName }}</td>
+								<td class="text-center">{{ actuality.offererFirstName }} {{ actuality.offererName }}</td>
+								<td class="text-center">{{ actuality.type }}</td>
+								<td class="text-center">{{ actuality.created_at ? actuality.created_at|date('d/m/Y') : '' }}</td>
+								<td class="text-center">{{ actuality.done_at ? actuality.done_at|date('d/m/Y') : '' }}</td>
+								<td class="text-center">{{ actuality.price }}</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="9">Aucun résultat trouvé</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
 
-	<h1>Dashboard</h1>
-	<h2>Actualités</h2>
-
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Demandeur</th>
-				<th>Dépanneur</th>
-				<th>Type</th>
-				<th>Créée le
-				</th>
-				<th>Fait le
-				</th>
-				<th>Prix</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for actuality in activities %}
-				<tr>
-					<td>{{ actuality.asker }}</td>
-					<td>{{ actuality.offerer }}</td>
-					<td>{{ actuality.type }}</td>
-					<td>{{ actuality.created_at }}</td>
-					<td>{{ actuality.done_at }}</td>
-					<td>{{ actuality.price }}</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="9">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
+			<div class="col-12 text-right">
+				<a class="btn text-secondary" href="{{ path('admin_dashboard') }}"><i class="fas fa-chevron-left"></i> Retour</a>
+			</div>
+		</div>
+	</main>
 {% endblock %}

@@ -5,54 +5,66 @@
 {% block body %}
     <main role="main" class="container-fluid" id="admin_members">
         <div class="row">
-            <div class="col-12">
-                <h1 class="h1 text-primary text-center mb-4">GESTION DES MEMBRES</h1>
+            <div class="col-12 mb-4">
+                <h1 class="h1 text-primary text-center">GESTION DES MEMBRES</h1>
             </div>
 
-            <div class="col-lg-9 p-4">
+            <div class="col-xl-8 col-lg-12 p-4">
                 <div id="members_list">
                     <h4 class="text mb-4">Liste des membres :</h4>
                     <table id="table_members_list" class="table table-hover"
-                           data-pagination="true"
-                           data-toggle="table"
-                           data-search="true"
-                           data-show-search-button="true"
-                           data-page-size="10">
+                        data-pagination="true"
+                        data-toggle="table"
+                        data-search="true"
+                        data-show-search-button="true"
+                        data-page-size="10"
+                        data-page-list="">
                         <thead>
-                        <tr>
-                            <th class="text-center" data-sortable="true">Nom Prénom</th>
-                            <th class="text-center" data-sortable="true">Rôle</th>
-                            <th class="text-center" data-sortable="true">Grains de sel</th>
-                            <th class="text-center">Actions</th>
-                        </tr>
+                            <tr>
+                                <th class="text-center" data-sortable="true">Nom Prénom</th>
+                                <th class="text-center" data-sortable="true">Rôle</th>
+                                <th class="text-center" data-sortable="true">Grains de sel</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {% for member in members %}
-                            <tr>
-                                <td>{{ member.name }} {{ member.firstname }}</td>
-                                <td class="text-center">{{ member.roles ? member.roles|join(', ') : '' }}</td>
-                                <td class="text-center">{{ member.money }}</td>
-                                <td class="text-center">
-                                    <a class="btn btn-secondary" href="{{ path('admin_member_show', {'id': member.id}) }}"><i class="fas fa-eye"></i></a>
-                                    <a class="btn btn-success" href="{{ path('admin_member_edit', {'id': member.id}) }}"><i class="fas fa-pen"></i></a>
-                                    <a class="btn btn-alert" href="{{ path('admin_member_edit', {'id': member.id}) }}"><i class="fas fa-trash-alt"></i></a>
-                                </td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="9">no records found</td>
-                            </tr>
-                        {% endfor %}
+                            {% for member in members %}
+                                <tr>
+                                    <td>{{ member.name }} {{ member.firstname }}</td>
+                                    <td class="text-center">{{ member.roles ? member.roles|join(', ') : '' }}</td>
+                                    <td class="text-center">{{ member.money }}</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-secondary" href="{{ path('admin_member_show', {'id': member.id}) }}"><i class="fas fa-eye"></i></a>
+                                        <a class="btn btn-success" href="{{ path('admin_member_edit', {'id': member.id}) }}"><i class="fas fa-pen"></i></a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="9">no records found</td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="col-lg-3 p-4">
+            <div class="col-xl-4 col-lg-12 p-4">
                 <div id="member_add">
                     <h4 class="text-white text-center mb-4">Ajouter un membre :</h4>
 
-                    {{ include('admin/members/_form_member.html.twig') }}
+                    <div class="text-justify text-white mt-4">
+                        <p>Pour créer un nouveau membre, veuillez renseigner les champs du formulaire ci-dessous. Un mail sera envoyé à
+                            l'adresse mail indiquée pour informer le nouveau membre de la création de son compte.</p>
+                    </div>
+
+                    {{ form_start(form) }}
+                        {{ form_widget(form) }}
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-white">{{ button_label|default('Ajouter') }}</button>
+                        </div>
+
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>

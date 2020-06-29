@@ -1,159 +1,224 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+	<main role="main" class="container-fluid" id="dashboard_page">
+		<div class="row">
+			<div class="col-12 mb-4">
+				<h1 class="h1 text-primary text-center">TABLEAU DE BORD</h1>
+			</div>
 
-	<h1>Dashboard</h1>
+			<div class="col-xl-6 col-lg-6 col-md-12 mb-md-4">
+				<div class="row">
+					<div class="col-lg-12 mb-4">
+						<div id="top_lists">
+							<h4 class="text mb-1">Qui fait quoi ? :</h4>
+							<div class="row">
+								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 mb-md-4">
+									<div id="givers_list">
+										<div id="toolbar_top_givers">
+											<a class="btn btn-secondary" href="{{ path("admin_dashboard_givers") }}"><small>En savoir plus</small></a>
+										</div>
+										<table id="table_top_givers" class="table table-striped"
+											   data-pagination="true"
+											   data-toggle="table"
+											   data-toolbar="#toolbar_top_givers"
+											   data-page-size="5"
+											   data-page-list=""
+											   data-show-export="true"
+											   data-export-data-type="all">
+											<thead>
+												<tr>
+													<th class="text-center"><small>Top 5 dépanneurs</small></th>
+													<th class="text-center"><small>Gains</small></th>
+													<th class="text-center"><small>Dernière aide</small></th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for giver in fiveGivers %}
+													<tr>
+														<td><small>{{ giver.firstname|slice(0, 1) }}. {{ giver.name }}</small></td>
+														<td><small>{{ giver.higher }}</small></td>
+														<td><small>{{ giver.last_duty ? giver.last_duty|date('d/m') : '' }}</small></td>
+													</tr>
+												{% else %}
+													<tr>
+														<td colspan="9">Aucun résultat trouvé</td>
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
 
-	<h2>Qui fait quoi ?</h2>
+								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 pl-lg-0">
+									<div id="askers_list">
+										<div id="toolbar_top_askers">
+											<a class="btn btn-secondary" href="{{ path("admin_dashboard_givers") }}"><small>En savoir plus</small></a>
+										</div>
+										<table id="table_top_askers" class="table table-striped"
+											   data-pagination="true"
+											   data-toggle="table"
+											   data-toolbar="#toolbar_top_askers"
+											   data-page-size="5"
+											   data-page-list=""
+											   data-show-export="true"
+											   data-export-data-type="all">
+											<thead>
+												<tr>
+													<th class="text-center"><small>Top 5 demandeurs</small></th>
+													<th class="text-center"><small>Pertes</small></th>
+													<th class="text-center"><small>Dernière demande</small></th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for asker in fiveAsker %}
+													<tr>
+														<td><small>{{ asker.firstname|slice(0, 1) }}. {{ asker.name }}</small></td>
+														<td><small>{{ asker.lower }}</small></td>
+														<td><small>{{ asker.last_duty ? asker.last_duty|date('d/m') : '' }}</small></td>
+													</tr>
+												{% else %}
+													<tr>
+														<td colspan="9">Aucun résultat trouvé</td>
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-	<table class="table">
-		<button>
-			<a href="{{ path("admin_dashboard_givers") }}">En savoir plus</a>
-		</button>
-		<thead>
-			<tr>
-				<th>Top 5 des dépanneurs</th>
-				<th>Gains</th>
-				<th>Dernière aide</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for giver in fiveGivers %}
-				<tr>
-					<td>{{ giver.memberName }}</td>
-					<td>{{ giver.higher }}</td>
-					<td>{{ giver.last_duty }}</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="9">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+					<div class="col-lg-12">
+						<div id="actuality_list">
+							<h4 class="text mb-1">Actualité :</h4>
+							<div id="toolbar_actuality">
+								<a class="btn btn-turquoise" href="{{ path("admin_dashboard_activity") }}"><small>En savoir plus</small></a>
+							</div>
+							<table id="table_actuality" class="table table-striped"
+								   data-pagination="true"
+								   data-toggle="table"
+								   data-toolbar="#toolbar_actuality"
+								   data-page-size="10"
+								   data-page-list=""
+								   data-show-export="true"
+								   data-export-data-type="all">
+								<thead>
+									<tr>
+										<th class="text-center" data-sortable="true"><small>Demandeur</small></th>
+										<th class="text-center" data-sortable="true"><small>Dépanneur</small></th>
+										<th class="text-center" data-sortable="true"><small>Type</small></th>
+										<th class="text-center" data-sortable="true"><small>Dépôt</small></th>
+										<th class="text-center" data-sortable="true"><small>Fait le</small></th>
+										<th class="text-center" data-sortable="true"><small>Grains de sel</small></th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for actuality in twentyActualites %}
+										<tr>
+											<td><small>{{ actuality.askerFirstName|slice(0, 1) }}. {{ actuality.askerName }}</small></td>
+											<td><small>{{ actuality.offererFirstName|slice(0, 1) }}. {{ actuality.offererName }}</small></td>
+											<td><small>{{ actuality.type }}</small></td>
+											<td><small>{{ actuality.created_at ? actuality.created_at|date('d/m/Y') : '' }}</small></td>
+											<td><small>{{ actuality.done_at ? actuality.done_at|date('d/m/Y') : '' }}</small></td>
+											<td><small>{{ actuality.price }}</small></td>
+										</tr>
+									{% else %}
+										<tr>
+											<td colspan="9">Aucun résultat trouvé</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 
+			<div class="col-xl-6 col-lg-6 col-md-12">
+				<div class="row">
+					<div class="col-lg-12 mb-4">
+						<div id="activity_type_list">
+							<h4 class="text mb-1">Type d'activité :</h4>
+							<div id="toolbar_duty_type">
+								<a class="btn btn-primary" href="{{ path("admin_dashboard_activity") }}"><small>En savoir plus</small></a>
+							</div>
+							<table id="table_activity_type" class="table table-striped"
+								   data-pagination="true"
+								   data-toggle="table"
+								   data-toolbar="#toolbar_duty_type"
+								   data-page-size="10"
+								   data-page-list=""
+								   data-show-export="true"
+								   data-export-data-type="all">
+								<thead>
+									<tr>
+										<th class="text-center" data-sortable="true"><small>Intitulée</small></th>
+										<th class="text-center" data-sortable="true"><small>Prix par heure</small></th>
+										<th class="text-center" data-sortable="true"><small>Nombre de service</small></th>
+										<th class="text-center" data-sortable="true"><small>Gain en jeux</small></th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for dutyType in allDutyTypes %}
+										<tr>
+											<td><small>{{ dutyType.title }}</small></td>
+											<td><small>{{ dutyType.hourly_price }}</small></td>
+											<td><small>{{ dutyType.howMany }}</small></td>
+											<td><small>{{ dutyType.saltAmount }}</small></td>
+										</tr>
+									{% else %}
+										<tr>
+											<td colspan="9">Aucun résultat trouvé</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
 
-	<table class="table">
-		<button>
-			<a href="{{ path("admin_dashboard_givers") }}">En savoir plus</a>
-		</button>
-		<thead>
-			<tr>
-				<th>Top 5 des demandeurs</th>
-				<th>Perte</th>
-				<th>Dernière aide</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for asker in fiveAsker %}
-				<tr>
-					<td>{{ asker.memberName }}</td>
-					<td>{{ asker.lower }}</td>
-					<td>{{ asker.last_duty }}</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="9">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
-	<h2>Actualités</h2>
-
-	<table class="table">
-		<button>
-			<a href="{{ path("admin_dashboard_activity") }}">En savoir plus</a>
-		</button>
-		<thead>
-			<tr>
-				<th>Demandeur</th>
-				<th>Dépanneur</th>
-				<th>Type</th>
-				<th>Créée le
-				</th>
-				<th>Fait le
-				</th>
-				<th>Prix</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for actuality in twentyActualites %}
-				<tr>
-					<td>{{ actuality.asker }}</td>
-					<td>{{ actuality.offerer }}</td>
-					<td>{{ actuality.type }}</td>
-					<td>{{ actuality.created_at }}</td>
-					<td>{{ actuality.done_at }}</td>
-					<td>{{ actuality.price }}</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="9">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
-	<h2>Type d'activité</h2>
-
-	<table class="table">
-		<button>
-			<a href="{{ path("admin_dashboard_activity") }}">En savoir plus</a>
-		</button>
-		<thead>
-			<tr>
-				<th>Intitulée</th>
-				<th>Prix par heure</th>
-				<th>Nombre de service</th>
-				<th>Gain en jeux
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for dutyType in allDutyTypes %}
-				<tr>
-					<td>{{ dutyType.title }}</td>
-					<td>{{ dutyType.hourly_price }}</td>
-					<td>{{ dutyType.howMany }}</td>
-					<td>{{ dutyType.saltAmount }}</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="9">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
-	<h2>Volumes des échanges</h2>
-
-	<table class="table">
-		<button>
-			<a href="{{ path("admin_dashboard_activity") }}">En savoir plus</a>
-		</button>
-		<thead>
-			<tr>
-				<th>Début semaine</th>
-				<th>Fin semaine</th>
-				<th>Total des gains</th>
-				<th>Nombre de services rendus</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for week in volumesEchanges %}
-				<tr>
-					<td>{{ week.weekStart }}</td>
-					<td>{{ week.weekEnd }}</td>
-					<td>{{ week.saltAmount }}</td>
-					<td>{{ week.dutiesAmount }}</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="9">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
+					<div class="col-lg-12">
+						<div id="exchanges_list">
+							<h4 class="text mb-1">Volume des échanges :</h4>
+							<div id="toolbar_exchanges">
+								<a class="btn btn-accent" href="{{ path("admin_dashboard_activity") }}"><small>En savoir plus</small></a>
+							</div>
+							<table id="table_exchanges" class="table table-striped"
+								   data-pagination="true"
+								   data-toggle="table"
+								   data-toolbar="#toolbar_exchanges"
+								   data-page-size="5"
+								   data-page-list=""
+								   data-show-export="true"
+								   data-export-data-type="all">
+								<thead>
+									<tr>
+										<th class="text-center" data-sortable="true"><small>Début semaine</small></th>
+										<th class="text-center" data-sortable="true"><small>Fin semaine</small></th>
+										<th class="text-center" data-sortable="true"><small>Total des gains</small></th>
+										<th class="text-center" data-sortable="true"><small>Nombre de services rendus</small></th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for week in volumesEchanges %}
+										<tr>
+											<td><small>{{ week.weekStart }}</small></td>
+											<td><small>{{ week.weekEnd }}</small></td>
+											<td><small>{{ week.saltAmount }}</small></td>
+											<td><small>{{ week.dutiesAmount }}</small></td>
+										</tr>
+									{% else %}
+										<tr>
+											<td colspan="9">Aucun résultat trouvé</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
 {% endblock %}
