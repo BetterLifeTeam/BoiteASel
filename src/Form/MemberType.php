@@ -12,13 +12,19 @@ class MemberType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('firstname')
-            ->add('roles')
-            ->add('email')
-            ->add('password')
-            ->add('money')
-            ->add('address')
+            ->add('name', null, [
+                'label' => 'Nom'
+            ])
+            ->add('firstname',null, [
+                'label' => 'Prénom'
+            ])
+            ->add('email', null, [
+                'label' => 'Adresse mail'
+            ])
+            // ->add('password')
+            ->add('address', null, [
+                'label' => 'Adresse postale'
+            ])
         ;
     }
 

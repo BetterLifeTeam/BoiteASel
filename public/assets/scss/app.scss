@@ -5,23 +5,26 @@
     margin: 0;
 }
 
-html {
-    height: 100%;
-}
-
 body {
     height: 100%;
     background-color: $lightGray;
+    font-family: "Open Sans";
 }
 
 /* ---------- CSS BoiteASel Header ---------- */
 @import "header";
 
 /* ---------- CSS BoiteASel Body ---------- */
+@import "admin_dashboard";
+@import "admin_duties";
 @import "admin_members";
+
+@import "duties";
 @import "login";
+@import "my_profile";
 
 /* ---------- CSS BoiteASel Footer ---------- */
+
 
 .text {
     color: $gray;
@@ -39,11 +42,19 @@ body {
     color: $success !important;
 }
 .text-alert {
-    color: $alert !important;
+    color: $danger !important;
 }
 text-white {
     color: $white;
 }
+
+.text-bold {
+    font-weight: bolder;
+}
+.text-light {
+    font-weight: lighter;
+}
+
 
 .bg-primary {
     background-color: $primary !important;
@@ -57,8 +68,8 @@ text-white {
 .bg-success {
     background-color: $success !important;
 }
-.bg-alert {
-    background-color: $alert !important;
+.bg-danger {
+    background-color: $danger !important;
 }
 
 
@@ -78,7 +89,6 @@ text-white {
         box-shadow: none;
     }
 }
-
 .btn-secondary {
     background-color: $secondary;
     color: $white;
@@ -95,23 +105,55 @@ text-white {
         box-shadow: none;
     }
 }
-.btn-alert {
-    background-color: $alert;
+.btn-accent {
+    background-color: $accent;
     color: $white;
-    border: $alert;
+    border: $accent;
 
     &:hover {
-        background-color: $gray;
+        background-color: $lightBlue;
     }
 
     &:focus {
-        background-color: $alert;
+        background-color: $accent;
         color: $white;
-        border: $alert;
+        border: $accent;
         box-shadow: none;
     }
 }
+.btn-turquoise {
+    background-color: $turquoise;
+    color: $white;
+    border: $turquoise;
 
+    &:hover {
+        background-color: $lightBlue;
+    }
+
+    &:focus {
+        background-color: $turquoise;
+        color: $white;
+        border: $turquoise;
+        box-shadow: none;
+    }
+}
+.btn-danger {
+    background-color: $danger;
+    color: $white;
+    border: $danger;
+
+    &:hover {
+        background-color: $gray;
+        color: $white;
+    }
+
+    &:focus {
+        background-color: $danger;
+        color: $white;
+        border: $danger;
+        box-shadow: none;
+    }
+}
 .btn-white {
     background-color: $white;
     color: $primary;
@@ -128,4 +170,20 @@ text-white {
         border: $white;
         box-shadow: none;
     }
+}
+
+.alert-danger {
+    background-color: rgba(230, 67, 72, 0.4);
+    color: $white;
+    border: 1px solid $danger;
+}
+
+#background_blue {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 40%;
+    width: 100%;
+    background-color: $primary;
+    z-index: -1;
 }

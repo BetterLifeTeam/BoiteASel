@@ -8,13 +8,21 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Sujet</th>
+                <th>Destinataire</th>
             </tr>
         </thead>
         <tbody>
         {% for conversation in conversations %}
             <tr>
-                <td><a href="{{ path('conversation_msg_index', {'selectedConversation': conversation.id}) }}">{{ conversation.duty.title }}</a></td>
+                <td><a href="{{ path('conversation_msg_index', {'selectedConversation': conversation.id}) }}"> 
+                {# C'est ici que tu peux distingué en front l'utilisateur connectée au destinataire #}
+                 {{ app.user == conversation.member1 ?  
+                    conversation.member2
+                    : 
+                    conversation.member1
+                }}
+                {{ conversation.duty ? conversation.duty.title : '' }}
+                </a></td>
             </tr>
         {% else %}
             <tr>
@@ -24,7 +32,6 @@
         </tbody>
     </table>
 
-    {% if message %}
      <table class="table">
         <thead>
             <tr>
@@ -38,7 +45,6 @@
                 <td>{{ msg.content }}</td>
                 <td>{{ msg.sender }}</td>
             </tr>
-            {# <a href="{{ path('conversation_msg_index', {'conv': selectedConversation, 'duty': selectedConversation.duty.id }) }}">Démarrer une conversation</a> #}
         {% else %}
             <tr>
                 <td colspan="3">Aucun Message</td>
@@ -46,8 +52,8 @@
         {% endfor %}
         </tbody>
     </table>
-    {% endif %}
     
+    {% if form != "" %}
     {{ form(form) }}
-
+    {% endif %} 
 {% endblock %}

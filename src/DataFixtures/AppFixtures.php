@@ -238,7 +238,7 @@ class AppFixtures extends Fixture
 
         }
 
-        $types = array("Message","Validation","Avertissement","Mise en retrait");
+        $types = array("Proposition","Warning","Vérification","Divers");
         // On génère 200 notifications
         for ($i=0; $i < 200; $i++) { 
             $notification = new Notification();
@@ -247,8 +247,8 @@ class AppFixtures extends Fixture
                 ->setMember($members[rand(0, count($members)-1)])
                 ->setContent($faker->sentence())
                 ->setCreatedAt($faker->dateTimeBetween("-1 year"))
-                ->setIsRead($faker->boolean(60));
-                // ->setType($types[rand(0, count($types)-1)]);
+                ->setIsRead($faker->boolean(60))
+                ->setType($types[rand(0, count($types)-1)]);
 
             $manager->persist($notification);
         }

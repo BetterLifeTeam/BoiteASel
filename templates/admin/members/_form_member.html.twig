@@ -1,13 +1,9 @@
-{{ form_start(form) }}
-    <div class="text-justify text-white mt-4">
-        <p>Pour créer un nouveau membre, veuillez renseigner les champs du formulaire ci-dessous. Un mail sera envoyé à
-            l'adresse mail indiquée pour informer le nouveau membre de la création de son compte.</p>
-    </div>
-
+{{ form_start(form, {'attr': { 'id': 'member_edit_form', 'class': 'col-lg-6 col-md-12' } }) }}
     {{ form_widget(form) }}
 
-    <div class="text-center mt-4">
-        <button class="btn btn-white">{{ button_label|default('Ajouter') }}</button>
-    </div>
+<div class="form-group text-center mb-0">
+    <a class="btn btn-primary" href="{{ path('admin_members_list') }}"><i class="fas fa-chevron-left"></i> Retour</a>
+    <button class="btn btn-white">{{ button_label|default('Ajouter') }}</button>
+</div>
 
 {{ form_end(form) }}

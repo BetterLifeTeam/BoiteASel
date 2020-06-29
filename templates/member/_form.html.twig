@@ -1,4 +1,7 @@
-{{ form_start(form) }}
+{{ form_start(form, {'attr': { 'id': 'profile_edit_form', 'class': 'col-lg-6 col-md-12' } }) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="form-group text-center mb-0">
+        <a class="btn btn-primary" href="{{ path('member_show', { 'id' : app.user.id } ) }}"><i class="fas fa-chevron-left"></i> Retour</a>
+        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    </div>
 {{ form_end(form) }}

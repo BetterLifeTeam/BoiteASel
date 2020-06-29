@@ -1,32 +1,45 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+	<main role="main" class="container-fluid" id="admin_members_list">
+		<div class="row">
+			<div class="col-12 mb-4">
+				<div id="members_list">
+					<h1 class="h1 text-secondary text-center">LISTE DES MEMBRES</h1>
+					<table id="table_members" class="table table-hover table-striped"
+						   data-pagination="true"
+						   data-toggle="table"
+						   data-search="true"
+						   data-show-search-button="true"
+						   data-page-size="10"
+						   data-page-list="">
+						<thead>
+							<tr>
+								<th class="text-center" data-sortable="true">Membre</th>
+								<th class="text-center" data-sortable="true">Gains</th>
+								<th class="text-center" data-sortable="true">Dernière aide</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for giver in givers %}
+								<tr>
+									<td class="text-center">{{ giver.firstname }} {{ giver.name }}</td>
+									<td class="text-center">{{ giver.higher }}</td>
+									<td class="text-center">{{ giver.last_duty ? giver.last_duty|date('d/m/Y') : '' }}</td>
+								</tr>
+							{% else %}
+								<tr>
+									<td colspan="9">Aucun résultat trouvé</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
 
-	<h1>Dashboard</h1>
-	
-	<h2>Les membres</h2>
-
-	<table class="table">
-	<a href="#">En savoir plus</a>
-		<thead>
-			<tr>
-				<th>Membres</th>
-				<th>Gains</th>
-				<th>Dernière aide</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for giver in givers %}
-				<tr>
-					<td>{{ giver.memberName }}</td>
-					<td>{{ giver.higher }}</td>
-					<td>{{ giver.last_duty }}</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="9">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+			<div class="col-12 text-right">
+				<a class="btn text-secondary" href="{{ path('admin_dashboard') }}"><i class="fas fa-chevron-left"></i> Retour</a>
+			</div>
+		</div>
+	</main>
 {% endblock %}
