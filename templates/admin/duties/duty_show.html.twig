@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Annonce{% endblock %}
+{% block title %}Annonce
+{% endblock %}
 
 {% block body %}
 	<main role="main" id="admin_duty_show">
@@ -9,27 +10,68 @@
 				<div class="col-lg-8 col-md-12 card" id="duty_card">
 					<div class="card-body">
 						<div class="row">
-							<div class="col-8">
+							<div class="col-12">
 								<h4 class="card-title mb-1 text">{{ duty.title }}</h4>
 								<h6 class="card-subtitle mb-2 text-muted text-primary">{{ duty.dutyType.title }}</h6>
 							</div>
-							<div class="col-4 text-right pl-0">
-								<a class="btn btn-danger" href="#"><i class="fas fa-hand-paper"></i></a>
-							</div>
+							{# <div class="col-4 text-right pl-0">
+															<a class="btn btn-danger" href="#">
+																<i class="fas fa-hand-paper"></i>
+															</a>
+														</div> #}
 						</div>
 						<p class="card-text text duty_description text-justify">{{ duty.description }}</p>
-						<p class="card-text w-100 mb-0 text-right text"><small>{{ duty.asker.name }} {{ duty.asker.firstname }}</small></p>
-						<p class="card-text w-100 mb-0 text-right text"><small class="text-muted">Posté le {{ duty.createdAt ? duty.createdAt|date('d/m/Y') : '' }}</small></p>
-						<p class="card-text w-100 mb-0 text-primary">Statut modifié le <small class="text-muted">{{ duty.setbackAt ? duty.setbackAt|date('d/m/Y') : '' }}</small></p>
-						<p class="card-text w-100 mb-0 text-primary">Statut : <small class="text-muted">{{ duty.status }}</small></p>
-						<p class="card-text w-100 mb-0 text-primary">Durée : <small class="text-muted">{{ duty.duration }}</small></p>
-						<p class="card-text w-100 mb-0 text-primary">Lieu : <small class="text-muted">{{ duty.place }}</small></p>
-						<p class="card-text w-100 mb-0 text-primary">Nombre de grains de sel : <small class="text-muted">{{ duty.price }}</small></p>
-						<a href="{{ path('duties_to_check') }}" class="btn text-primary float-right"><i class="fas fa-chevron-left"></i> Retour</a>
+						<p class="card-text w-100 mb-0 text-right text">
+							<small>{{ duty.asker.name }}
+								{{ duty.asker.firstname }}</small>
+						</p>
+						<p class="card-text w-100 mb-0 text-right text">
+							<small class="text-muted">Posté le
+								{{ duty.createdAt ? duty.createdAt|date('d/m/Y') : '' }}</small>
+						</p>
+						<p class="card-text w-100 mb-0 text-primary">Statut modifié le
+							<small class="text-muted">{{ duty.setbackAt ? duty.setbackAt|date('d/m/Y') : '' }}</small>
+						</p>
+						<p class="card-text w-100 mb-0 text-primary">Statut :
+							<small class="text-muted">{{ duty.status }}</small>
+						</p>
+						<p class="card-text w-100 mb-0 text-primary">Durée :
+							<small class="text-muted">{{ duty.duration }}</small>
+						</p>
+						<p class="card-text w-100 mb-0 text-primary">Lieu :
+							<small class="text-muted">{{ duty.place }}</small>
+						</p>
+						<p class="card-text w-100 mb-0 text-primary">Nombre de grains de sel :
+							<small class="text-muted">{{ duty.price }}</small>
+						</p>
+						<a href="{{ path('duties_to_check') }}" class="btn text-primary float-right">
+							<i class="fas fa-chevron-left"></i>
+							Retour</a>
 					</div>
 				</div>
 			</div>
 			<div id="background_blue"></div>
 		</section>
 	</main>
-{% endblock %}
+
+	<h2>Les commentaires :
+	</h2>
+	<section id="commentaire">
+		{% for key,commentary in duty.voteCommentary %}
+			<div class="comment">
+				<div class="row">
+					<div class="col-3">
+						{{ key }}
+					</div>
+					<div class="col">
+						{{ commentary }}
+					</div>
+				</div>
+				<hr>
+			</div>
+		{% endfor %}
+	</section>
+	<h2>Ajouter un commentaire :</h2>
+
+	{{ form(commentaryForm) }}
+	{% endblock %}
