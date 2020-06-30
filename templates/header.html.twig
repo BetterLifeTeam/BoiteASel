@@ -1,51 +1,68 @@
 {% block header %}
-    <header id="BoiteASel-header">
-        <nav class="navbar navbar-expand-lg">
-            <a class="navbar-brand" href="/">
-                <img src="{{ asset('assets/img/BoiteASel.png') }}" height="50" alt="Logo Boîte à Sel" loading="lazy">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#BoiteASel-nav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="BoiteASel-nav">
-                <ul class="navbar-nav">
-                    {% if app.user %}
-                        <li class="nav-item">
-                            <a class="nav-link active" href="{{ path('duty_search') }}">Accueil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('conversation_index') }}">Messagerie</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdown-account" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Mon espace</a>
-                            <div class="dropdown-menu" aria-labelledby="dropdown-account">
-                                <a class="dropdown-item" href="{{ path('member_show', { 'id' : app.user.id } ) }}"><i class="fas fa-user"></i> Mon profil</a>
-                                <a class="dropdown-item" href="#"><i class="far fa-clipboard"></i> Mes annonces</a>
-                                <a class="dropdown-item" href="{{ path('security_logout') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdown-admin" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Espace administrateur</a>
-                            <div class="dropdown-menu" aria-labelledby="dropdown-admin">
-                                <a class="dropdown-item" href="{{ path('admin_dashboard') }}"><i class="fas fa-chart-bar"></i> Tableau de bord</a>
-                                <a class="dropdown-item" href="{{ path('admin_members_list') }}"><i class="fas fa-user-cog"></i> Gestion des membres</a>
-                                <a class="dropdown-item" href="{{ path('duties_to_check') }}"><i class="fas fa-tasks"></i> Vérification des annonces</a>
-                            </div>
-                        </li>
-                    {% endif %}
-                    {% if not app.user %}
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/">Accueil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('security_login') }}">Connexion</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </nav>
-    </header>
+
+	<header id="BoiteASel-header">
+		<nav class="navbar navbar-expand-lg">
+			<a class="navbar-brand" href="/">
+				<img src="{{ asset('assets/img/BoiteASel.png') }}" height="50" alt="Logo Boîte à Sel" loading="lazy">
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#BoiteASel-nav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon">
+					<i class="fas fa-bars"></i>
+				</span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end" id="BoiteASel-nav">
+				<ul class="navbar-nav">
+					{% if app.user %}
+						<li class="nav-item">
+							<a class="nav-link active" href="{{ path('duty_search') }}">Accueil</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('conversation_index') }}">Messagerie</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown-account" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Mon espace</a>
+							<div class="dropdown-menu" aria-labelledby="dropdown-account">
+								<a class="dropdown-item" href="{{ path('member_show', { 'id' : app.user.id } ) }}">
+									<i class="fas fa-user"></i>
+									Mon profil</a>
+								<a class="dropdown-item" href="{{ path('member_duties', { 'id' : app.user.id } ) }}">
+									<i class="far fa-clipboard"></i>
+									Mes annonces</a>
+								<a class="dropdown-item" href="{{ path('security_logout') }}">
+									<i class="fas fa-sign-out-alt"></i>
+									Déconnexion</a>
+							</div>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown-admin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Espace administrateur</a>
+							<div class="dropdown-menu" aria-labelledby="dropdown-admin">
+								<a class="dropdown-item" href="{{ path('admin_dashboard') }}">
+									<i class="fas fa-chart-bar"></i>
+									Tableau de bord</a>
+								<a class="dropdown-item" href="{{ path('admin_members_list') }}">
+									<i class="fas fa-user-cog"></i>
+									Gestion des membres</a>
+								<a class="dropdown-item" href="{{ path('duties_to_check') }}">
+									<i class="fas fa-tasks"></i>
+									Vérification des annonces</a>
+								<a class="dropdown-item" href="{{ path('dutytypes_to_check') }}">
+									<i class="fas fa-tasks"></i>
+									Validation des types de service</a>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" href="{{ path('notification') }}">Notifications</a>
+						</li>
+					{% else %}
+						<li class="nav-item active">
+							<a class="nav-link" href="{{ path('home') }}">Accueil</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('security_login') }}">Connexion</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
+	</header>
 {% endblock %}

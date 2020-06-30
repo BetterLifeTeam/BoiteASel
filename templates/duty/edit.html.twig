@@ -7,7 +7,7 @@
 
     {{ include('duty/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('duty_index') }}">back to list</a>
+    <a href="{{ path('member_duties', {'id':app.user.id}) }}">Retourner à "Mes Annonces"</a>
 
     {{ include('duty/_delete_form.html.twig') }}
 {% endblock %}

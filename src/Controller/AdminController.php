@@ -7,12 +7,15 @@ use DateTimeZone;
 use App\Entity\Duty;
 
 use App\Entity\Member;
+use App\Entity\Notification;
+use App\Entity\DutyType;
 use App\Form\AdminEditDutyType;
 use App\Form\AdminNewMemberType;
 use App\Form\AdminEditMemberType;
 use App\Repository\DutyRepository;
 use App\Repository\MemberRepository;
 use App\Form\SuperAdminEditMemberType;
+use App\Repository\DutyTypeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,7 +48,6 @@ class AdminController extends AbstractController
         $member = new Member();
         $form = $this->createForm(AdminNewMemberType::class, $member);
         $form->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -106,10 +108,10 @@ class AdminController extends AbstractController
     {
         if (in_array("ROLE_SUPER_ADMIN", $this->getUser()->getRoles())) {
             $form = $this->createForm(SuperAdminEditMemberType::class, $member);
-        } elseif(in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
+        } elseif (in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
             $form = $this->createForm(AdminEditMemberType::class, $member);
         }
-        
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -200,9 +202,9 @@ class AdminController extends AbstractController
         ]);
     }
 
-    private function checkIfMemberAlreadyVoted($entity, $voteFor, DutyRepository $dutyRepository)
+    private function checkIfMemberAlreadyVoted($entity)
     {
-        if ($voteFor == "duty") {
+        // if ($voteFor == "duty") {
             $yesVotes = $entity->getYesVote();
             $noVotes = $entity->getNoVote();
             if (in_array($this->getUser()->getId(), $yesVotes) || in_array($this->getUser()->getId(), $noVotes)) {
@@ -210,9 +212,9 @@ class AdminController extends AbstractController
             } else {
                 return true;
             }
-        } else {
-            return false;
-        }
+        // } else {
+        //     return false;
+        // }
     }
 
     /**
@@ -221,7 +223,7 @@ class AdminController extends AbstractController
     public function voteForDuty(Duty $duty, $id, $vote, DutyRepository $dutyRepository, MemberRepository $memberRepository): Response
     {
 
-        $canVote = $this->checkIfMemberAlreadyVoted($duty, 'duty', $dutyRepository);
+        $canVote = $this->checkIfMemberAlreadyVoted($duty);
         // $this->nice_dump($canVote);
         if ($canVote) {
             if ($vote == 'yes') {
@@ -244,7 +246,6 @@ class AdminController extends AbstractController
                     $duty->setStatus("checked");
                     $checkedAt = new DateTime;
                     $duty->setCheckedAt($checkedAt);
-
                 } else /*Sinon si c'était une annonce mise en retrait */ {
                     // Il faut remettre le statut en place avant la mise en retrait...
                     // Regarder à reculons quelle date est la première avec une valeur
@@ -252,9 +253,9 @@ class AdminController extends AbstractController
                     // Si on était après la validation de l'offerer
                     if ($duty->getOffererValidAt() != null) {
                         $duty->setStatus("offerer validation");
-                    }elseif /* Si on en était après la validation de l'asker */ ($duty->getAskerValidAt() != null) {
+                    } elseif /* Si on en était après la validation de l'asker */ ($duty->getAskerValidAt() != null) {
                         $duty->setStatus("asker validation");
-                    }else /* Sinon on en est au stade checked */ {
+                    } else /* Sinon on en est au stade checked */ {
                         $duty->setStatus("checked");
                     }
                 }
@@ -262,7 +263,6 @@ class AdminController extends AbstractController
                 $duty->setYesVote([]);
                 $duty->setNoVote([]);
                 $duty->setVoteCommentary([]);
-
             }
 
             if ($noPourcent >= 40) {
@@ -275,7 +275,6 @@ class AdminController extends AbstractController
 
 
             $this->getDoctrine()->getManager()->flush();
-
         } else {
             // $this->redirect
         }
@@ -302,14 +301,156 @@ class AdminController extends AbstractController
             'duty' => $duty,
             'form' => $form->createView(),
         ]);
-    }    
+    }
+
+    /**
+     * @Route("/setback/{id}", options={"expose"=true}, name="admin_setback", methods={"GET", "POST"})
+     */
+    public function setback($id){
+
+
+        $dutyRepository = $this->getDoctrine()->getRepository(Duty::class);
+        $entityManager = $this->getDoctrine()->getManager();
+        
+        $duty = $dutyRepository->find($id);
+        
+        $duty->setStatus("setback")
+            ->setSetbackAt(new DateTime());
+        
+        $entityManager->flush();
+
+        $notification = new Notification();
+
+        $notification->setMember($duty->getAsker())
+                    ->setContent("Votre annonce ".$duty->getTitle()." vient d'être mise en retrait par ".$this->getUser()." pour le motif : ".$_POST["motif"])
+                    ->setCreatedAt(new DateTime())
+                    ->setIsRead(false)
+                    ->setOriginMember($this->getUser())
+                    ->setType("warning")
+                    ->setDuty($duty);
+        
+        $entityManager->persist($notification);
+        $entityManager->flush();
+        // return $this->nice_dump($_POST);
+        // echo $_POST["motif"];
+
+        return $this->redirectToRoute("duty_search");
+    }
     
+
+    ######################## PARTIE VERIFICATION DES TYPES DE SERVICES #############################
+
+    /**
+     * @Route("/dutytypes", name="dutytypes_to_check", methods={"GET"})
+     */
+    public function displayDutyTypes(DutyTypeRepository $dutyTypeRepository, MemberRepository $memberRepository): Response
+    {
+
+        $voters = $memberRepository->countAdminAndSupAdmin();
+
+        return $this->render('admin/dutytypes/dutytypes.html.twig', [
+            'duty_types' => $dutyTypeRepository->findBy(
+                [
+                    'status' => '0'
+                ],
+                [
+                    'askedAt' => 'ASC'
+                ]
+            ),
+            'nbVoter' => $voters
+        ]);
+    }
+
+    /**
+     * @Route("/dutytypes/{id}", name="admin_dutytype_show", methods={"GET", "POST"})
+     */
+    public function showDutyType(DutyType $dutytype, Request $request, $id): Response
+    {
+
+        $defaultData = ['commentaire' => 'Entrez votre commentaire'];
+        $form = $this->createFormBuilder($defaultData)
+            ->add('commentaire', TextareaType::class)
+            ->add('Laisser un commentaire', SubmitType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $commentaries = $dutytype->getVoteCommentary();
+            $commentaries[$this->getUser()->__toString()] = $data["commentaire"];
+            // $this->nice_dump($commentaries);
+            $dutytype->setVoteCommentary($commentaries);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('admin_dutytype_show', ["id" => $id]);
+        }
+
+        return $this->render('admin/dutytypes/dutytype_show.html.twig', [
+            'duty_type' => $dutytype,
+            'commentaryForm' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/dutytypes/{id}/{vote}", name="admin_dutytype_vote",requirements={"vote": "yes|no"}, methods={"GET"})
+     */
+    public function voteForDutyType(DutyType $dutytype, $id, $vote, DutyTypeRepository $dutytypeRepository, MemberRepository $memberRepository): Response
+    {
+
+        $canVote = $this->checkIfMemberAlreadyVoted($dutytype);
+        // $this->nice_dump($canVote);
+        if ($canVote) {
+            if ($vote == 'yes') {
+                $yesVotes = $dutytype->getYesVote();
+                $yesVotes[] = $this->getUser()->getId();
+                $dutytype->setYesVote($yesVotes);
+            } else {
+                $noVotes = $dutytype->getNoVote();
+                $noVotes[] = $this->getUser()->getId();
+                $dutytype->setNoVote($noVotes);
+            }
+
+            $yesPourcent = count($dutytype->getYesVote()) * 100 / $memberRepository->countAdminAndSupAdmin();
+            $noPourcent = count($dutytype->getNoVote()) * 100 / $memberRepository->countAdminAndSupAdmin();
+
+            // Si après le vote le pourcentage atteint 40% de oui
+            if ($yesPourcent >= 40) {
+                $dutytype->setStatus(true);
+                $dutytype->setYesVote([]);
+                $dutytype->setNoVote([]);
+                $dutytype->setVoteCommentary([]);
+            }
+            
+            // Si après le vote le pourcentage atteint 40% de non
+            if ($noPourcent >= 40) {
+                $dutytype->setStatus(false);
+                $dutytype->setYesVote([]);
+                $dutytype->setNoVote([]);
+                $dutytype->setVoteCommentary([]);
+            }
+
+
+
+            $this->getDoctrine()->getManager()->flush();
+        } else {
+            // $this->redirect
+        }
+
+
+        return $this->redirectToRoute('dutytypes_to_check');
+    }
+
+
     ######################## PARTIE TABLEAU DE BORD #############################
 
     /**
      * @Route("/dashboard", name="admin_dashboard", methods={"GET"})
      */
-    public function dashboard(MemberRepository $memberRepository){
+    public function dashboard(MemberRepository $memberRepository)
+    {
         return $this->render('admin/dashboard/dashboard.html.twig', [
             'fiveGivers' => $memberRepository->getHelpers(5),
             'fiveAsker' => $memberRepository->getAskers(5),
@@ -321,8 +462,9 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/dashboard/givers", name="admin_dashboard_givers", methods={"GET"})
-    */
-    public function dashboardGivers(MemberRepository $memberRepository){
+     */
+    public function dashboardGivers(MemberRepository $memberRepository)
+    {
         return $this->render('admin/dashboard/dashboard_givers.html.twig', [
             'givers' => $memberRepository->getHelpers(),
         ]);
@@ -330,8 +472,9 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/dashboard/activity", name="admin_dashboard_activity", methods={"GET"})
-    */
-    public function dashboardActuality(MemberRepository $memberRepository){
+     */
+    public function dashboardActuality(MemberRepository $memberRepository)
+    {
         return $this->render('admin/dashboard/dashboard_activity.html.twig', [
             'activities' => $memberRepository->getActualites(),
         ]);
