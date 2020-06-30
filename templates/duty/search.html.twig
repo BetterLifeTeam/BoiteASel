@@ -63,8 +63,8 @@
                                             <h6 class="card-subtitle mb-2 text-muted text-primary">{{ duty.dutyType.title }}</h6>
                                         </div>
                                         <div class="col-4 text-right pl-0">
-                                            <a class="btn btn-primary" href="#"><i class="fas fa-eye"></i></a>
-                                            <a class="btn btn-danger" href="#"><i class="fas fa-hand-paper"></i></a>
+                                            <button class="btn btn-primary seeDuty" title="Voir l'annonce"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-danger setBackDuty" title="Mettre en retrait"><i class="fas fa-hand-paper"></i></button>
                                         </div>
                                     </div>
                                     <p class="card-text text duty_description text-justify">{{ duty.description }}</p>
@@ -87,3 +87,13 @@
         </div>
     </main>
 {% endblock %}
+
+{# {% block scripts %} #}
+
+<script>
+    $(".setbackDuty").click(e, function(){
+        Swal.fire("Hello");
+    });
+</script>
+
+{# {% endblock %} #}
