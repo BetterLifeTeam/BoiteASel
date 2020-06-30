@@ -54,6 +54,16 @@ class DutyType
      */
     private $duties;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Member::class)
+     */
+    private $creator;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $askedAt;
+
     public function __construct()
     {
         $this->duties = new ArrayCollection();
@@ -169,5 +179,29 @@ class DutyType
 
     public function __toString(){
         return $this->title;
+    }
+
+    public function getCreator(): ?Member
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?Member $creator): self
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+    public function getAskedAt(): ?\DateTimeInterface
+    {
+        return $this->askedAt;
+    }
+
+    public function setAskedAt(?\DateTimeInterface $askedAt): self
+    {
+        $this->askedAt = $askedAt;
+
+        return $this;
     }
 }

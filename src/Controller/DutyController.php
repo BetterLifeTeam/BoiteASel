@@ -81,13 +81,13 @@ class DutyController extends AbstractController
         $user = $this->getUser();
         if ($form->isSubmitted() && $form->isValid()) {
             $duty->setCreatedAt(new \DateTime('now'));
-            $duty->setStatus('not_checked');
+            $duty->setStatus('not checked');
             $duty->setAsker($user);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($duty);
             $entityManager->flush();
 
-            return $this->redirectToRoute('duty_index');
+            return $this->redirectToRoute('member_duties');
         }
 
         return $this->render('duty/new.html.twig', [
@@ -131,7 +131,7 @@ class DutyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('duty_index');
+            return $this->redirectToRoute('member_duties', ['id' => $this->getUser()->getId()]);
         }
 
         return $this->render('duty/edit.html.twig', [
@@ -143,6 +143,7 @@ class DutyController extends AbstractController
     /**
      * @Route("/{id}", name="duty_delete", methods={"DELETE"})
      */
+
     public function delete(Request $request, Duty $duty): Response
     {
         if ($this->isCsrfTokenValid('delete'.$duty->getId(), $request->request->get('_token'))) {

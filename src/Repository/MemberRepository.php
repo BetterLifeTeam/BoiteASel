@@ -104,10 +104,11 @@ class MemberRepository extends ServiceEntityRepository
     public function getTypeActivites()
     {
 
-        $sql = 'SELECT dt.id, dt.title, dt.hourly_price, 
-        (select count(d.id) from duty as d where d.duty_type_id = dt.id) as howMany,
-        (select sum(du.price) from duty as du where du.duty_type_id = dt.id) as saltAmount
-        FROM duty_type as dt';        
+        $sql = 'SELECT dt.id, dt.title, dt.hourly_price,
+        (select count(d.id) from duty as d where d.duty_type_id = dt.id and d.status="finished" and d.done_at >= DATE_SUB(curdate(), INTERVAL 1 MONTH)) as howMany,
+        (select sum(du.price) from duty as du where du.duty_type_id = dt.id and du.status="finished" and du.done_at >= DATE_SUB(curdate(), INTERVAL 1 MONTH)) as saltAmount
+        FROM duty_type as dt
+        ORDER BY howMany DESC';
 
         $em = $this->getEntityManager();
         $stmt = $em->getConnection()->prepare($sql);

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DutyType index
+{% endblock %}
+
+{% block body %}
+	<h1>DutyType index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Proposeur</th>
+				<th>Title</th>
+				<th>HourlyPrice</th>
+				<th>NoVote</th>
+				<th>YesVote</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for duty_type in duty_types %}
+				<tr>
+					<td>{{ duty_type.creator }}</td>
+					<td>{{ duty_type.title }}</td>
+					<td>{{ duty_type.hourlyPrice }}</td>
+					<td>{{ duty_type.yesVote|length }}/{{ nbVoter }}
+						<small>({{ (((duty_type.yesVote|length)*100)/ nbVoter)|round(2) }}%)</small>
+					</td>
+					<td>{{ duty_type.noVote|length }}/{{ nbVoter }}
+						<small>({{ (((duty_type.noVote|length)*100)/ nbVoter)|round(2) }}%)</small>
+					</td>
+					<td>
+						<a href="{{ path('admin_dutytype_show', {'id': duty_type.id}) }}">show</a>
+						{% if app.user.id not in duty_type.yesVote and app.user.id not in duty_type.noVote %}
+							<a class="btn btn-success" href="{{ path('admin_dutytype_vote', {'id': duty_type.id, 'vote': 'yes'}) }}">
+								<i class="fas fa-check"></i>
+							</a>
+							<a class="btn btn-danger" href="{{ path('admin_dutytype_vote', {'id': duty_type.id, 'vote': 'no'}) }}">
+								<i class="fas fa-times"></i>
+							</a>
+						{% endif %}
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="8">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	{# <a href="{{ path('duty_type_new') }}">Create new</a> #}
+{% endblock %}
