@@ -1,89 +1,150 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Annonces{% endblock %}
+{% block title %}Annonces
+{% endblock %}
 
 {% block body %}
-    <main role="main" class="container-fluid container-sm" id="duty_page">
-        <div class="row">
-            <section class="col-lg-12 mb-4">
-                {{ form_start(search_form, {'attr': { 'id': 'duty_search_form' } }) }}
-                    <div class="mb-4" id="duty_search">
-                        <h1 class="h1 text text-center mb-4" id="titre">RECHERCHER UNE <span class="text-primary">ANNONCE</span></h1>
-                        <div class="form-group row align-items-center">
-                            <div class="col-lg-9 col-md-12 mb-lg-0 mb-sm-3 mb-3">
-                                {{ form_row(search_form.search, { 'attr': { 'placeholder': 'Rechercher par mots clés ...' } }) }}
-                            </div>
-                            <div class="col-lg-3 col-md-4 col-sm-6 ml-auto mr-auto">
-                                {{ form_row(search_form.Rechercher, {'attr': {'class': 'w-100 btn btn-primary', 'id': 'btn_search' } }) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-4" id="duty_filters">
-                        <div class="row">
-                            <div class="col-xl-9 col-lg-12 mb-xl-0 mb-sm-3 mb-3">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group row">
-                                            <div class="col-xl-2 col-lg-12 pl-xl-0 pr-xl-0">
-                                                <label class="col-form-label text-white w-100 p-1">Type :</label>
-                                            </div>
-                                            <div class="col-xl-10 col-lg-12">
-                                                {{ form_row(search_form.type, {'attr': {'class': 'mb-0' } }) }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group row">
-                                            <div class="col-xl-2 col-lg-12 pl-xl-0 pr-xl-0">
-                                                <label class="col-form-label text-white w-100 p-1">Ordre :</label>
-                                            </div>
-                                            <div class="col-xl-10">
-                                                {{ form_row(search_form.order, {'attr': {'class': 'mb-0' } }) }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6 ml-auto mr-auto">
-                                <a class="btn btn-turquoise w-100" href="{{ path('duty_new') }}">Ajouter une annonce</a>
-                            </div>
-                        </div>
-                    </div>
-                {{ form_end(search_form) }}
-            </section>
-            <section class="col-lg-12">
-                <div class="row">
-                    {% for duty in duties %}
-                        <div class="col-xl-4 col-lg-6 mb-2 p-2">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <h5 class="card-title mb-1 text">{{ duty.title }}</h5>
-                                            <h6 class="card-subtitle mb-2 text-muted text-primary">{{ duty.dutyType.title }}</h6>
-                                        </div>
-                                        <div class="col-4 text-right pl-0">
-                                            <a class="btn btn-primary" href="#"><i class="fas fa-eye"></i></a>
-                                            <a class="btn btn-danger" href="#"><i class="fas fa-hand-paper"></i></a>
-                                        </div>
-                                    </div>
-                                    <p class="card-text text duty_description text-justify">{{ duty.description }}</p>
-                                    <p class="card-text w-100 mb-0 text-right text"><small>{{ duty.asker.name }} {{ duty.asker.firstname }}</small></p>
-                                    <p class="card-text w-100 text-right text"><small class="text-muted">Posté le {{ duty.createdAt ? duty.createdAt|date('d-m-Y') : '' }}</small></p>
-                                    <a href="{{ path('notification_offers_help', {'duty': duty.id, 'asker': duty.asker.id }) }}" class="btn btn-primary"><small>Proposer mes services</small></a>
-                                    <a href="{{ path('new_conversation_index', {'duty': duty.id, 'asker': duty.asker.id }) }}" class="btn btn-primary"><small>Contacter l'auteur</small></a>
-                                </div>
-                            </div>
-                        </div>
-                        {% else %}
-                        <div class="col-12">
-                            <div class="alert alert-danger text-center" role="alert">
-                                Aucune annonce trouvée
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
-        </div>
-    </main>
+	<main role="main" class="container-fluid container-sm" id="duty_page">
+		<div class="row">
+			<section class="col-lg-12 mb-4">
+				{{ form_start(search_form, {'attr': { 'id': 'duty_search_form' } }) }}
+				<div class="mb-4" id="duty_search">
+					<h1 class="h1 text text-center mb-4" id="titre">RECHERCHER UNE
+						<span class="text-primary">ANNONCE</span>
+					</h1>
+					<div class="form-group row align-items-center">
+						<div class="col-lg-9 col-md-12 mb-lg-0 mb-sm-3 mb-3">
+							{{ form_row(search_form.search, { 'attr': { 'placeholder': 'Rechercher par mots clés ...' } }) }}
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 ml-auto mr-auto">
+							{{ form_row(search_form.Rechercher, {'attr': {'class': 'w-100 btn btn-primary', 'id': 'btn_search' } }) }}
+						</div>
+					</div>
+				</div>
+				<div class="mb-4" id="duty_filters">
+					<div class="row">
+						<div class="col-xl-9 col-lg-12 mb-xl-0 mb-sm-3 mb-3">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group row">
+										<div class="col-xl-2 col-lg-12 pl-xl-0 pr-xl-0">
+											<label class="col-form-label text-white w-100 p-1">Type :</label>
+										</div>
+										<div class="col-xl-10 col-lg-12">
+											{{ form_row(search_form.type, {'attr': {'class': 'mb-0' } }) }}
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group row">
+										<div class="col-xl-2 col-lg-12 pl-xl-0 pr-xl-0">
+											<label class="col-form-label text-white w-100 p-1">Ordre :</label>
+										</div>
+										<div class="col-xl-10">
+											{{ form_row(search_form.order, {'attr': {'class': 'mb-0' } }) }}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-6 ml-auto mr-auto">
+							<a class="btn btn-turquoise w-100" href="{{ path('duty_new') }}">Ajouter une annonce</a>
+						</div>
+					</div>
+				</div>
+				{{ form_end(search_form) }}
+			</section>
+			<section class="col-lg-12">
+				<div class="row">
+					{% for duty in duties %}
+						<div class="col-xl-4 col-lg-6 mb-2 p-2">
+							<div class="card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-8">
+											<h5 class="card-title mb-1 text">{{ duty.title }}</h5>
+											<h6 class="card-subtitle mb-2 text-muted text-primary">{{ duty.dutyType.title }}</h6>
+										</div>
+										<div class="col-4 text-right pl-0">
+											<a class="btn btn-primary seeDuty" href="#" title="Voir l'annonce">
+												<i class="fas fa-eye"></i>
+											</a>
+											<button class="btn btn-danger setbackDuty" data-id="{{ duty.id }}" data-asker="{{ duty.asker.firstname }} {{ duty.asker.name }}" title="Mettre en retrait">
+												<i class="fas fa-hand-paper"></i>
+											</button>
+										</div>
+									</div>
+									<p class="card-text text duty_description text-justify">{{ duty.description }}</p>
+									<p class="card-text w-100 mb-0 text-right text">
+										<small>{{ duty.asker.name }}
+											{{ duty.asker.firstname }}</small>
+									</p>
+									<p class="card-text w-100 text-right text">
+										<small class="text-muted">Posté le
+											{{ duty.createdAt ? duty.createdAt|date('d-m-Y') : '' }}</small>
+									</p>
+									<a href="{{ path('notification_offers_help', {'duty': duty.id, 'asker': duty.asker.id }) }}" class="btn btn-primary">
+										<small>Proposer mes services</small>
+									</a>
+									<a href="{{ path('new_conversation_index', {'duty': duty.id, 'asker': duty.asker.id }) }}" class="btn btn-primary">
+										<small>Contacter l'auteur</small>
+									</a>
+								</div>
+							</div>
+						</div>
+					{% else %}
+						<div class="col-12">
+							<div class="alert alert-danger text-center" role="alert">
+								Aucune annonce trouvée
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</section>
+		</div>
+	</main>
+{% endblock %}
+
+{% block ourScripts %}
+	<script>
+		$(".setbackDuty").click(function (e) {
+            
+            var attributes = e["currentTarget"]["attributes"];
+            Swal.fire({
+                title: "Mise en retrait",
+                html: "<p>Vous allez mettre en retrait l'annonce de " + attributes["data-asker"]["value"] + "</p>",
+                input: "textarea",
+                showCloseButton: true,
+                showCancelButton: true,
+                showConfirmButton: true,
+                confirmButtonText: "Mettre en retrait",
+                reverseButtons: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                    return 'You need to write something!'
+                    }
+                },
+                preConfirm: (value)=> {
+                    // console.log(value);
+                    var id = attributes['data-id']['value'];
+                    var route = Routing.generate('admin_setback', {
+                        'id': id
+                    });
+                    // console.log(route);
+                    // window.location = route;
+                    var send = $.ajax({
+                        method: "POST",
+                        url: "http://localhost:8000"+route,
+                        data: {
+                            autofunc: true,
+                            action: "setback",
+                            motif: value
+                        },
+                        dataType: 'html'
+                    })
+                }
+            });
+
+        });
+	</script>
 {% endblock %}
