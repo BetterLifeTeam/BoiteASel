@@ -322,7 +322,7 @@ class AdminController extends AbstractController
         $notification = new Notification();
 
         $notification->setMember($duty->getAsker())
-                    ->setContent("Votre annonce ".$duty->getTitle()." vient d'être mise en retrait pour le motif : ".$_POST["motif"])
+                    ->setContent("Votre annonce ".$duty->getTitle()." vient d'être mise en retrait par ".$this->getUser()." pour le motif : ".$_POST["motif"])
                     ->setCreatedAt(new DateTime())
                     ->setIsRead(false)
                     ->setOriginMember($this->getUser())
