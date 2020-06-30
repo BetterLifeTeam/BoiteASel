@@ -117,11 +117,12 @@
                 showCloseButton: true,
                 showCancelButton: true,
                 showConfirmButton: true,
+                cancelButtonText: "Annuler",
                 confirmButtonText: "Mettre en retrait",
                 reverseButtons: true,
                 inputValidator: (value) => {
                     if (!value) {
-                    return 'You need to write something!'
+                    return 'Vous devez donner un motif!'
                     }
                 },
                 preConfirm: (value)=> {
@@ -134,7 +135,8 @@
                     // window.location = route;
                     var send = $.ajax({
                         method: "POST",
-                        url: "http://localhost:8000"+route,
+                        // url: "http://localhost:8000"+route,
+                        url: route,
                         data: {
                             autofunc: true,
                             action: "setback",
@@ -148,13 +150,3 @@
         });
 	</script>
 {% endblock %}
-
-{# {% block scripts %} #}
-
-<script>
-    $(".setbackDuty").click(e, function(){
-        Swal.fire("Hello");
-    });
-</script>
-
-{# {% endblock %} #}
