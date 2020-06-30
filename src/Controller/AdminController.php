@@ -7,6 +7,7 @@ use DateTimeZone;
 use App\Entity\Duty;
 
 use App\Entity\Member;
+use App\Entity\Notification;
 use App\Entity\DutyType;
 use App\Form\AdminEditDutyType;
 use App\Form\AdminNewMemberType;
@@ -302,6 +303,41 @@ class AdminController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/setback/{id}", options={"expose"=true}, name="admin_setback", methods={"GET", "POST"})
+     */
+    public function setback($id){
+
+
+        $dutyRepository = $this->getDoctrine()->getRepository(Duty::class);
+        $entityManager = $this->getDoctrine()->getManager();
+        
+        $duty = $dutyRepository->find($id);
+        
+        $duty->setStatus("setback")
+            ->setSetbackAt(new DateTime());
+        
+        $entityManager->flush();
+
+        $notification = new Notification();
+
+        $notification->setMember($duty->getAsker())
+                    ->setContent("Votre annonce ".$duty->getTitle()." vient d'être mise en retrait pour le motif : ".$_POST["motif"])
+                    ->setCreatedAt(new DateTime())
+                    ->setIsRead(false)
+                    ->setOriginMember($this->getUser())
+                    ->setType("warning")
+                    ->setDuty($duty);
+        
+        $entityManager->persist($notification);
+        $entityManager->flush();
+        // return $this->nice_dump($_POST);
+        // echo $_POST["motif"];
+
+        return $this->redirectToRoute("duty_search");
+    }
+    
+
     ######################## PARTIE VERIFICATION DES TYPES DE SERVICES #############################
 
     /**
@@ -406,6 +442,7 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('dutytypes_to_check');
     }
+
 
     ######################## PARTIE TABLEAU DE BORD #############################
 
