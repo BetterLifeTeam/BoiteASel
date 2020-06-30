@@ -7,5 +7,13 @@
 
     {{ include('duty/_form.html.twig') }}
 
+    {% if formType != "" %}
+        <div style="background-color: pink;">
+            {{form(formType)}}
+        </div>
+    {% endif %}
+
+    <a href="{{ path('duty_new', { 'type': true } ) }}">Ajouter mon type d'annonce</a>
+
     <a href="{{ path('member_duties', { 'id': app.user.id } ) }}">Retourner à "Mes Annonces"</a>
 {% endblock %}
