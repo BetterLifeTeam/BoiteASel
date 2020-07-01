@@ -16,7 +16,16 @@
                 </div>
                 {{ form_end(form) }}
             </div>
-			<div id="background_blue"></div>
+            <div>
+                {% if formType != "" %}
+                    <div style="background-color: pink;">
+                        {{form(formType)}}
+                    </div>
+                {% endif %}
+
+                <a href="{{ path('duty_new', { 'type': true } ) }}">Ajouter mon type d'annonce</a>
+            </div>
+			<div class="background_blue"></div>
         </div>
     </main>
 {% endblock %}

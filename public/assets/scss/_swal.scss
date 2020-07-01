@@ -1,0 +1,31 @@
+.swal2-modal {
+  background-color: $lightGray !important;
+
+  h2 {
+    color: $gray;
+  }
+
+  p {
+    color: $gray;
+  }
+
+  .swal2-cancel {
+    background-color: $gray !important;
+
+    &:hover {
+      background-color: $accent !important;
+      color: $gray;
+    }
+  }
+
+  .swal2-confirm {
+    background-color: $lightGreen !important;
+    color: $white;
+
+    &:hover {
+      background-color: $success !important;
+      color: $white;
+    }
+  }
+}
+

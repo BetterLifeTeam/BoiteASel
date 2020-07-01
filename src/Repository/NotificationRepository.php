@@ -19,6 +19,15 @@ class NotificationRepository extends ServiceEntityRepository
         parent::__construct($registry, Notification::class);
     }
 
+    public function findNoReadNotification($user){
+        return $this->createQueryBuilder('notification')
+            ->andWhere('notification.member = :value AND notification.isRead = :status')
+            ->setParameters(array('value' => $user, 'status' => 'false'))
+            ->orderBy('notification.createdAt', 'DESC')
+            ->getQuery()
+            ->execute();
+    }
+
     // /**
     //  * @return Notification[] Returns an array of Notification objects
     //  */

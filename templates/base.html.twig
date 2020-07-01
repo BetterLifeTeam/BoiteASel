@@ -3,6 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+
+        <link rel="icon" href="{{ asset('assets/img/favicon.png') }}" />
+
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-table.css') }}">
@@ -30,7 +33,13 @@
             <script src="{{ asset('assets/js/bootstrap-table-fr-FR.js') }}"></script>
             <script src="{{ asset('assets/js/bootstrap.bundle.js') }}"></script>
             <script src="{{ asset('assets/js/bootstrap-table-export.js') }}"></script>
+            <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+            <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
             <script src="{{ asset('build/app.js') }}"></script>
+        {% endblock %}
+
+        {% block ourScripts %}
         {% endblock %}
     </body>
 </html>

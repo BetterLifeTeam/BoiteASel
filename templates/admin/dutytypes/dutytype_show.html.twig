@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DutyType
+{% endblock %}
+
+{% block body %}
+	<h1>DutyType</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Title</th>
+				<td>{{ duty_type.title }}</td>
+			</tr>
+			<tr>
+				<th>Proposeur</th>
+				<td>{{ duty_type.creator }}</td>
+			</tr>
+			<tr>
+				<th>HourlyPrice</th>
+				<td>{{ duty_type.hourlyPrice }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('duty_type_index') }}">back to list</a>
+
+	<a href="{{ path('duty_type_edit', {'id': duty_type.id}) }}">edit</a>
+
+	{# {{ include('duty_type/_delete_form.html.twig') }} #}
+
+
+	<h2>Les commentaires :
+	</h2>
+	<section id="commentaire">
+		{% for key,commentary in duty_type.voteCommentary %}
+			<div class="comment">
+				<div class="row">
+					<div class="col-3">
+						{{ key }}
+					</div>
+					<div class="col">
+						{{ commentary }}
+					</div>
+				</div>
+				<hr>
+			</div>
+		{% endfor %}
+	</section>
+	<h2>Ajouter un commentaire :</h2>
+
+	{{ form(commentaryForm) }}
+    
+    {% endblock %}

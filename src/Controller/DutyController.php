@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Duty;
 use App\Form\DutyType;
+use App\Form\DutyTypeType;
 use App\Form\SearchDutyType;
 use App\Entity\DutyType as DutyT;
 use App\Repository\DutyRepository;
@@ -27,8 +28,7 @@ class DutyController extends AbstractController
             'duties' => $dutyRepository->findAll(),
         ]);
     }
-
-        
+  
     /**
      * @Route("/search", name="duty_search", methods={"GET","POST"})
      */
@@ -59,6 +59,7 @@ class DutyController extends AbstractController
                 $duties = $dutyRepository->findByKeyAndType($search, $order, $type->getId());
             }
         } else {
+            // $duties = $dutyRepository->findAllWithoutSetback();
             $duties = $dutyRepository->findAll();
         } 
         
@@ -70,38 +71,85 @@ class DutyController extends AbstractController
 
     /**
      * @Route("/new", name="duty_new", methods={"GET","POST"})
+     * @Route("/new/{type}", name="duty_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new($type = null, Request $request): Response
     {
         $duty = new Duty();
         $form = $this->createForm(DutyType::class, $duty);
         $form->handleRequest($request);
 
         $user = $this->getUser();
+
+        //User propose to adding new duty type
+        if($type == true){
+//            var_dump("inside the form");
+            $dutyType = new DutyT();
+            $formType = $this->createForm(DutyTypeType::class, $dutyType);
+            $formType->handleRequest($request);
+
+            //Adding form for duty type
+            if ($formType->isSubmitted() && $formType->isValid()) {
+                var_dump("coucou");
+                $dutyType->setAskedAt(new \DateTime('now'));
+                $dutyType->setStatus(false);
+                $dutyType->setCreator($user);
+    
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($dutyType);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('duty_new');
+            }
+            
+            return $this->render('duty/new.html.twig', [
+                'duty' => $duty,
+                'form' => $form->createView(),
+                'formType' => $formType->createView(),
+            ]);
+        }
+
+        // Form to add new duty
         if ($form->isSubmitted() && $form->isValid()) {
             $duty->setCreatedAt(new \DateTime('now'));
-            $duty->setStatus('not_checked');
+            $duty->setStatus('not checked');
             $duty->setAsker($user);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($duty);
             $entityManager->flush();
 
-            return $this->redirectToRoute('duty_index');
+            return $this->redirectToRoute('duty_search');
         }
 
         return $this->render('duty/new.html.twig', [
             'duty' => $duty,
             'form' => $form->createView(),
+            'formType' => '',
         ]);
     }
 
     /**
-     * @Route("/{id}", name="duty_show", methods={"GET"})
+     * @Route("/{id}", name="duty_show", methods={"GET","POST"})
      */
-    public function show(Duty $duty): Response
+    public function show($id, Request $request, Duty $duty): Response
     {
+        $dutyType = new DutyT();
+        $form = $this->createForm(DutyTypeType::class, $dutyType);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $dutyType->setStatus(false);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($dutyType);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('duty_show', array("id" => $id));
+        }
+
         return $this->render('duty/show.html.twig', [
             'duty' => $duty,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -116,7 +164,7 @@ class DutyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('duty_index');
+            return $this->redirectToRoute('member_duties', ['id' => $this->getUser()->getId()]);
         }
 
         return $this->render('duty/edit.html.twig', [
@@ -128,7 +176,6 @@ class DutyController extends AbstractController
     /**
      * @Route("/{id}", name="duty_delete", methods={"DELETE"})
      */
-    /*
     public function delete(Request $request, Duty $duty): Response
     {
         if ($this->isCsrfTokenValid('delete'.$duty->getId(), $request->request->get('_token'))) {
@@ -139,5 +186,4 @@ class DutyController extends AbstractController
 
         return $this->redirectToRoute('duty_index');
     }
-    */
 }

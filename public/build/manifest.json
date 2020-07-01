@@ -1,5 +1,9 @@
 {
   "build/app.css": "/build/app.css",
   "build/app.js": "/build/app.js",
-  "build/runtime.js": "/build/runtime.js"
+  "build/runtime.js": "/build/runtime.js",
+  "build/fonts/Raleway-SemiBold.ttf": "/build/fonts/Raleway-SemiBold.243cec42.ttf",
+  "build/fonts/Raleway-Italic.ttf": "/build/fonts/Raleway-Italic.512aeca0.ttf",
+  "build/fonts/Raleway-Regular.ttf": "/build/fonts/Raleway-Regular.f745b86e.ttf",
+  "build/fonts/OpenSans-SemiBold.ttf": "/build/fonts/OpenSans-SemiBold.a16d8201.ttf"
 }

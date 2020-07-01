@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration des services{% endblock %}
+
+{% block body %}
+	<main role="main" class="container-fluid" id="admin_dutytypes_list">
+		<div class="row">
+			<div class="col-12">
+				<div id="dutytypes_list">
+					<h1 class="h1 text-secondary text-center">LISTE DES TYPES DE SERVICE</h1>
+					<table id="table_dutytypes" class="table table-hover table-striped"
+						   data-pagination="true"
+						   data-toggle="table"
+						   data-search="true"
+						   data-show-search-button="true"
+						   data-page-size="10"
+						   data-page-list="">
+						<thead>
+							<tr>
+								<th class="text-center" data-sortable="true">Proposeur</th>
+								<th class="text-center" data-sortable="true">Titre</th>
+								<th class="text-center" data-sortable="true">Prix</th>
+								<th class="text-center" data-sortable="true">Votes OUI<span style="display:block;font-size:8px;">(votes / votants)</span></th>
+								<th class="text-center" data-sortable="true">Votes NON<span style="display:block;font-size:8px;">(votes / votants)</span></th>
+								<th class="text-center" data-sortable="true">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for duty_type in duty_types %}
+								<tr>
+									<td class="text-center">{{ duty_type.creator }}</td>
+									<td class="text-center">{{ duty_type.title }}</td>
+									<td class="text-center">{{ duty_type.hourlyPrice }}</td>
+									<td class="text-center">
+										{{ duty_type.yesVote|length }}/{{ nbVoter }}
+										<small>({{ (((duty_type.yesVote|length)*100)/ nbVoter)|round(2) }}%)</small>
+									</td>
+									<td class="text-center">
+										{{ duty_type.noVote|length }}/{{ nbVoter }}
+										<small>({{ (((duty_type.noVote|length)*100)/ nbVoter)|round(2) }}%)</small>
+									</td>
+									<td>
+										<a href="{{ path('admin_dutytype_show', {'id': duty_type.id}) }}">show</a>
+										{% if app.user.id not in duty_type.yesVote and app.user.id not in duty_type.noVote %}
+											<a class="btn btn-success" href="{{ path('admin_dutytype_vote', {'id': duty_type.id, 'vote': 'yes'}) }}">
+												<i class="fas fa-check"></i>
+											</a>
+											<a class="btn btn-danger" href="{{ path('admin_dutytype_vote', {'id': duty_type.id, 'vote': 'no'}) }}">
+												<i class="fas fa-times"></i>
+											</a>
+										{% endif %}
+									</td>
+								</tr>
+							{% else %}
+								<tr>
+									<td colspan="9">Aucun résultat trouvé</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</main>
+
+{#	<h1>Services</h1>#}
+
+{#	<table class="table">#}
+{#		<thead>#}
+{#			<tr>#}
+{#				<th>Proposeur</th>#}
+{#				<th>Title</th>#}
+{#				<th>HourlyPrice</th>#}
+{#				<th>NoVote</th>#}
+{#				<th>YesVote</th>#}
+{#				<th>actions</th>#}
+{#			</tr>#}
+{#		</thead>#}
+{#		<tbody>#}
+{#			{% for duty_type in duty_types %}#}
+{#				<tr>#}
+{#					<td>{{ duty_type.creator }}</td>#}
+{#					<td>{{ duty_type.title }}</td>#}
+{#					<td>{{ duty_type.hourlyPrice }}</td>#}
+{#					<td>{{ duty_type.yesVote|length }}/{{ nbVoter }}#}
+{#						<small>({{ (((duty_type.yesVote|length)*100)/ nbVoter)|round(2) }}%)</small>#}
+{#					</td>#}
+{#					<td>{{ duty_type.noVote|length }}/{{ nbVoter }}#}
+{#						<small>({{ (((duty_type.noVote|length)*100)/ nbVoter)|round(2) }}%)</small>#}
+{#					</td>#}
+{#					<td>#}
+{#						<a href="{{ path('admin_dutytype_show', {'id': duty_type.id}) }}">show</a>#}
+{#						{% if app.user.id not in duty_type.yesVote and app.user.id not in duty_type.noVote %}#}
+{#							<a class="btn btn-success" href="{{ path('admin_dutytype_vote', {'id': duty_type.id, 'vote': 'yes'}) }}">#}
+{#								<i class="fas fa-check"></i>#}
+{#							</a>#}
+{#							<a class="btn btn-danger" href="{{ path('admin_dutytype_vote', {'id': duty_type.id, 'vote': 'no'}) }}">#}
+{#								<i class="fas fa-times"></i>#}
+{#							</a>#}
+{#						{% endif %}#}
+{#					</td>#}
+{#				</tr>#}
+{#			{% else %}#}
+{#				<tr>#}
+{#					<td colspan="8">no records found</td>#}
+{#				</tr>#}
+{#			{% endfor %}#}
+{#		</tbody>#}
+{#	</table>#}
+
+{#	#}{# <a href="{{ path('duty_type_new') }}">Create new</a> #}
+{% endblock %}

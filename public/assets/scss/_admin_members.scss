@@ -109,20 +109,16 @@
     padding: 2em;
 
     .form-group {
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
 
       label {
-        margin-bottom: 5px;
+        margin-bottom: 0;
+        padding: 0;
       }
 
-      .btn {
-        background-color: $primary;
-        color: $white;
-        border: $primary;
-
-        &:hover {
-          background-color: $lightBlue;
-        }
+      legend {
+        margin-bottom: 0;
+        padding: 0;
       }
     }
 

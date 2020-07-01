@@ -19,6 +19,15 @@ class DutyTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, DutyType::class);
     }
 
+    public function findValidType(){
+        return $this->createQueryBuilder('duty_type')
+            ->andWhere('duty_type.status = :value')
+            ->setParameter('value', true )
+            ->orderBy('duty_type.title', 'ASC')
+            ->getQuery()
+            ->execute();
+    }
+
     // /**
     //  * @return DutyType[] Returns an array of DutyType objects
     //  */
