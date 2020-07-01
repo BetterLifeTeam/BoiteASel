@@ -66,7 +66,7 @@
 											<h6 class="card-subtitle mb-2 text-muted text-primary">{{ duty.dutyType.title }}</h6>
 										</div>
 										<div class="col-4 text-right pl-0">
-											<a class="btn btn-primary seeDuty" href="#" title="Voir l'annonce">
+											<a class="btn btn-primary seeDuty" href=" {{ path('duty_show', {'id': duty.id}) }} " title="Voir l'annonce">
 												<i class="fas fa-eye"></i>
 											</a>
 											<button class="btn btn-danger setbackDuty" data-id="{{ duty.id }}" data-asker="{{ duty.asker.firstname }} {{ duty.asker.name }}" title="Mettre en retrait">
