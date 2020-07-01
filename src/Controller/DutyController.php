@@ -60,7 +60,7 @@ class DutyController extends AbstractController
             }
         } else {
             // $duties = $dutyRepository->findAllWithoutSetback();
-            $duties = $dutyRepository->findAll();
+            $duties = $dutyRepository->findAllWithoutSetback();
         } 
         
         return $this->render('duty/search.html.twig', [
