@@ -7,8 +7,8 @@ use DateTimeZone;
 use App\Entity\Duty;
 
 use App\Entity\Member;
-use App\Entity\Notification;
 use App\Entity\DutyType;
+use App\Entity\Notification;
 use App\Form\AdminEditDutyType;
 use App\Form\AdminNewMemberType;
 use App\Form\AdminEditMemberType;
@@ -20,9 +20,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -42,9 +47,9 @@ class AdminController extends AbstractController
     /**
      * @Route("/members", name="admin_members_list")
      */
-    public function displayMembers(MemberRepository $memberRepository, Request $request, UserPasswordEncoderInterface $encoder)
+    public function displayMembers(MemberRepository $memberRepository, Request $request, UserPasswordEncoderInterface $encoder, MailerInterface $mailer)
     {
-
+    
         $member = new Member();
         $form = $this->createForm(AdminNewMemberType::class, $member);
         $form->handleRequest($request);
@@ -59,8 +64,8 @@ class AdminController extends AbstractController
             for ($i = 0; $i < 10; $i++) {
                 $password .= $characters[rand(0, $charactersLength - 1)];
             }
-
-            $member->setPassword("password");
+            // $password = "password";
+            $member->setPassword($password);
             $hash = $encoder->encodePassword($member, $member->getPassword());
 
 
@@ -71,6 +76,20 @@ class AdminController extends AbstractController
             $member->setMoney(300);
             $member->setRoles($newRoles);
             $member->setPassword($hash);
+
+            // $transport = new EsmtpTransport();
+            // $mailer = new Mailer($transport);
+
+            $email = (new Email())
+                    ->from('boiteasel@gmail.com')
+                    ->to($member->getEmail())
+                    ->subject("Création de votre compte sur le site BoiteASel")
+                    ->text("Yeah")
+                    ->html("<p>Bienvenue sur le site Boîte à SEL</p>
+                    <p>Nos administrateurs ont prit le soin de vous inscrire !</p>
+                    <p>Connectez-vous avec cette adresse mail et le mot de passe suivant : ".$password." (Nous vous conseillons de changer votre mot de passe après votre première connexion)</p>");
+
+            $mailer->send($email);
 
             /**
              * Ici on enverra un mail au nouveau membre avec ses identifiants en lui conseillant de changer le mot de passe
