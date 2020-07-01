@@ -3,14 +3,22 @@
 namespace App\Form;
 
 use App\Entity\Duty;
+use App\Entity\DutyType as DutyT;
 use Symfony\Component\Form\FormEvent;
+use App\Repository\DutyTypeRepository;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DutyType extends AbstractType
 {
+    public function __construct(DutyTypeRepository $dutyTypeRepository)
+    {
+        $this->dutyTypeRepository = $dutyTypeRepository;
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -18,7 +26,12 @@ class DutyType extends AbstractType
             ->add('description')
             ->add('duration')
             ->add('place')
-            ->add('dutyType')
+            ->add('dutyType', EntityType::class, [
+                'class' => DutyT::class,
+                'choices' => $this->dutyTypeRepository->findValidType(),
+                'choice_label' => 'title',
+                'required' => true,
+            ])
             ->add('price');
 
         // $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
