@@ -26,8 +26,12 @@ class DutyRepository extends ServiceEntityRepository
     public function findByKey($params, $filter)
     {
         return $this->createQueryBuilder('duty')
-            ->andWhere('duty.title LIKE :value OR duty.description LIKE :value OR duty.place LIKE :value AND duty.status != "setback" AND duty.status != "finished"')
+            ->andWhere('duty.title LIKE :value OR duty.description LIKE :value OR duty.place LIKE :value')
             ->setParameter('value', '%' . $params . '%')
+            ->andWhere('duty.status != :status')
+            ->setParameter('status', 'setback')
+            ->andWhere('duty.status != :status')
+            ->setParameter('status', 'finished')
             ->orderBy('duty.createdAt', $filter)
             ->getQuery()
             ->execute();
@@ -36,10 +40,14 @@ class DutyRepository extends ServiceEntityRepository
     public function findByKeyAndType($params, $filter, $type = null)
     {
         return $this->createQueryBuilder('duty')
-            ->andWhere('duty.title LIKE :value OR duty.description LIKE :value OR duty.place LIKE :value AND duty.status != "setback" AND duty.status != "finished"')
+            ->andWhere('duty.title LIKE :value OR duty.description LIKE :value OR duty.place LIKE :value')
             ->setParameter('value', '%' . $params . '%')
             ->andWhere('duty.dutyType = :type')
             ->setParameter('type', $type)
+            ->andWhere('duty.status != :status')
+            ->setParameter('status', 'setback')
+            ->andWhere('duty.status != :status')
+            ->setParameter('status', 'finished')
             ->orderBy('duty.createdAt', $filter)
             ->getQuery()
             ->execute();
@@ -47,16 +55,13 @@ class DutyRepository extends ServiceEntityRepository
 
     public function findAllWithoutSetback()
     {
-
-        $sql = 'SELECT * 
-        FROM duty
-        WHERE `status` != "finished" AND `status` != "setback"
-        ORDER BY done_at DESC';
-
-        $em = $this->getEntityManager();
-        $stmt = $em->getConnection()->prepare($sql);
-        $stmt->execute();
-
-        return $stmt->fetchAll();
+        return $this->createQueryBuilder('duty')
+        ->andWhere('duty.status != :status')
+        ->setParameter('status', 'setback')
+        ->andWhere('duty.status != :status')
+        ->setParameter('status', 'finished')
+        ->orderBy('duty.createdAt', 'DESC')
+        ->getQuery()
+        ->execute();
     }
 }
