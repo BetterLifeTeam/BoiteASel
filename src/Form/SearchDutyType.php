@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\DutyType;
+use App\Repository\DutyTypeRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -13,12 +14,19 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SearchDutyType extends AbstractType
 {
+
+    public function __construct(DutyTypeRepository $dutyTypeRepository)
+    {
+        $this->dutyTypeRepository = $dutyTypeRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('search', TextType::class, ['label' => false], ['required' => false])
             ->add('type', EntityType::class, [
                 'class' => DutyType::class,
+                'choices' => $this->dutyTypeRepository->findValidType(),
                 'choice_label' => 'title',
                 'attr' =>  ['onchange' => 'this.form.submit()'],
                 'required' => false,
