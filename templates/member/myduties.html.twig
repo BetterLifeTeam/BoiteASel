@@ -1,70 +1,114 @@
 {% extends "base.html.twig" %}
 
+{% block title %}Mes annonces{% endblock %}
+
 {% block body %}
-
-	<div>
-        <a href=" {{ path('duty_new') }} ">Ajouter une annonce</a>
-		{% set cpt = 1 %}
-		{% for duty in asAsker %}
-			<h3>Annonce n°
-				{{ cpt }}
-			</h3>
-			<table class="table">
-				<tbody>
-					<tr>
-						<th>Intitulé</th>
-						<td>{{ duty.title }}</td>
-					</tr>
-					<tr>
-						<th>Type d'annonce</th>
-						<td>{{ duty.dutytype }}</td>
-					</tr>
-					<tr>
-						<th>Postée le</th>
-						<td>{{ duty.createdAt | date('d/m/Y') }}</td>
-					</tr>
-					<tr>
-						<th>Offreur</th>
-						<td>{{ duty.offerer ? duty.offerer : "Pas encore d'offreur d'aide" }}</td>
-					</tr>
-					<tr>
-						<th>Statut</th>
-						{% if duty.status == "not checked" %}
-							<td>Non vérifiée par les administrateurs</td>
-						{% elseif duty.status == "checked" %}
-							<td>Vérifiée par les administrateurs le {{ duty.checkedAt | date('d/m/Y') }} </td>
-						{% elseif duty.status == "asker validation" %}
-							<td>Vous avez validé {{ duty.offerer }} le {{ duty.askerValidAt | date('d/m/Y') }}</td>
-						{% elseif duty.status == "offerer validation" %}
-							<td>{{ duty.offerer }} a validé le {{ duty.offererValidAt | date('d/m/Y') }}</td>
-						{% elseif duty.status == "finished" %}
-							<td>Le service a été rendu le {{ duty.doneAt | date('d/m/Y') }}</td>
-						{% else  %}
-							<td>Votre annonce est mise en retrait le {{ duty.setbackAt | date('d/m/Y') }} pour le motif suivant :  </td>
-						{% endif %}
-					</tr>
-					<tr>
-						<th>Durée</th>
-						<td>{{ duty.duration }}h</td>
-					</tr>
-					<tr>
-						<th>Prix</th>
-						<td>{{ duty.price }}</td>
-					</tr>
-                    <tr>
-						<th>Description</th>
-						<td>{{ duty.description }}</td>
-					</tr>
-				</tbody>
-			</table>
-            <a href=" {{ path('duty_edit', {'id':duty.id} ) }} ">Editer</a>
-			{% set cpt = cpt + 1 %}
-		{% else %}
-			<div>
-				<p>no records</p>
+	<main role="main" class="container-fluid" id="my_duties_page">
+		<div class="row">
+			<div class="col-12 mb-3">
+				<h1 class="h1 text-center text-primary mb-4">MES ANNONCES</h1>
+				<a class="btn btn-primary" href=" {{ path('duty_new') }} ">Ajouter une annonce</a>
 			</div>
-		{% endfor %}
+			<div class="col-12">
+				<div class="row">
+					{% for duty in asAsker %}
+						<div class="col-xl-4 col-lg-6 mb-2 p-2">
+							<div class="card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-8">
+											<h5 class="card-title mb-1 text">{{ duty.title }}</h5>
+											<h6 class="card-subtitle mb-2 text-muted text-primary">{{ duty.dutyType.title }}</h6>
+										</div>
+										<div class="col-4 text-right pl-0">
+											<a class="btn btn-primary seeDuty" href=" {{ path('duty_show', {'id': duty.id}) }} " title="Voir l'annonce">
+												<i class="fas fa-eye"></i>
+											</a>
+										</div>
+									</div>
+									<p class="card-text text duty_description text-justify mb-5">{{ duty.description }}</p>
+									<p class="card-text w-100 mb-0 text-right text text-bold">{{ duty.asker.name }} {{ duty.asker.firstname }}</p>
+									<p class="card-text w-100 text-right text">
+										<small class="text-muted">Posté le {{ duty.createdAt ? duty.createdAt|date('d-m-Y') : '' }}</small>
+									</p>
+								</div>
+							</div>
+						</div>
+					{% else %}
+						<div class="col-12">
+							<div class="alert alert-danger text-center" role="alert">
+								Aucune annonce trouvée
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</main>
 
-	</div>
+{#	<div>#}
+{#        <a href=" {{ path('duty_new') }} ">Ajouter une annonce</a>#}
+{#		{% set cpt = 1 %}#}
+{#		{% for duty in asAsker %}#}
+{#			<h3>Annonce n°#}
+{#				{{ cpt }}#}
+{#			</h3>#}
+{#			<table class="table">#}
+{#				<tbody>#}
+{#					<tr>#}
+{#						<th>Intitulé</th>#}
+{#						<td>{{ duty.title }}</td>#}
+{#					</tr>#}
+{#					<tr>#}
+{#						<th>Type d'annonce</th>#}
+{#						<td>{{ duty.dutytype }}</td>#}
+{#					</tr>#}
+{#					<tr>#}
+{#						<th>Postée le</th>#}
+{#						<td>{{ duty.createdAt | date('d/m/Y') }}</td>#}
+{#					</tr>#}
+{#					<tr>#}
+{#						<th>Offreur</th>#}
+{#						<td>{{ duty.offerer ? duty.offerer : "Pas encore d'offreur d'aide" }}</td>#}
+{#					</tr>#}
+{#					<tr>#}
+{#						<th>Statut</th>#}
+{#						{% if duty.status == "not checked" %}#}
+{#							<td>Non vérifiée par les administrateurs</td>#}
+{#						{% elseif duty.status == "checked" %}#}
+{#							<td>Vérifiée par les administrateurs le {{ duty.checkedAt | date('d/m/Y') }} </td>#}
+{#						{% elseif duty.status == "asker validation" %}#}
+{#							<td>Vous avez validé {{ duty.offerer }} le {{ duty.askerValidAt | date('d/m/Y') }}</td>#}
+{#						{% elseif duty.status == "offerer validation" %}#}
+{#							<td>{{ duty.offerer }} a validé le {{ duty.offererValidAt | date('d/m/Y') }}</td>#}
+{#						{% elseif duty.status == "finished" %}#}
+{#							<td>Le service a été rendu le {{ duty.doneAt | date('d/m/Y') }}</td>#}
+{#						{% else  %}#}
+{#							<td>Votre annonce est mise en retrait le {{ duty.setbackAt | date('d/m/Y') }} pour le motif suivant :  </td>#}
+{#						{% endif %}#}
+{#					</tr>#}
+{#					<tr>#}
+{#						<th>Durée</th>#}
+{#						<td>{{ duty.duration }}h</td>#}
+{#					</tr>#}
+{#					<tr>#}
+{#						<th>Prix</th>#}
+{#						<td>{{ duty.price }}</td>#}
+{#					</tr>#}
+{#                    <tr>#}
+{#						<th>Description</th>#}
+{#						<td>{{ duty.description }}</td>#}
+{#					</tr>#}
+{#				</tbody>#}
+{#			</table>#}
+{#            <a href=" {{ path('duty_edit', {'id':duty.id} ) }} ">Editer</a>#}
+{#			{% set cpt = cpt + 1 %}#}
+{#		{% else %}#}
+{#			<div>#}
+{#				<p>no records</p>#}
+{#			</div>#}
+{#		{% endfor %}#}
+
+{#	</div>#}
 
 {% endblock %}
