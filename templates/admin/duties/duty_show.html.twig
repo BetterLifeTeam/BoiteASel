@@ -17,7 +17,7 @@
 								<a class="btn btn-danger" href="#"><i class="fas fa-hand-paper"></i></a>
 							</div>
 						</div>
-						<p class="card-text text duty_description text-justify">{{ duty.description }}</p>
+						<p class="card-text text text-justify">{{ duty.description }}</p>
 						<p class="card-text w-100 mb-0 text-right text"><small>{{ duty.asker.name }} {{ duty.asker.firstname }}</small></p>
 						<p class="card-text w-100 mb-0 text-right text"><small class="text-muted">Posté le {{ duty.createdAt ? duty.createdAt|date('d/m/Y') : '' }}</small></p>
 						<p class="card-text w-100 mb-0 text-primary">Statut modifié le <small class="text-muted">{{ duty.setbackAt ? duty.setbackAt|date('d/m/Y') : '' }}</small></p>

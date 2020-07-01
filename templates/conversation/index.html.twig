@@ -3,57 +3,124 @@
 {% block title %}Conversation index{% endblock %}
 
 {% block body %}
-    <h1>Conversation index</h1>
+    <main role="main" id="conversation_page">
+        <div class="container-md">
+            <div class="row p-2">
+                <section class="col-lg-10 col-md-12" id="conversation_section">
+                    <div class="row h-100">
+                        <div class="col-lg-3 p-0">
+                            <nav class="navbar navbar-expand-lg navbar-light" id="conversation_nav">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse h-100" id="navbarNav">
+                                    <ul class="nav flex-column">
+                                        {% for conversation in conversations %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ path('conversation_msg_index', {'selectedConversation': conversation.id}) }}">
+                                                    {{ app.user == conversation.member1 ? conversation.member2 : conversation.member1 }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Destinataire</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for conversation in conversations %}
-            <tr>
-                <td><a href="{{ path('conversation_msg_index', {'selectedConversation': conversation.id}) }}"> 
-                {# C'est ici que tu peux distingué en front l'utilisateur connectée au destinataire #}
-                 {{ app.user == conversation.member1 ?  
-                    conversation.member2
-                    : 
-                    conversation.member1
-                }}
-                {{ conversation.duty ? conversation.duty.title : '' }}
-                </a></td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                        <div class="col-lg-9">
+                            <div class="row">
+                                {% if selectedConversation != "" %}
+                                    <div class="col-12 p-2 bg-light">
+                                        <h5 class="p-2 mb-0 text-primary">{{ app.user == selectedConversation.member1 ? selectedConversation.member2 : selectedConversation.member1 }}</h5>
+                                    </div>
 
-     <table class="table">
-        <thead>
-            <tr>
-                <th>Message</th>
-                <th>Auteur</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for msg in message %}
-            <tr>
-                <td>{{ msg.content }}</td>
-                <td>{{ msg.sender }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">Aucun Message</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    
-    {% if form != "" %}
-    {{ form(form) }}
-    {% endif %} 
+                                    <div class="col-12">
+                                        <div class="row pt-3 pb-3">
+                                            {% for msg in message %}
+                                                <div class="col-12 mb-1">
+                                                    {% if app.user == msg.sender %}
+                                                        <span class="my_message">{{ msg.content }}</span>
+                                                    {% else %}
+                                                        <span class="other_message">{{ msg.content }}</span>
+                                                    {% endif %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+                                <div class="col-12 p-0" id="input_message">
+                                    {% if form != "" %}
+                                        {{ form_start(form) }}
+                                            <div class="input-group p-2 mb-0 bg-light">
+                                                {{ form_widget(form.content) }}
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-primary"><i class="fab fa-telegram-plane"></i></button>
+                                                </div>
+                                            </div>
+                                        {{ form_end(form) }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div id="background_blue"></div>
+        </div>
+    </main>
+
+{#    <h1>Conversation index</h1>#}
+
+{#    <table class="table">#}
+{#        <thead>#}
+{#            <tr>#}
+{#                <th>Destinataire</th>#}
+{#            </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#        {% for conversation in conversations %}#}
+{#            <tr>#}
+{#                <td><a href="{{ path('conversation_msg_index', {'selectedConversation': conversation.id}) }}">#}
+{#                 C'est ici que tu peux distingué en front l'utilisateur connectée au destinataire#}
+{#                 {{ app.user == conversation.member1 ?#}
+{#                    conversation.member2#}
+{#                    :#}
+{#                    conversation.member1#}
+{#                }}#}
+{#                {{ conversation.duty ? conversation.duty.title : '' }}#}
+{#                </a></td>#}
+{#            </tr>#}
+{#        {% else %}#}
+{#            <tr>#}
+{#                <td colspan="3">no records found</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+
+{#     <table class="table">#}
+{#        <thead>#}
+{#            <tr>#}
+{#                <th>Message</th>#}
+{#                <th>Auteur</th>#}
+{#            </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#        {% for msg in message %}#}
+{#            <tr>#}
+{#                <td>{{ msg.content }}</td>#}
+{#                <td>{{ msg.sender }}</td>#}
+{#            </tr>#}
+{#        {% else %}#}
+{#            <tr>#}
+{#                <td colspan="3">Aucun Message</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+
+{#    {% if form != "" %}#}
+{#    {{ form(form) }}#}
+{#    {% endif %}#}
 {% endblock %}
