@@ -83,7 +83,7 @@ class DutyController extends AbstractController
 
         //User propose to adding new duty type
         if($type == true){
-            var_dump("inside the form");
+//            var_dump("inside the form");
             $dutyType = new DutyT();
             $formType = $this->createForm(DutyTypeType::class, $dutyType);
             $formType->handleRequest($request);

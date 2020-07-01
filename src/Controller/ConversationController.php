@@ -40,6 +40,7 @@ class ConversationController extends AbstractController
             $noForm = $this->createFormBuilder([]);
             return $this->render('conversation/index.html.twig', [
                 'conversations' => $conversations,
+                'selectedConversation' => "",
                 'message' => array(),
                 'form' => "",
             ]);
@@ -48,6 +49,7 @@ class ConversationController extends AbstractController
             $selectedConv = $conversationRepository->findOneBy(['id' => $selectedConversation]);
             $conversation = $selectedConv->getMessages();
         }else{
+            $selectedConv = $conversations[0];
             $selectedConversation = $conversations[0]->getId();
             $conversation = $conversations[0]->getMessages();
         }
@@ -69,12 +71,21 @@ class ConversationController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->render('conversation/index.html.twig', [
-            'conversations' => $conversations,
-            'message' => $conversation,
-            'selectedConversation' => $selectedConversation,
-            'form' => $form->createView(),
-        ]);
+        // if (isset($selectedConv) && $selectedConv) {
+            return $this->render('conversation/index.html.twig', [
+                'conversations' => $conversations,
+                'message' => $conversation,
+                'selectedConversation' => $selectedConv,
+                'form' => $form->createView(),
+            ]);
+        // }
+
+        // return $this->render('conversation/index.html.twig', [
+        //     'conversations' => $conversations,
+        //     'message' => $conversation,
+        //     'selectedConversation' => $selectedConversation,
+        //     'form' => $form->createView(),
+        // ]);
     }
 
     /**
@@ -100,13 +111,16 @@ class ConversationController extends AbstractController
 
         if($conv1 || $conv2){
             if($conv1){
+                $selectedConversation = $conv1;
                 $convMessage = $conv1->getMessages();
             }else{
+                $selectedConversation = $conv2;
                 $convMessage = $conv2->getMessages();
             }
-       }else{
+        }else{
+            $selectedConversation = "";
             $convMessage = null;
-       }
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dutyRepository = $this->getDoctrine()->getRepository(Duty::class);
@@ -152,6 +166,7 @@ class ConversationController extends AbstractController
             'conversations' => $conversations,
             'message' => $convMessage,
             'form' => $form->createView(),
+            'selectedConversation' => $selectedConversation,
         ]);
     }
 

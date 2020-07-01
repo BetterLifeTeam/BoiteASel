@@ -1,3 +1,4 @@
+@import "fonts";
 @import "variables";
 
 * {
@@ -8,7 +9,23 @@
 body {
     height: 100%;
     background-color: $lightGray;
-    font-family: "Open Sans";
+    font-family: "Raleway Regular";
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 /* ---------- CSS BoiteASel Header ---------- */
@@ -17,14 +34,19 @@ body {
 /* ---------- CSS BoiteASel Body ---------- */
 @import "admin_dashboard";
 @import "admin_duties";
+@import "admin_dutytypes";
 @import "admin_members";
 
+@import "conversation";
 @import "duties";
 @import "login";
 @import "my_profile";
+@import "swal";
 
 /* ---------- CSS BoiteASel Footer ---------- */
-
+h1, h2, h3, h4, h5 {
+    font-family: "Open Sans SemiBold";
+}
 
 .text {
     color: $gray;
@@ -46,6 +68,9 @@ body {
 }
 text-white {
     color: $white;
+}
+.text-green {
+    color: $lightGreen;
 }
 
 .text-bold {
@@ -171,6 +196,23 @@ text-white {
         box-shadow: none;
     }
 }
+.btn-green {
+    background-color: $lightGreen;
+    color: $white;
+    border: $lightGreen;
+
+    &:hover {
+        background-color: $green;
+        color: $white;
+    }
+
+    &:focus {
+        background-color: $lightGreen;
+        color: $white;
+        border: $lightGreen;
+        box-shadow: none;
+    }
+}
 
 .alert-danger {
     background-color: rgba(230, 67, 72, 0.4);
@@ -178,12 +220,31 @@ text-white {
     border: 1px solid $danger;
 }
 
-#background_blue {
+.background_blue {
     position: absolute;
     left: 0;
     bottom: 0;
     height: 40%;
     width: 100%;
     background-color: $primary;
+    z-index: -1;
+}
+.background_top_blue {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 50%;
+    width: 100%;
+    background-color: $primary;
+    z-index: -1;
+}
+
+.background_green {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 40%;
+    width: 100%;
+    background-color: $lightGreen;
     z-index: -1;
 }

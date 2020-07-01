@@ -1,19 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Duty{% endblock %}
+{% block title %}Ajout d'une annonce{% endblock %}
 
 {% block body %}
-    <h1>Create new Duty</h1>
+    <main role="main">
+        <div class="container-md" id="duty_add_page">
+            <div class="row p-2">
+                {{ form_start(form, {'attr': { 'id': 'duty_add_form', 'class': 'col-lg-8 col-md-12' } }) }}
+                    <h1 class="text-center text-primary mb-4">AJOUTER UNE ANNONCE</h1>
+                    {{ form_widget(form) }}
 
-    {{ include('duty/_form.html.twig') }}
+                <div class="text-center mt-4">
+                    <a class="btn btn-accent" href="{{ path('duty_index') }}"><i class="fas fa-chevron-left"></i> Retour</a>
+                    <button class="btn btn-primary">{{ button_label|default('Ajouter') }}</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+            <div>
+                {% if formType != "" %}
+                    <div style="background-color: pink;">
+                        {{form(formType)}}
+                    </div>
+                {% endif %}
 
-    {% if formType != "" %}
-        <div style="background-color: pink;">
-            {{form(formType)}}
+                <a href="{{ path('duty_new', { 'type': true } ) }}">Ajouter mon type d'annonce</a>
+            </div>
+			<div class="background_blue"></div>
         </div>
-    {% endif %}
-
-    <a href="{{ path('duty_new', { 'type': true } ) }}">Ajouter mon type d'annonce</a>
-
-    <a href="{{ path('member_duties', { 'id': app.user.id } ) }}">Retourner à "Mes Annonces"</a>
+    </main>
 {% endblock %}

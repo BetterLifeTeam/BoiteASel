@@ -196,7 +196,7 @@ class AdminController extends AbstractController
 
         $defaultData = ['commentaire' => 'Entrez votre commentaire'];
         $form = $this->createFormBuilder($defaultData)
-            ->add('commentaire', TextareaType::class)
+            ->add('commentaire', TextareaType::class, ['label' => false])
             ->add('Laisser un commentaire', SubmitType::class)
             ->getForm();
 

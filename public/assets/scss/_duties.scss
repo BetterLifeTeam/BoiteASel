@@ -36,3 +36,23 @@
     }
   }
 }
+
+#duty_add_page {
+  padding: 2rem 0;
+
+  #duty_add_form {
+    background-color: $white;
+    margin: 2em auto;
+    border-radius: 0.2em;
+    padding: 2em;
+
+    .form-group {
+      margin-bottom: 10px;
+
+      label {
+        margin-bottom: 5px;
+      }
+    }
+
+  }
+}

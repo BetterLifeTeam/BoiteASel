@@ -1,0 +1,65 @@
+#conversation_page {
+  padding: 5rem 0;
+
+  #conversation_section {
+    background-color: $white;
+    margin: 2em auto;
+    border-radius: 0.2em;
+    box-shadow: 1px 1px 12px $gray;
+    height: 500px;
+
+    #conversation_nav {
+      padding: 0;
+      background-color: $white;
+      display: initial;
+      height: 100%;
+
+      .collapse {
+        border-right: 2px solid $primary;
+
+        ul {
+          height: 100%;
+          width: 100%;
+          overflow-y: scroll;
+
+          .nav-item {
+            border-bottom: 1px solid $primary;
+            width: 100%;
+
+            .nav-link {
+              color: $primary;
+              font-size: 14px;
+
+              &:hover {
+                color: $gray;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .my_message {
+      background-color: $primary;
+      max-width: 75%;
+      border-radius: 0.5em 0 0.5em 0.5em;
+      float: right;
+      padding: 1px 1rem;
+      color: $white;
+    }
+
+    .other_message {
+      background-color: $lightBlue;
+      max-width: 75%;
+      border-radius: 0em 0.5em 0.5em 0.5em;
+      padding: 1px 1rem;
+      color: $white;
+    }
+
+    #input_message {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+  }
+}

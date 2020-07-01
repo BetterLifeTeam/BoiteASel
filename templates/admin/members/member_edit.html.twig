@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Member{% endblock %}
+{% block title %}Modification d'un membre{% endblock %}
 
 {% block body %}
     <main role="main" id="admin_member_edit">
@@ -10,7 +10,22 @@
                     <h1 class="h1 text-primary text-center mb-4">MODIFIER UN MEMBRE</h1>
                 </div>
 
-                {{ include('admin/members/_form_member.html.twig', {'button_label': 'Update'}) }}
+                {{ form_start(form, {'attr': { 'id': 'member_edit_form', 'class': 'col-lg-6 col-md-12' } }) }}
+                    <div class="form-group mb-2">
+                        {{ form_label(form.money, 'Grains de sel :') }}
+                        {{ form_widget(form.money) }}
+                    </div>
+
+                    <div class="form-group mb-2">
+                        {{ form_label(form.roles, 'Rôles :') }}
+                        {{ form_widget(form.roles) }}
+                    </div>
+
+                    <div class="form-group text-center mb-0">
+                        <a class="btn btn-accent" href="{{ path('admin_members_list') }}"><i class="fas fa-chevron-left"></i> Retour</a>
+                        <button class="btn btn-primary">{{ button_label|default('Modifier') }}</button>
+                    </div>
+                {{ form_end(form) }}
 
             </div>
             <div id="background_blue"></div>
