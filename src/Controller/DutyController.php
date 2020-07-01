@@ -59,6 +59,7 @@ class DutyController extends AbstractController
                 $duties = $dutyRepository->findByKeyAndType($search, $order, $type->getId());
             }
         } else {
+            // $duties = $dutyRepository->findAllWithoutSetback();
             $duties = $dutyRepository->findAll();
         } 
         

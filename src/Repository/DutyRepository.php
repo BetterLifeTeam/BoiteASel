@@ -23,19 +23,21 @@ class DutyRepository extends ServiceEntityRepository
     //  * @return Duty[] Returns an array of Duty objects
     //  */
 
-    public function findByKey($params, $filter){
+    public function findByKey($params, $filter)
+    {
         return $this->createQueryBuilder('duty')
-            ->andWhere('duty.title LIKE :value OR duty.description LIKE :value OR duty.place LIKE :value')
-            ->setParameter('value', '%'.$params.'%')
+            ->andWhere('duty.title LIKE :value OR duty.description LIKE :value OR duty.place LIKE :value AND duty.status != "setback" AND duty.status != "finished"')
+            ->setParameter('value', '%' . $params . '%')
             ->orderBy('duty.createdAt', $filter)
             ->getQuery()
             ->execute();
     }
 
-    public function findByKeyAndType($params, $filter, $type = null){
+    public function findByKeyAndType($params, $filter, $type = null)
+    {
         return $this->createQueryBuilder('duty')
-            ->andWhere('duty.title LIKE :value OR duty.description LIKE :value OR duty.place LIKE :value')
-            ->setParameter('value', '%'.$params.'%')
+            ->andWhere('duty.title LIKE :value OR duty.description LIKE :value OR duty.place LIKE :value AND duty.status != "setback" AND duty.status != "finished"')
+            ->setParameter('value', '%' . $params . '%')
             ->andWhere('duty.dutyType = :type')
             ->setParameter('type', $type)
             ->orderBy('duty.createdAt', $filter)
@@ -43,4 +45,18 @@ class DutyRepository extends ServiceEntityRepository
             ->execute();
     }
 
+    public function findAllWithoutSetback()
+    {
+
+        $sql = 'SELECT * 
+        FROM duty
+        WHERE `status` != "finished" AND `status` != "setback"
+        ORDER BY done_at DESC';
+
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
 }
