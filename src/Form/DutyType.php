@@ -33,21 +33,6 @@ class DutyType extends AbstractType
                 'required' => true,
             ])
             ->add('price');
-
-        // $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-        //     $duty = $event->getData();
-        //     $form = $event->getForm();
-
-        //     // checks if the Product object is "new"
-        //     // If no data is passed to the form, the data is "null".
-        //     // This should be considered a new "Product"
-        //     if ($duty->getDutyType() && $duty->getDuration()) {
-        //         echo $duty->getDutyType()->getHourlyPrice();
-        //         $form->add('price', TextType::class, [
-        //             'data' => $duty->getDutyType()->getHourlyPrice() * $duty->getDuration()
-        //         ]);
-        //     }
-        // });
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -117,7 +117,7 @@ class NotificationController extends AbstractController
         $dutySelected = $dutyRepository->findOneBy(['id' => $duty]);
 
         $dutySelected->setAskerValidAt(new \DateTime('now'));
-        $dutySelected->setStatus('asker_accept');
+        $dutySelected->setStatus('asker_validation');
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($dutySelected);
@@ -142,7 +142,7 @@ class NotificationController extends AbstractController
     
         $dutySelected->setOffererValidAt(new \DateTime('now'));
         $dutySelected->setOfferer($user);
-        $dutySelected->setStatus('Valid');
+        $dutySelected->setStatus('offerer_validation');
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($dutySelected);
@@ -162,18 +162,17 @@ class NotificationController extends AbstractController
     {
         // GAIN EN JEU
         $dutySelected = $dutyRepository->findOneBy(['id' => $duty]);
+        $dutySelected->setStatus('finished');
         $gain = $dutySelected->getPrice();
 
         // RECUPERATION DU ASKER
         $user = $this->getUser();
         $askerMoney = $user->getMoney();
-        var_dump("asker money".$askerMoney);
         $user->setMoney($askerMoney - $gain);
 
         // RECUPERATION DU OFFER
         $offerSelected = $memberRepository->findOneBy(['id' => $offer]);
         $offerMoney = $offerSelected->getMoney();
-        var_dump("offer money".$offerMoney);
         $offerSelected->setMoney($offerMoney + $gain);
 
         //Lecture de la notif

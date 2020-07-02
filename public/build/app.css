@@ -2,23 +2,23 @@
 /* ---------- Intégration typographie Raleway ---------- */
 @font-face {
   font-family: "Raleway Regular";
-  src: url(/build/fonts/Raleway-Regular.f745b86e.ttf);
+  src: url(./fonts/Raleway-Regular.f745b86e.ttf);
 }
 
 @font-face {
   font-family: "Raleway Italic";
-  src: url(/build/fonts/Raleway-Italic.512aeca0.ttf);
+  src: url(./fonts/Raleway-Italic.512aeca0.ttf);
 }
 
 @font-face {
   font-family: "Raleway SemiBold";
-  src: url(/build/fonts/Raleway-SemiBold.243cec42.ttf);
+  src: url(./fonts/Raleway-SemiBold.243cec42.ttf);
 }
 
 /* ---------- Intégration typographie Open Sans ---------- */
 @font-face {
   font-family: "Open Sans SemiBold";
-  src: url(/build/fonts/OpenSans-SemiBold.a16d8201.ttf);
+  src: url(./fonts/OpenSans-SemiBold.a16d8201.ttf);
 }
 
 * {
