@@ -29,7 +29,6 @@ class DutyType extends AbstractType
             ->add('dutyType', EntityType::class, [
                 'class' => DutyT::class,
                 'choices' => $this->dutyTypeRepository->findValidType(),
-                'choice_label' => 'title',
                 'required' => true,
             ])
             ->add('price');

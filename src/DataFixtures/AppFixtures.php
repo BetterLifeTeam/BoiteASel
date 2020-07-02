@@ -44,12 +44,11 @@ class AppFixtures extends Fixture
                 $memberRoles = array("ROLE_MEMBER");
             }
 
-
             $member
                 ->setName($faker->lastName())
                 ->setFirstname($faker->firstName())
                 ->setRoles($memberRoles)
-                ->setEmail($faker->safeEmail())
+                ->setEmail($member->getFirstname().".".$member->getName()."@".$faker->freeEmailDomain())
                 ->setPassword($this->encoder->encodePassword($member, "password"))
                 ->setMoney($faker->numberBetween(-1000, 2500))
                 ->setAddress($faker->address());
@@ -57,12 +56,16 @@ class AppFixtures extends Fixture
             $manager->persist($member);
         }
 
+        $types = array('Cours à domicile', 'Ménage', 'Déménagement', 'Garde d\'animaux', 'Garde d\'enfants', 'Soutien scolaire',
+        'Couture', 'Proderie', 'Coaching sportif', 'Coaching personnel', 'Mécanicien', 'Bricolage', 'Jardinnage', 'Covoiturage',
+        'Aide à la personne', 'Dépannage informatique', 'Cuisine', 'Evenement', 'Livraison de courses', 'Personnal Shopper');
+
         // On génère 20 types de services
         for ($i = 0; $i < 20; $i++) {
             $dutyType = new DutyType();
 
             $dutyType
-                ->setTitle($faker->sentence(3))
+                ->setTitle($types[$i])
                 ->setHourlyPrice($faker->numberBetween(100, 300))
                 ->setStatus("actif");
 
@@ -149,10 +152,10 @@ class AppFixtures extends Fixture
                     ->setStatus("finished");
             } elseif ($duty->getOffererValidAt()) {
                 $duty
-                    ->setStatus("offerer validation");
+                    ->setStatus("offerer_validation");
             } elseif ($duty->getAskerValidAt()) {
                 $duty
-                    ->setStatus("asker validation");
+                    ->setStatus("asker_validation");
             } elseif ($duty->getCheckedAt()) {
                 $duty
                     ->setStatus("checked");
@@ -233,14 +236,12 @@ class AppFixtures extends Fixture
 
             }
 
-
             $manager->persist($conversation);
 
         }
 
-        $types = array("Proposition","Warning","Vérification","Divers");
-        // On génère 200 notifications
-        for ($i=0; $i < 200; $i++) { 
+        // On génère 150 notifications
+        for ($i=0; $i < 150; $i++) { 
             $notification = new Notification();
 
             $notification
@@ -248,7 +249,7 @@ class AppFixtures extends Fixture
                 ->setContent($faker->sentence())
                 ->setCreatedAt($faker->dateTimeBetween("-1 year"))
                 ->setIsRead($faker->boolean(60))
-                ->setType($types[rand(0, count($types)-1)]);
+                ->setType("divers");
 
             $manager->persist($notification);
         }
@@ -256,62 +257,3 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 }
-
-/****** Sélection des 5 membres les plus aidants *******/
-/*
-SELECT m.name, m.firstname, m.id, 
-(SELECT SUM(d.price) FROM duty as d WHERE offerer_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)) as higher, 
-(SELECT MAX(du.done_at) FROM duty as du WHERE du.offerer_id=m.id) as last_duty
-FROM member as m
-ORDER BY higher DESC
-LIMIT 5
-*/
-
-/****** Sélection des 5 membres les plus aidés *******/
-/*
-SELECT m.name, m.firstname, m.id, 
-(SELECT SUM(d.price) FROM duty as d WHERE asker_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)) as higher, 
-(SELECT MAX(du.done_at) FROM duty as du WHERE du.asker_id=m.id) as last_duty
-FROM member as m  
-ORDER BY `higher`  DESC
-LIMIT 5
-*/
-
-/****** Sélection des 20 derniers services rendus *******/
-/*
-SELECT d.id, concat(askM.firstname, ' ', askM.name) as asker, concat(offM.firstname, ' ', offM.name) as offerer, dt.title as type, d.created_at, d.done_at, d.price
-FROM duty as d
-LEFT JOIN member as askM on d.asker_id=askM.id
-LEFT JOIN member as offM on d.offerer_id=offM.id
-LEFT JOIN duty_type as dt on d.duty_type_id=dt.id
-WHERE d.status = "finished"
-ORDER BY d.done_at DESC
-LIMIT 20
-*/
-
-/****** Sélection des types d'activités *******/
-/*
-SELECT dt.id, dt.title, dt.hourly_price, 
-(select count(d.id) from duty as d where d.duty_type_id = dt.id) as howMany,
-(select sum(du.price) from duty as du where du.duty_type_id = dt.id) as saltAmount
-FROM duty_type as dt
-*/
-
-/****** Sélection des volumes d'échange *******/
-// /!\ Il faudra ici faire une boucle et les date de début et de fin de semaine seront données à chaque tour de boucle //
-/*
-        ## Version exemple avec des dates données ##
-SELECT
-(select sum(d1.price) from duty as d1 where d1.status = "finished" and d1.done_at between "2020-04-18 17:08:48" AND "2020-05-01 03:04:09") as saltAmount,
-(select count(d2.id) from duty as d2 where d2.status = "finished" and d2.done_at between "2020-04-18 17:08:48" AND "2020-05-01 03:04:09") as dutiesAmount
-FROM duty as d
-LIMIT 1
-
-        ## Version qu'il faudra intégrer ##
-SELECT
-(select sum(d1.price) from duty as d1 where d1.status = "finished" and d1.done_at between :weekStart AND :weekEnd) as saltAmount,
-(select count(d2.id) from duty as d2 where d2.status = "finished" and d2.done_at between :weekStart AND :weekEnd) as dutiesAmount
-FROM duty as d
-LIMIT 1
-
-*/

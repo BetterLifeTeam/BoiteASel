@@ -19,16 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class DutyController extends AbstractController
 {    
-    /**
-     * @Route("/", name="duty_index", methods={"GET"})
-     */
-    public function index(DutyRepository $dutyRepository): Response
-    {
-        return $this->render('duty/index.html.twig', [
-            'duties' => $dutyRepository->findAll(),
-        ]);
-    }
-  
+    // Permet l'affichage et la recherche d'une annonce
     /**
      * @Route("/search", name="duty_search", methods={"GET","POST"})
      */
@@ -69,6 +60,7 @@ class DutyController extends AbstractController
         ]);
     }
 
+    // Permet la création d'un nouvelle annonce
     /**
      * @Route("/new", name="duty_new", methods={"GET","POST"})
      * @Route("/new/{type}", name="duty_new", methods={"GET","POST"})
@@ -81,9 +73,8 @@ class DutyController extends AbstractController
 
         $user = $this->getUser();
 
-        //User propose to adding new duty type
+        // Utilisateur ajout d'un type
         if($type == true){
-//            var_dump("inside the form");
             $dutyType = new DutyT();
             $formType = $this->createForm(DutyTypeType::class, $dutyType);
             $formType->handleRequest($request);
@@ -129,6 +120,7 @@ class DutyController extends AbstractController
         ]);
     }
 
+    // Voir les détails d'une annonce
     /**
      * @Route("/{id}", name="duty_show", methods={"GET","POST"})
      */
@@ -153,6 +145,7 @@ class DutyController extends AbstractController
         ]);
     }
 
+    // Permet la modification d'une annonce
     /**
      * @Route("/{id}/edit", name="duty_edit", methods={"GET","POST"})
      */
@@ -173,6 +166,7 @@ class DutyController extends AbstractController
         ]);
     }
 
+    // Permet la suppréssion d'une annonce
     /**
      * @Route("/{id}", name="duty_delete", methods={"DELETE"})
      */

@@ -21,6 +21,7 @@ security:
             form_login: 
                 login_path: security_login
                 check_path: security_login
+                default_target_path: duty_search
 
             logout:
                 path: security_logout
@@ -36,8 +37,4 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/duty, roles: ROLE_MEMBER }
-        - { path: ^/member, roles: ROLE_MEMBER }
-        - { path: ^/conversation, roles: ROLE_MEMBER }
-        - { path: ^/notification, roles: ROLE_MEMBER }
 
