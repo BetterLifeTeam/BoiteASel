@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class NotificationController extends AbstractController
 {
+    // Affichage de tous les notifications du membre
     /**
      * @Route("/notification", name="notification")
      */
@@ -28,7 +29,7 @@ class NotificationController extends AbstractController
         ]);
     }
 
-
+    // Supprimer une conversation qui a été lu
     /**
      * @Route("/notification/read/{id}", name="notification_reading")
     */
@@ -40,16 +41,15 @@ class NotificationController extends AbstractController
         return $this->redirectToRoute('notification');
     }
 
-
+    // Passer une notification en lu, suite à une action
     public function readNotif($id){
-        var_dump("notification");
-        var_dump($id);
         $notificationRepository = $this->getDoctrine()->getRepository(Notification::class);
         $selectedNotif = $notificationRepository->findOneBy(['id' => $id]);
         $selectedNotif->setIsRead(true);
         $this->getDoctrine()->getManager()->flush();
     }
 
+    // Création d'une nouvelle notification, suite à une action
     public function addNotif($receiver, $type = "divers", $content = null, $duty = null, $origin = null){
         $user = $this->getUser();
         $dutyRepository = $this->getDoctrine()->getRepository(Duty::class);
@@ -58,7 +58,7 @@ class NotificationController extends AbstractController
         switch ($type) {
             case 'proposition':
                 $dutySelected = $dutyRepository->findOneBy(['id' => $duty]);
-                $content = $user->getName(). "Vous propose de l'aide concernant votre offre ".$dutySelected->getTitle();
+                $content = $user->getName(). ", vous propose de l'aide concernant votre offre ".$dutySelected->getTitle();
                 break;
             case 'validation':
                 $dutySelected = $dutyRepository->findOneBy(['id' => $duty]);
@@ -95,7 +95,7 @@ class NotificationController extends AbstractController
         $entityManager->flush();
     }
     
-    
+    // Notification générer lorsqu'un membre propose sont aide
     /**
      * @Route("/notification/help/{asker}-{duty}", name="notification_offers_help")
     */
@@ -108,6 +108,7 @@ class NotificationController extends AbstractController
         return $this->redirectToRoute('notification');
     }
 
+    // Notification générer lorsqu'un demandeur accepte une proposition d'aide
     /**
      * @Route("/notification/accept/{id}-{offer}-{duty}", name="notification_accept_offers")
     */
@@ -131,6 +132,7 @@ class NotificationController extends AbstractController
         return $this->redirectToRoute('notification');
     }
 
+    // Notification générer pour confirmer à l'utilisateur la proposition d'aide
     /**
      * @Route("/notification/confirm/{id}-{asker}-{duty}", name="notification_confirm")
     */
@@ -155,6 +157,7 @@ class NotificationController extends AbstractController
         return $this->redirectToRoute('notification');
     }
 
+    // Notification générer pour confirmer que le service a été rendu
     /**
      * @Route("/notification/done/{id}-{offer}-{duty}", name="notification_done")
     */
@@ -163,6 +166,7 @@ class NotificationController extends AbstractController
         // GAIN EN JEU
         $dutySelected = $dutyRepository->findOneBy(['id' => $duty]);
         $dutySelected->setStatus('finished');
+        $dutySelected->setDoneAt(new \DateTime('now'));
         $gain = $dutySelected->getPrice();
 
         // RECUPERATION DU ASKER
@@ -178,7 +182,6 @@ class NotificationController extends AbstractController
         //Lecture de la notif
         $this->readNotif($id);
 
-        // ECHANGE DE GRAIN DE SEL
         return $this->redirectToRoute('notification');
     }
 

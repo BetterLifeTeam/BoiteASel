@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class ConversationController extends AbstractController
 {
+    // Affichage des différentes conversations du membre connectée
     /**
      * @Route("/", name="conversation_index", methods={"GET","POST"})
      * @Route("/{selectedConversation}", name="conversation_msg_index", methods={"GET","POST"})
@@ -38,10 +39,13 @@ class ConversationController extends AbstractController
                 'form' => "",
             ]);
         }
+
         if($selectedConversation){
+            // Si une conversation a été selectionnée
             $selectedConv = $conversationRepository->findOneBy(['id' => $selectedConversation]);
             $conversation = $selectedConv->getMessages();
         }else{
+            // Si aucune conversation a été selectionnée, on affiche la plus récente
             $selectedConv = $conversations[0];
             $selectedConversation = $conversations[0]->getId();
             $conversation = $conversations[0]->getMessages();
@@ -51,6 +55,7 @@ class ConversationController extends AbstractController
         $form = $this->createForm(MessageType::class, $message);
         $form->handleRequest($request);
 
+        // Envoie d'un nouveau message
         if ($form->isSubmitted() && $form->isValid()) {
             $message->setCreatedAt(new \DateTime('now'));
             $message->setSender($user);
@@ -64,23 +69,15 @@ class ConversationController extends AbstractController
             $entityManager->flush();
         }
 
-        // if (isset($selectedConv) && $selectedConv) {
-            return $this->render('conversation/index.html.twig', [
-                'conversations' => $conversations,
-                'message' => $conversation,
-                'selectedConversation' => $selectedConv,
-                'form' => $form->createView(),
-            ]);
-        // }
-
-        // return $this->render('conversation/index.html.twig', [
-        //     'conversations' => $conversations,
-        //     'message' => $conversation,
-        //     'selectedConversation' => $selectedConversation,
-        //     'form' => $form->createView(),
-        // ]);
+        return $this->render('conversation/index.html.twig', [
+            'conversations' => $conversations,
+            'message' => $conversation,
+            'selectedConversation' => $selectedConv,
+            'form' => $form->createView(),
+        ]);
     }
 
+    // Création d'une nouvelle conversation entre 2 membres
     /**
      * @Route("/newconv/{duty}-{asker}", name="new_conversation_index", methods={"GET","POST"})
      */
@@ -161,73 +158,5 @@ class ConversationController extends AbstractController
             'form' => $form->createView(),
             'selectedConversation' => $selectedConversation,
         ]);
-    }
-
-    /**
-     * @Route("/new", name="conversation_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $conversation = new Conversation();
-        $form = $this->createForm(ConversationType::class, $conversation);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $conversation->setCreatedAt(new \DateTime('now'));
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($conversation);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('conversation_index');
-        }
-
-        return $this->render('conversation/new.html.twig', [
-            'conversation' => $conversation,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="conversation_show", methods={"GET"})
-     */
-    public function show(Conversation $conversation): Response
-    {
-        return $this->render('conversation/show.html.twig', [
-            'conversation' => $conversation,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="conversation_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Conversation $conversation): Response
-    {
-        $form = $this->createForm(ConversationType::class, $conversation);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('conversation_index');
-        }
-
-        return $this->render('conversation/edit.html.twig', [
-            'conversation' => $conversation,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="conversation_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Conversation $conversation): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$conversation->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($conversation);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('conversation_index');
     }
 }

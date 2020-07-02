@@ -25,9 +25,6 @@ class MemberRepository extends ServiceEntityRepository
 
     public function countAdminAndSupAdmin()
     {
-
-        // $entityManager = $this->getEntityManager();
-
         $qb = $this->createQueryBuilder('m')
             ->select('count(m)')
             ->where('m.roles LIKE :admin')
@@ -55,13 +52,10 @@ class MemberRepository extends ServiceEntityRepository
         $stmt->execute();
 
         return $stmt->fetchAll();
-        // return $sql;
-
     }
 
     public function getAskers()
     {
-
         $sql = 'SELECT m.firstname, m.name, m.id, 
         (SELECT SUM(d.price) FROM duty as d WHERE asker_id=m.id AND d.status = "finished" AND d.done_at >= DATE_SUB(curdate(), INTERVAL 2 WEEK)) as `lower`, 
         (SELECT MAX(du.done_at) FROM duty as du WHERE du.asker_id=m.id) as last_duty
@@ -74,12 +68,10 @@ class MemberRepository extends ServiceEntityRepository
         $stmt->execute();
 
         return $stmt->fetchAll();
-
     }
 
     public function getActualites($limit = null)
     {
-
         $sql = 'SELECT d.id, askM.firstname as askerFirstName, askM.name as askerName, offM.firstname as offererFirstName, offM.name as offererName, dt.title as type, d.created_at, d.done_at, d.price
         FROM duty as d
         LEFT JOIN member as askM on d.asker_id=askM.id
@@ -90,20 +82,17 @@ class MemberRepository extends ServiceEntityRepository
 
         if ($limit != null) {
             $sql .= " LIMIT ".$limit;
-        }
-        
+        }        
 
         $em = $this->getEntityManager();
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
 
         return $stmt->fetchAll();
-
     }
 
     public function getSlider($limit = null)
     {
-
         $sql = 'SELECT d.*, askM.firstname as askerFirstName, askM.name as askerName, dt.title as type
         FROM duty as d
         LEFT JOIN member as askM on d.asker_id=askM.id
@@ -115,18 +104,15 @@ class MemberRepository extends ServiceEntityRepository
             $sql .= " LIMIT ".$limit;
         }
 
-
         $em = $this->getEntityManager();
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
 
         return $stmt->fetchAll();
-
     }
 
     public function getTypeActivites()
     {
-
         $sql = 'SELECT dt.id, dt.title, dt.hourly_price,
         (select count(d.id) from duty as d where d.duty_type_id = dt.id and d.status="finished" and d.done_at >= DATE_SUB(curdate(), INTERVAL 1 MONTH)) as howMany,
         (select sum(du.price) from duty as du where du.duty_type_id = dt.id and du.status="finished" and du.done_at >= DATE_SUB(curdate(), INTERVAL 1 MONTH)) as saltAmount
@@ -138,7 +124,6 @@ class MemberRepository extends ServiceEntityRepository
         $stmt->execute();
 
         return $stmt->fetchAll();
-
     }
 
     public function getVolumesEchanges()
@@ -184,37 +169,5 @@ class MemberRepository extends ServiceEntityRepository
         $toReturn[array_key_last($toReturn)]["weekEnd"] = date("d/m/Y");
 
         return $toReturn;
-
     }
-
-
-    
-    // /**
-    //  * @return Member[] Returns an array of Member objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Member
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
