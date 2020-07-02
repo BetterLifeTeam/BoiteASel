@@ -39,27 +39,39 @@
       }
     }
 
-    .my_message {
-      background-color: $primary;
-      max-width: 75%;
-      border-radius: 0.5em 0 0.5em 0.5em;
-      float: right;
-      padding: 1px 1rem;
-      color: $white;
-    }
+    #conversation_zone {
+      background-color: $white;
+      height: 445px;
 
-    .other_message {
-      background-color: $lightBlue;
-      max-width: 75%;
-      border-radius: 0em 0.5em 0.5em 0.5em;
-      padding: 1px 1rem;
-      color: $white;
-    }
+      #conversation_content {
+        height: 375px;
+        width: 100%;
+        overflow-y: scroll;
 
-    #input_message {
-      position: absolute;
-      bottom: 0;
-      left: 0;
+        .my_message {
+          background-color: $primary;
+          max-width: 75%;
+          border-radius: 0.5em 0 0.5em 0.5em;
+          float: right;
+          padding: 0.5rem 1rem;
+          color: $white;
+        }
+
+        .other_message {
+          background-color: $lightBlue;
+          max-width: 75%;
+          border-radius: 0em 0.5em 0.5em 0.5em;
+          padding: 0.5rem 1rem;
+          color: $white;
+        }
+
+        #input_message {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 55px;
+        }
+      }
     }
   }
 }
