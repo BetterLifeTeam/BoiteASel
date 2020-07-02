@@ -34,6 +34,17 @@ class MemberRepository extends ServiceEntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    public function getAdminAndSupAdmin()
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('m.id')
+            ->where('m.roles LIKE :admin')
+            ->orWhere('m.roles LIKE :supadmin')
+            ->setParameters(array('admin' => '%ROLE_ADMIN%', 'supadmin' => '%ROLE_SUPER_ADMIN%'));
+
+        return $qb->getQuery()->getScalarResult();
+    }
+
     public function getHelpers($limit = null)
     {
 
