@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\DutyType;
+use App\Entity\Notification;
 use App\Form\DutyTypeType;
 use App\Repository\DutyTypeRepository;
+use App\Repository\MemberRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +30,7 @@ class DutyTypeController extends AbstractController
     /**
      * @Route("/new", options={"expose"=true}, name="duty_type_new", methods={"GET","POST"})
      */
-    public function new(Request $request)
+    public function new(Request $request, MemberRepository $memberRepository)
     {
 
         $em = $this->getDoctrine()->getManager();
@@ -42,7 +44,26 @@ class DutyTypeController extends AbstractController
                 ->setAskedAt(new \DateTime());
         
         $em->persist($dutyType);
+        
+        $admins = $memberRepository->getAdminAndSupAdmin();
+
+
+        foreach ($admins as $admin) {
+            $notif = new Notification();
+
+            $notif->setMember($memberRepository->find($admin["id"]))
+                ->setContent("Il y a un nouveau type d'annonce à valider")
+                ->setCreatedAt(new \DateTime())
+                ->setIsRead(false)
+                ->setOriginMember($this->getUser())
+                ->setType("verification");
+
+            $em->persist($notif);
+
+        }
+        
         $em->flush();
+
 
         return $this->redirectToRoute("duty_new");
     }

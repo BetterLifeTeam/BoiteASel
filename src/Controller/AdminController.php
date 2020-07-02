@@ -304,7 +304,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/setback/{id}", options={"expose"=true}, name="admin_setback", methods={"GET", "POST"})
      */
-    public function setback($id){
+    public function setback($id, MemberRepository $memberRepository){
         $dutyRepository = $this->getDoctrine()->getRepository(Duty::class);
         $entityManager = $this->getDoctrine()->getManager();
         
@@ -326,6 +326,24 @@ class AdminController extends AbstractController
                     ->setDuty($duty);
         
         $entityManager->persist($notification);
+
+        $admins = $memberRepository->getAdminAndSupAdmin();
+
+
+        foreach ($admins as $admin) {
+            $notif = new Notification();
+
+            $notif->setMember($memberRepository->find($admin["id"]))
+                ->setContent("Une annonce a été mise en retrait !")
+                ->setCreatedAt(new \DateTime())
+                ->setIsRead(false)
+                ->setOriginMember($this->getUser())
+                ->setType("verification");
+
+            $entityManager->persist($notif);
+
+        }
+
         $entityManager->flush();
 
         return $this->redirectToRoute("duty_search");
