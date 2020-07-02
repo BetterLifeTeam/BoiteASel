@@ -1,0 +1,31 @@
+.badge {
+  padding: 0.25rem 1rem;
+}
+.badge-primary {
+  background-color: $primary;
+  color: $white;
+}
+.badge-secondary {
+  background-color: $secondary;
+  color: $white;
+}
+.badge-accent {
+  background-color: $accent;
+  color: $white;
+}
+.badge-success {
+  background-color: $success;
+  color: $white;
+}
+.badge-danger {
+  background-color: $danger;
+  color: $white;
+}
+.badge-green {
+  background-color: $lightGreen;
+  color: $white;
+}
+.badge-gray {
+  background-color: $gray;
+  color: $white;
+}
