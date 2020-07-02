@@ -45,10 +45,6 @@ class DutyTypeController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute("duty_new");
-        // return $this->render('duty/new.html.twig', [
-        //     'duty_type' => $dutyType,
-        //     // 'form' => $form->createView(),
-        // ]);
     }
 
     /**

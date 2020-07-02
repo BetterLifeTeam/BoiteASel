@@ -15,49 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MemberController extends AbstractController
 {
-
-    public function nice_dump($data)
-    {
-        highlight_string("<?php\n\$data =\n" . var_export($data, true) . ";\n?>");
-    }
-
-    /**
-     * @Route("/", name="member_index", methods={"GET"})
-     */
-    /*
-    public function index(MemberRepository $memberRepository): Response
-    {
-        return $this->render('member/index.html.twig', [
-            'members' => $memberRepository->findAll(),
-        ]);
-    }
-*/
-
-    /**
-     * @Route("/new", name="member_new", methods={"GET","POST"})
-     */
-    /*
-    public function new(Request $request): Response
-    {
-        $member = new Member();
-        $form = $this->createForm(MemberType::class, $member);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($member);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('member_index');
-        }
-
-        return $this->render('member/new.html.twig', [
-            'member' => $member,
-            'form' => $form->createView(),
-        ]);
-    }
-*/
-
+    // Profil de l'utilisateur connectée
     /**
      * @Route("/{id}", name="member_show", methods={"GET"})
      */
@@ -70,19 +28,19 @@ class MemberController extends AbstractController
         ]);
     }
 
+    // Permet d'afficher les annonces qu'on a publié
     /**
      * @Route("/{id}/duties", name="member_duties", methods={"GET"})
      */
     public function myDuties(Member $member): Response
     {
-        // $this->nice_dump($member->getDutyAsAsker());
-
         return $this->render('member/myduties.html.twig', [
             'member' => $member,
             'asAsker' => $member->getDutyAsAsker(),
         ]);
     }
 
+    // Permet la modification de ses annonces
     /**
      * @Route("/{id}/edit", name="member_edit", methods={"GET","POST"})
      */
@@ -102,21 +60,4 @@ class MemberController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-
-    /**
-     * @Route("/{id}", name="member_delete", methods={"DELETE"})
-     */
-    /*
-    public function delete(Request $request, Member $member): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$member->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($member);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('member_index');
-    }
-*/
 }

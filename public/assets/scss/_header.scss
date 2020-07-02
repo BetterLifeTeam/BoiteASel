@@ -20,6 +20,13 @@
     }
   }
 
+  #nav-money {
+    background-color: $primary;
+    color: $white;
+    padding: 8px;
+    border-radius: 0.5rem;
+  }
+
   .dropdown-menu {
     padding: 0;
 
@@ -31,6 +38,12 @@
         background-color: $lightBlue;
         color: $white;
       }
+    }
+  }
+
+  #notifications_nav {
+    .dropdown-item {
+      padding: 0.2rem 1rem;
     }
   }
 }

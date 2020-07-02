@@ -35,12 +35,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class AdminController extends AbstractController
 {
-
-    public function nice_dump($data)
-    {
-        highlight_string("<?php\n\$data =\n" . var_export($data, true) . ";\n?>");
-    }
-
     ###################### PARTIE GESTION DES MEMBRES #############################
 
     //Permet d'accéder à la liste des membres
@@ -64,10 +58,8 @@ class AdminController extends AbstractController
             for ($i = 0; $i < 10; $i++) {
                 $password .= $characters[rand(0, $charactersLength - 1)];
             }
-            // $password = "password";
             $member->setPassword($password);
             $hash = $encoder->encodePassword($member, $member->getPassword());
-
 
             $newRoles = $member->getRoles();
             $newRoles[] = "ROLE_ADMIN";
@@ -76,9 +68,6 @@ class AdminController extends AbstractController
             $member->setMoney(300);
             $member->setRoles($newRoles);
             $member->setPassword($hash);
-
-            // $transport = new EsmtpTransport();
-            // $mailer = new Mailer($transport);
 
             $email = (new Email())
                     ->from('boiteasel@gmail.com')
@@ -90,11 +79,6 @@ class AdminController extends AbstractController
                     <p>Connectez-vous avec cette adresse mail et le mot de passe suivant : ".$password." (Nous vous conseillons de changer votre mot de passe après votre première connexion)</p>");
 
             $mailer->send($email);
-
-            /**
-             * Ici on enverra un mail au nouveau membre avec ses identifiants en lui conseillant de changer le mot de passe
-             */
-
 
             $entityManager->persist($member);
             $entityManager->flush();
@@ -145,6 +129,7 @@ class AdminController extends AbstractController
         ]);
     }
 
+    // Permet de supprimer un membre
     /**
      * @Route("/members/{id}", name="admin_member_delete", methods={"DELETE"})
      */
@@ -161,7 +146,7 @@ class AdminController extends AbstractController
 
     ######################## PARTIE VERIFICATION DES ANNONCES #############################
 
-
+    // Affiche les annonces
     /**
      * @Route("/duties", name="duties_to_check", methods={"GET"})
      */
@@ -188,6 +173,7 @@ class AdminController extends AbstractController
         ]);
     }
 
+    // Affiche les détails d'une annonce
     /**
      * @Route("/duties/{id}", name="admin_duty_show", methods={"GET", "POST"})
      */
@@ -207,7 +193,6 @@ class AdminController extends AbstractController
 
             $commentaries = $duty->getVoteCommentary();
             $commentaries[$this->getUser()->__toString()] = $data["commentaire"];
-            // $this->nice_dump($commentaries);
             $duty->setVoteCommentary($commentaries);
 
             $this->getDoctrine()->getManager()->flush();
@@ -221,9 +206,9 @@ class AdminController extends AbstractController
         ]);
     }
 
+    // Verifie si l'admin a déja voté
     private function checkIfMemberAlreadyVoted($entity)
     {
-        // if ($voteFor == "duty") {
             $yesVotes = $entity->getYesVote();
             $noVotes = $entity->getNoVote();
             if (in_array($this->getUser()->getId(), $yesVotes) || in_array($this->getUser()->getId(), $noVotes)) {
@@ -231,11 +216,9 @@ class AdminController extends AbstractController
             } else {
                 return true;
             }
-        // } else {
-        //     return false;
-        // }
     }
 
+    // Envoie du vote
     /**
      * @Route("/duties/{id}/{vote}", name="admin_duty_vote",requirements={"vote": "yes|no"}, methods={"GET"})
      */
@@ -243,7 +226,6 @@ class AdminController extends AbstractController
     {
 
         $canVote = $this->checkIfMemberAlreadyVoted($duty);
-        // $this->nice_dump($canVote);
         if ($canVote) {
             if ($vote == 'yes') {
                 $yesVotes = $duty->getYesVote();
@@ -291,17 +273,13 @@ class AdminController extends AbstractController
                 $duty->setVoteCommentary([]);
             }
 
-
-
             $this->getDoctrine()->getManager()->flush();
-        } else {
-            // $this->redirect
         }
-
 
         return $this->redirectToRoute('duties_to_check');
     }
 
+    // Permet de modifier les droits et les grains de SEL d'un membre
     /**
      * @Route("/duties/{id}/edit", name="admin_duty_edit", methods={"GET","POST"})
      */
@@ -322,12 +300,11 @@ class AdminController extends AbstractController
         ]);
     }
 
+    // Permet de mettre en retrait une annonce
     /**
      * @Route("/setback/{id}", options={"expose"=true}, name="admin_setback", methods={"GET", "POST"})
      */
     public function setback($id){
-
-
         $dutyRepository = $this->getDoctrine()->getRepository(Duty::class);
         $entityManager = $this->getDoctrine()->getManager();
         
@@ -350,8 +327,6 @@ class AdminController extends AbstractController
         
         $entityManager->persist($notification);
         $entityManager->flush();
-        // return $this->nice_dump($_POST);
-        // echo $_POST["motif"];
 
         return $this->redirectToRoute("duty_search");
     }
@@ -359,6 +334,7 @@ class AdminController extends AbstractController
 
     ######################## PARTIE VERIFICATION DES TYPES DE SERVICES #############################
 
+    // Permet l'affichage des différents types d'annonces
     /**
      * @Route("/dutytypes", name="dutytypes_to_check", methods={"GET"})
      */
@@ -380,6 +356,7 @@ class AdminController extends AbstractController
         ]);
     }
 
+    // Permet de voir les détails d'un type 
     /**
      * @Route("/dutytypes/{id}", name="admin_dutytype_show", methods={"GET", "POST"})
      */
@@ -399,7 +376,6 @@ class AdminController extends AbstractController
 
             $commentaries = $dutytype->getVoteCommentary();
             $commentaries[$this->getUser()->__toString()] = $data["commentaire"];
-            // $this->nice_dump($commentaries);
             $dutytype->setVoteCommentary($commentaries);
 
             $this->getDoctrine()->getManager()->flush();
@@ -413,14 +389,14 @@ class AdminController extends AbstractController
         ]);
     }
 
+
+    // Envoie du vote pour la validation d'un type d'annonce
     /**
      * @Route("/dutytypes/{id}/{vote}", name="admin_dutytype_vote",requirements={"vote": "yes|no"}, methods={"GET"})
      */
     public function voteForDutyType(DutyType $dutytype, $id, $vote, DutyTypeRepository $dutytypeRepository, MemberRepository $memberRepository): Response
     {
-
         $canVote = $this->checkIfMemberAlreadyVoted($dutytype);
-        // $this->nice_dump($canVote);
         if ($canVote) {
             if ($vote == 'yes') {
                 $yesVotes = $dutytype->getYesVote();
@@ -451,13 +427,8 @@ class AdminController extends AbstractController
                 $dutytype->setVoteCommentary([]);
             }
 
-
-
             $this->getDoctrine()->getManager()->flush();
-        } else {
-            // $this->redirect
         }
-
 
         return $this->redirectToRoute('dutytypes_to_check');
     }
@@ -465,6 +436,7 @@ class AdminController extends AbstractController
 
     ######################## PARTIE TABLEAU DE BORD #############################
 
+    // Affichage du tableau de bord
     /**
      * @Route("/dashboard", name="admin_dashboard", methods={"GET"})
      */
@@ -479,6 +451,7 @@ class AdminController extends AbstractController
         ]);
     }
 
+    // Tableau de la liste des membres
     /**
      * @Route("/dashboard/givers", name="admin_dashboard_givers", methods={"GET"})
      */
@@ -489,6 +462,7 @@ class AdminController extends AbstractController
         ]);
     }
 
+    // Tableau de l'actualité
     /**
      * @Route("/dashboard/activity", name="admin_dashboard_activity", methods={"GET"})
      */

@@ -178,7 +178,7 @@ class DutyType
     }
 
     public function __toString(){
-        return $this->title;
+        return $this->title." ( réf. prix horaire : ".$this->hourlyPrice." ) ";
     }
 
     public function getCreator(): ?Member

@@ -15,7 +15,7 @@ class HomeController extends AbstractController
     public function index(MemberRepository $memberRepository)
     {
 
-        $slider = $memberRepository->getSlider(1);
+        $slider = $memberRepository->getSlider(0);
 
         if ($this->getUser()) {
             $this->redirectToRoute("duty_search");
