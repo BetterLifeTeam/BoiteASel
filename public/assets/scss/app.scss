@@ -17,7 +17,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -25,11 +25,11 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #888;
+    background: $primary;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: $accent;
 }
 
 /* ---------- CSS BoiteASel Header ---------- */
