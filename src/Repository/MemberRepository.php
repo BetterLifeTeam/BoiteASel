@@ -101,6 +101,29 @@ class MemberRepository extends ServiceEntityRepository
 
     }
 
+    public function getSlider($limit = null)
+    {
+
+        $sql = 'SELECT d.*, askM.firstname as askerFirstName, askM.name as askerName, dt.title as type
+        FROM duty as d
+        LEFT JOIN member as askM on d.asker_id=askM.id
+        LEFT JOIN duty_type as dt on d.duty_type_id=dt.id
+        WHERE d.status IN ("not checked", "checked")
+        ORDER BY d.done_at DESC';
+
+        if ($limit != null) {
+            $sql .= " LIMIT ".$limit;
+        }
+
+
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+    }
+
     public function getTypeActivites()
     {
 

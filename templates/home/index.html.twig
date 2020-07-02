@@ -1,21 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{# {% block title %}Hello HomeController!{% endblock %} #}
+ {% block title %}Accueil{% endblock %}
 
 {% block body %}
-<p>Salut je suis la page d'accueil</p>
-{# /* <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <main role="main" class="container-fluid" id="home_page">
+        <div class="row">
+            <div class="col-xl-8 col-lg-12 mb-sm-4" id="home_page_introduction">
+                <div class="mb-5 text-center">
+                    <img class="p-1 w-25" src="{{ asset('assets/img/BoiteASel.png') }}" alt="Logo Boite à Sel">
+                </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                <div class="mb-4">
+                    <h4 class="text mb-2">Qui sommes-nous ?</h4>
+                    <p class="text text-justify">
+                        Boîte à SEL est une association mettant en place un Système d’Echanges Locaux, qui pour favoriser l’inclusion et les
+                        échanges sociaux, échangent des produits ou des services, éventuellement par le truchement d’une unité de compte
+                        local ( le « grain de sel » ).
+                        Son objectif est de garder une trace des échanges qui ont eu lieu et ainsi rassurer les entreprises et le fisc sur la nature
+                        et le montant des prestations échangées.
+                    </p>
+                </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/alexy/Projets/BoiteASel/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/alexy/Projets/BoiteASel/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div> */ #}
+                <div class="text-center">
+                    <h4 class="text mb-2 text-left">Concept :</h4>
+                    <p class="text text-justify">
+                        Sur la plateforme en ligne de l'association Boîte à SEL, vous trouverez des petites annonces
+                        gratuites et un réseau de proximité dans les services. Les services se font sur la base du
+                        volontariat. Les membres rendant des services sont rémunérés en monnaie virtuelle appelée "grains de sel". Pour accéder aux diverses fonctionnalités,
+                        il faut impérativement être un membre de l'association Boité à SEL.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-12" id="home_page_caroussel">
+                <div class="row">
+                    <div class="col-xl-12 col-lg-6 col-md-12 mb-xl-4 mb-md-4" id="slider">
+                        <div class="card bg-primary">
+                            <div class="card-header">
+                                <h4 class="text-white text-center mb-0">Dernière annonce postée :</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5 class="card-title mb-1 text-white">{{ slider.title }}</h5>
+                                        <h6 class="card-subtitle mb-2 text-white">{{ slider.type }}</h6>
+                                    </div>
+                                </div>
+                                <p class="card-text text-white duty_description text-justify mb-5">{{ slider.description }}</p>
+                                <p class="card-text w-100 mb-0 text-right text-white text-bold">{{ slider.askerName }} {{ slider.askerFirstName }}</p>
+                                <p class="card-text w-100 text-right text-white">
+                                    <small>Posté
+                                        le {{ slider.created_at ? slider.created_at|date('d-m-Y') : '' }}</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12 col-lg-6 col-md-12 text-center" id="logo">
+                        <aside class="bg-white">
+                            <video class="w-100" controls autoplay>
+                                <source src="{{ asset('assets/videos/BoiteASel.mp4') }}" type="video/mp4">
+
+                                Sorry, your browser doesn't support embedded videos.
+                            </video>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 {% endblock %}
