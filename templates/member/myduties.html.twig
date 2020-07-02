@@ -24,7 +24,7 @@
 											<a class="btn btn-primary seeDuty" href=" {{ path('duty_show', {'id': duty.id}) }} " title="Voir l'annonce">
 												<i class="fas fa-eye"></i>
 											</a>
-											<a href="{{ path('duty_edit', {'id': duty.id}) }}">Edit</a>
+											<a class="btn btn-success" href="{{ path('duty_edit', {'id': duty.id}) }}"><i class="fas fa-pen"></i></a>
 										</div>
 									</div>
 									<p class="card-text text duty_description text-justify mb-5">{{ duty.description }}</p>

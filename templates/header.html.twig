@@ -2,7 +2,7 @@
 
 	<header id="BoiteASel-header">
 		<nav class="navbar navbar-expand-lg">
-			<a class="navbar-brand" href="/">
+			<a class="navbar-brand" href="{{ path('home') }}">
 				<img src="{{ asset('assets/img/BoiteASel.png') }}" height="50" alt="Logo Boîte à Sel" loading="lazy">
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#BoiteASel-nav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,7 @@
 							<a class="nav-link" href="{{ path('conversation_index') }}">Messagerie</a>
 						</li>
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown-account" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Mon espace</a>
+							<a class="nav-link dropdown-toggle" id="dropdown-account" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Mon espace</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown-account">
 								<a class="dropdown-item" href="{{ path('member_show', { 'id' : app.user.id } ) }}">
 									<i class="fas fa-user"></i>
@@ -35,7 +35,7 @@
 						</li>
 						{% if 'ROLE_ADMIN' in app.user.getroles(TRUE)  %}
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown-admin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Espace administrateur</a>
+							<a class="nav-link dropdown-toggle" id="dropdown-admin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Espace administrateur</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown-admin">
 								<a class="dropdown-item" href="{{ path('admin_dashboard') }}">
 									<i class="fas fa-chart-bar"></i>
