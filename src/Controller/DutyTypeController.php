@@ -26,26 +26,29 @@ class DutyTypeController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="duty_type_new", methods={"GET","POST"})
+     * @Route("/new", options={"expose"=true}, name="duty_type_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request)
     {
+
+        $em = $this->getDoctrine()->getManager();
+
         $dutyType = new DutyType();
-        $form = $this->createForm(DutyTypeType::class, $dutyType);
-        $form->handleRequest($request);
+        
+        $dutyType->setTitle($_POST["title"])
+                ->setHourlyPrice($_POST["price"])
+                ->setStatus(0)
+                ->setCreator($this->getUser())
+                ->setAskedAt(new \DateTime());
+        
+        $em->persist($dutyType);
+        $em->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($dutyType);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('duty_type_index');
-        }
-
-        return $this->render('duty_type/new.html.twig', [
-            'duty_type' => $dutyType,
-            'form' => $form->createView(),
-        ]);
+        return $this->redirectToRoute("duty_new");
+        // return $this->render('duty/new.html.twig', [
+        //     'duty_type' => $dutyType,
+        //     // 'form' => $form->createView(),
+        // ]);
     }
 
     /**
