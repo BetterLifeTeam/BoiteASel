@@ -51,45 +51,4 @@
             </div>
         </div>
     </main>
-
-{#<style>#}
-{#    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }#}
-{#    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }#}
-{#</style>#}
-
-{#     <table class="table">#}
-{#        <thead>#}
-{#            <tr>#}
-{#                <th>Content</th>#}
-{#                <th>Actions </th>#}
-{#            </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#        {% for notification in propositions %}#}
-{#            <tr>#}
-{#                <td>#}
-{#                    {{ notification.content }}#}
-{#                </td>#}
-{#                <td>#}
-{#                    {% if notification.type == "proposition" %}#}
-{#                        <a href="{{ path("notification_accept_offers", {"id": notification.id, "offer": notification.originMember.id, "duty": notification.duty.id} ) }}"> Accepter </a>#}
-{#                    {% elseif notification.type == "validation" %}#}
-{#                        <a href="{{ path("notification_confirm", {"id": notification.id, "asker": notification.originMember.id, "duty": notification.duty.id} ) }}"> Valider </a>#}
-{#                    {% elseif notification.type == "done" %}#}
-{#                        <a href="{{ path("notification_done", {"id": notification.id, "offer": notification.originMember.id, "duty": notification.duty.id} ) }}"> Tâche effectuée </a>#}
-{#                    {% elseif notification.type == "warning" %}#}
-{#                        <a href="#">Votre annonce à été mise en retrait pour le motif suivant : {{ notification.content }}</a>#}
-{#                    {% elseif notification.type == "verification" %}#}
-{#                        <a href="{{ path("duties_to_check") }}">Vous avez des annonces ou types d'annonces à vérifier ! Veuillez regarder dans votre espace administrateur</a>#}
-{#                    {% endif %}#}
-{#                    <a href="{{ path("notification_reading", {"id": notification.id} ) }}"> X </a>#}
-{#                </td>#}
-{#            </tr>#}
-{#        {% else %}#}
-{#            <tr>#}
-{#                <td colspan="3">Aucune propositions</td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{#        </tbody>#}
-{#    </table>#}
 {% endblock %}

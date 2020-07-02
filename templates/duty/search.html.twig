@@ -69,9 +69,11 @@
 											<a class="btn btn-primary seeDuty" href=" {{ path('duty_show', {'id': duty.id}) }} " title="Voir l'annonce">
 												<i class="fas fa-eye"></i>
 											</a>
+											{% if 'ROLE_ADMIN' in app.user.getroles(TRUE)  %}
 											<button class="btn btn-danger setbackDuty" data-id="{{ duty.id }}" data-asker="{{ duty.asker.firstname }} {{ duty.asker.name }}" title="Mettre en retrait">
 												<i class="fas fa-hand-paper"></i>
 											</button>
+											{% endif %}
 										</div>
 									</div>
 									<p class="card-text text duty_description text-justify mb-5">{{ duty.description }}</p>
@@ -124,16 +126,12 @@
                     }
                 },
                 preConfirm: (value)=> {
-                    // console.log(value);
                     var id = attributes['data-id']['value'];
                     var route = Routing.generate('admin_setback', {
                         'id': id
                     });
-                    // console.log(route);
-                    // window.location = route;
                     var send = $.ajax({
                         method: "POST",
-                        // url: "http://localhost:8000"+route,
                         url: route,
                         data: {
                             autofunc: true,
