@@ -1,0 +1,13 @@
+#notifications_page {
+
+  #notifications_section {
+    background-color: $white;
+    padding: 2rem 5rem;
+    border-radius: 0.2rem;
+
+    #notifications_content {
+      border-bottom: 1px solid $primary;
+      padding: 0.5rem 0;
+    }
+  }
+}

@@ -1,6 +1,10 @@
 @import "fonts";
 @import "variables";
 
+@import "badge";
+@import "button";
+@import "text";
+
 * {
     padding: 0;
     margin: 0;
@@ -13,7 +17,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -21,11 +25,11 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #888;
+    background: $primary;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: $accent;
 }
 
 /* ---------- CSS BoiteASel Header ---------- */
@@ -43,45 +47,13 @@ body {
 @import "login";
 @import "my_duties";
 @import "my_profile";
+@import "notifications";
 @import "swal";
 
 /* ---------- CSS BoiteASel Footer ---------- */
 h1, h2, h3, h4, h5 {
     font-family: "Open Sans SemiBold";
 }
-
-.text {
-    color: $gray;
-}
-.text-primary {
-    color: $primary !important;
-}
-.text-secondary {
-    color: $secondary !important;
-}
-.text-accent {
-    color: $accent !important;
-}
-.text-success {
-    color: $success !important;
-}
-.text-alert {
-    color: $danger !important;
-}
-text-white {
-    color: $white;
-}
-.text-green {
-    color: $lightGreen;
-}
-
-.text-bold {
-    font-weight: bolder;
-}
-.text-light {
-    font-weight: lighter;
-}
-
 
 .bg-primary {
     background-color: $primary !important;
@@ -97,123 +69,6 @@ text-white {
 }
 .bg-danger {
     background-color: $danger !important;
-}
-
-
-.btn-primary {
-    background-color: $primary;
-    color: $white;
-    border: $primary;
-
-    &:hover {
-        background-color: $lightBlue;
-    }
-
-    &:focus {
-        background-color: $primary;
-        color: $white;
-        border: $primary;
-        box-shadow: none;
-    }
-}
-.btn-secondary {
-    background-color: $secondary;
-    color: $white;
-    border: $secondary;
-
-    &:hover {
-        background-color: $lightBlue;
-    }
-
-    &:focus {
-        background-color: $secondary;
-        color: $white;
-        border: $secondary;
-        box-shadow: none;
-    }
-}
-.btn-accent {
-    background-color: $accent;
-    color: $white;
-    border: $accent;
-
-    &:hover {
-        background-color: $lightBlue;
-    }
-
-    &:focus {
-        background-color: $accent;
-        color: $white;
-        border: $accent;
-        box-shadow: none;
-    }
-}
-.btn-turquoise {
-    background-color: $turquoise;
-    color: $white;
-    border: $turquoise;
-
-    &:hover {
-        background-color: $lightBlue;
-    }
-
-    &:focus {
-        background-color: $turquoise;
-        color: $white;
-        border: $turquoise;
-        box-shadow: none;
-    }
-}
-.btn-danger {
-    background-color: $danger;
-    color: $white;
-    border: $danger;
-
-    &:hover {
-        background-color: $gray;
-        color: $white;
-    }
-
-    &:focus {
-        background-color: $danger;
-        color: $white;
-        border: $danger;
-        box-shadow: none;
-    }
-}
-.btn-white {
-    background-color: $white;
-    color: $primary;
-    border: $white;
-
-    &:hover {
-        background-color: $lightGray;
-        color: $gray;
-    }
-
-    &:focus {
-        background-color: $white;
-        color: $primary;
-        border: $white;
-        box-shadow: none;
-    }
-}
-.btn-green {
-    background-color: $lightGreen;
-    color: $white;
-    border: $lightGreen;
-
-    &:hover {
-        background-color: $green;
-        color: $white;
-    }
-
-    &:focus {
-        background-color: $lightGreen;
-        color: $white;
-        border: $lightGreen;
-        box-shadow: none;
-    }
 }
 
 .alert-danger {

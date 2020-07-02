@@ -1,0 +1,31 @@
+.text {
+  color: $gray;
+}
+.text-primary {
+  color: $primary !important;
+}
+.text-secondary {
+  color: $secondary !important;
+}
+.text-accent {
+  color: $accent !important;
+}
+.text-success {
+  color: $success !important;
+}
+.text-alert {
+  color: $danger !important;
+}
+text-white {
+  color: $white;
+}
+.text-green {
+  color: $lightGreen;
+}
+
+.text-bold {
+  font-weight: bolder;
+}
+.text-light {
+  font-weight: lighter;
+}
