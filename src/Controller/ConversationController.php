@@ -19,12 +19,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class ConversationController extends AbstractController
 {
-
-    public function nice_dump($data)
-    {
-        highlight_string("<?php\n\$data =\n" . var_export($data, true) . ";\n?>");
-    }
-
     /**
      * @Route("/", name="conversation_index", methods={"GET","POST"})
      * @Route("/{selectedConversation}", name="conversation_msg_index", methods={"GET","POST"})
@@ -36,7 +30,6 @@ class ConversationController extends AbstractController
         $conversations = $conversationRepository->findUserConversation($user);
 
         if(empty($conversations)){
-            $this->nice_dump($conversations);
             $noForm = $this->createFormBuilder([]);
             return $this->render('conversation/index.html.twig', [
                 'conversations' => $conversations,
