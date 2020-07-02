@@ -67,6 +67,11 @@ class ConversationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($message);
             $entityManager->flush();
+
+            return $this->redirectToRoute("conversation_msg_index", [
+                    "selectedConversation" => $selectedConversation
+                ]);
+
         }
 
         return $this->render('conversation/index.html.twig', [
