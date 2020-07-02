@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Annonce
-{% endblock %}
+{% block title %}Annonce{% endblock %}
 
 {% block body %}
 	<main role="main" id="admin_duty_show">
@@ -27,42 +26,33 @@
 							</div>
 
 							<div class="col-12 mb-4">
-{#								{{ form(commentaryForm) }}#}
-
 								{{ form_start(commentaryForm) }}
 									<h4 class="card-title mb-2 text">Ajouter un commentaire :</h4>
-
 								{{ form_end(commentaryForm) }}
 							</div>
 
+							<div class="col-12 mb-4" id="commentaire">
+								<h4 class="card-title mb-2 text">Commentaires :</h4>
+								{% for key,commentary in duty.voteCommentary %}
+									<div class="comment">
+										<div class="row">
+											<div class="col-12">
+												<p class="text-success m-0">{{ key }} : <small class="text">{{ commentary }}</small></p>
+												<hr>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+
 							<div class="col-12 text-right">
-								<a href="{{ path('duties_to_check') }}" class="btn btn-primary"><i class="fas fa-chevron-left"></i> Retour</a>
+								<a href="{{ path('duties_to_check') }}" class="btn btn-green"><i class="fas fa-chevron-left"></i> Retour</a>
 							</div>
 						</div>
 					</div>
-{#					<section id="commentaire">#}
-{#						{% for key,commentary in duty.voteCommentary %}#}
-{#							<div class="comment">#}
-{#								<div class="row">#}
-{#									<div class="col-3">#}
-{#										{{ key }}#}
-{#									</div>#}
-{#									<div class="col">#}
-{#										{{ commentary }}#}
-{#									</div>#}
-{#								</div>#}
-{#								<hr>#}
-{#							</div>#}
-{#						{% endfor %}#}
-{#					</section>#}
-
-
-{#					{{ form(commentaryForm) }}#}
 				</div>
 			</div>
 			<div class="background_green"></div>
 		</section>
 	</main>
-
-
-	{% endblock %}
+{% endblock %}

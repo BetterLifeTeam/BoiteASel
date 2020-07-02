@@ -69,11 +69,16 @@
 }
 
 #admin_duty_show {
-  padding: 5rem 0;
+  padding: 1rem 0;
 
   #duty_card {
     margin: 2em auto;
     border-radius: 0.2em;
     padding: 2em;
+
+    hr {
+      border-bottom: 1px solid $success;
+      margin: 0.5rem 0 1rem 0;
+    }
   }
 }
