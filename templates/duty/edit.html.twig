@@ -1,13 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Duty{% endblock %}
+{% block title %}Modification d'une annonce{% endblock %}
 
 {% block body %}
-    <h1>Edit Duty</h1>
-
-    {{ include('duty/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('member_duties', {'id':app.user.id}) }}">Retourner à "Mes Annonces"</a>
-
-    {{ include('duty/_delete_form.html.twig') }}
+    <main role="main" id="my_duty_edit_page">
+        <div class="container-md">
+            <div class="row">
+                {{ form_start(form, {'attr': { 'id': 'my_duty_edit_form', 'class': 'col-lg-6 col-md-12' } }) }}
+                    <h1 class="h1 text-primary text-center mb-4">MODIFIER UNE ANNONCE</h1>
+                    {{ form_widget(form) }}
+                    <div class="form-group text-center mb-0">
+                        <a class="btn btn-accent" href="{{ path('member_duties', {'id':app.user.id}) }}"><i class="fas fa-chevron-left"></i> Retour à Mes annonces</a>
+                        <button class="btn btn-primary">{{ button_label|default('Modifier') }}</button>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+            <div class="background_blue"></div>
+        </div>
+    </main>
 {% endblock %}

@@ -9,7 +9,7 @@
                 <section class="col-lg-10 col-md-12" id="conversation_section">
                     <div class="row h-100">
                         <div class="col-lg-3 p-0">
-                            <nav class="navbar navbar-expand-lg navbar-light p-md-2" id="conversation_nav">
+                            <nav class="navbar navbar-expand-lg navbar-light" id="conversation_nav">
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                     <span class="navbar-toggler-icon"></span>
                                 </button>
@@ -38,7 +38,7 @@
                                         <div class="col-12" id="conversation_content">
                                             <div class="row pt-3 pb-3">
                                                 {% for msg in message %}
-                                                    <div class="col-12 mb-1">
+                                                    <div class="col-12 mb-3">
                                                         {% if app.user == msg.sender %}
                                                             <span class="my_message">{{ msg.content }}</span>
                                                         {% else %}

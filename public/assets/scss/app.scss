@@ -17,7 +17,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
+    width: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -78,8 +78,9 @@ h1, h2, h3, h4, h5 {
 }
 
 .background_blue {
-    position: absolute;
+    position: fixed;
     left: 0;
+    margin-bottom: 0;
     bottom: 0;
     height: 50%;
     width: 100%;
@@ -97,9 +98,9 @@ h1, h2, h3, h4, h5 {
 }
 
 .background_green {
-    position: absolute;
+    position: fixed;
     left: 0;
-    top: 0;
+    bottom: 0;
     height: 50%;
     width: 100%;
     background-color: $lightGreen;

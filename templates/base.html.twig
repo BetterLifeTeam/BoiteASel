@@ -26,17 +26,16 @@
 
         {% block scripts %}
             <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
-            <script src="{{ asset('assets/js/script.js') }}"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-            <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
+            <script src="{{ asset('assets/js/bootstrap.bundle.js') }}"></script>
             <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
             <script src="{{ asset('assets/js/bootstrap-table.js') }}"></script>
-            <script src="{{ asset('assets/js/bootstrap-table-fr-FR.js') }}"></script>
-            <script src="{{ asset('assets/js/bootstrap.bundle.js') }}"></script>
             <script src="{{ asset('assets/js/bootstrap-table-export.js') }}"></script>
+            <script src="{{ asset('assets/js/bootstrap-table-fr-FR.js') }}"></script>
             <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
             <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+            <script src="{{ asset('assets/js/script.js') }}"></script>
             <script src="{{ asset('build/app.js') }}"></script>
         {% endblock %}
 

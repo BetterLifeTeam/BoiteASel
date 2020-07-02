@@ -66,3 +66,23 @@
     padding: 2em;
   }
 }
+
+#my_duty_edit_page {
+  min-height: 800px;
+
+  #my_duty_edit_form {
+    background-color: $white;
+    margin: 2em auto;
+    border-radius: 0.2em;
+    padding: 2em;
+
+    .form-group {
+      margin-bottom: 2rem;
+
+      label {
+        margin-bottom: 0;
+        padding: 0;
+      }
+    }
+  }
+}
