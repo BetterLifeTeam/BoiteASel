@@ -226,7 +226,7 @@ text-white {
     position: absolute;
     left: 0;
     bottom: 0;
-    height: 40%;
+    height: 50%;
     width: 100%;
     background-color: $primary;
     z-index: -1;
@@ -244,8 +244,8 @@ text-white {
 .background_green {
     position: absolute;
     left: 0;
-    bottom: 0;
-    height: 40%;
+    top: 0;
+    height: 50%;
     width: 100%;
     background-color: $lightGreen;
     z-index: -1;

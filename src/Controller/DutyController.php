@@ -63,7 +63,6 @@ class DutyController extends AbstractController
     // Permet la création d'un nouvelle annonce
     /**
      * @Route("/new", name="duty_new", methods={"GET","POST"})
-     * @Route("/new/{type}", name="duty_new", methods={"GET","POST"})
      */
     public function new($type = null, Request $request): Response
     {
@@ -73,34 +72,7 @@ class DutyController extends AbstractController
 
         $user = $this->getUser();
 
-        // Utilisateur ajout d'un type
-        if($type == true){
-            $dutyType = new DutyT();
-            $formType = $this->createForm(DutyTypeType::class, $dutyType);
-            $formType->handleRequest($request);
-
-            //Adding form for duty type
-            if ($formType->isSubmitted() && $formType->isValid()) {
-                var_dump("coucou");
-                $dutyType->setAskedAt(new \DateTime('now'));
-                $dutyType->setStatus(false);
-                $dutyType->setCreator($user);
-    
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($dutyType);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('duty_new');
-            }
-            
-            return $this->render('duty/new.html.twig', [
-                'duty' => $duty,
-                'form' => $form->createView(),
-                'formType' => $formType->createView(),
-            ]);
-        }
-
-        // Form to add new duty
+        //Ajout d'un nouveau duty
         if ($form->isSubmitted() && $form->isValid()) {
             $duty->setCreatedAt(new \DateTime('now'));
             $duty->setStatus('not checked');
@@ -116,7 +88,6 @@ class DutyController extends AbstractController
         return $this->render('duty/new.html.twig', [
             'duty' => $duty,
             'form' => $form->createView(),
-            'formType' => '',
         ]);
     }
 

@@ -1,31 +1,65 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajout d'une annonce{% endblock %}
+{% block title %}Ajout d'une annonce
+{% endblock %}
 
 {% block body %}
-    <main role="main">
-        <div class="container-md" id="duty_add_page">
-            <div class="row p-2">
-                {{ form_start(form, {'attr': { 'id': 'duty_add_form', 'class': 'col-lg-8 col-md-12' } }) }}
-                    <h1 class="text-center text-primary mb-4">AJOUTER UNE ANNONCE</h1>
-                    {{ form_widget(form) }}
+	<main role="main">
+		<div class="container-md" id="duty_add_page">
+			<div class="row p-2">
+				{{ form_start(form, {'attr': { 'id': 'duty_add_form', 'class': 'col-lg-8 col-md-12' } }) }}
+				<h1 class="text-center text-primary mb-4">AJOUTER UNE ANNONCE</h1>
+				{{ form_widget(form) }}
 
-                <div class="text-center mt-4">
-                    <a class="btn btn-accent" href="{{ path('duty_search') }}"><i class="fas fa-chevron-left"></i> Retour</a>
-                    <button class="btn btn-primary">{{ button_label|default('Ajouter') }}</button>
-                </div>
-                {{ form_end(form) }}
-            </div>
-            <div>
-                {% if formType != "" %}
-                    <div style="background-color: pink;">
-                        {{form(formType)}}
-                    </div>
-                {% endif %}
+				<div class="text-center mt-4">
+					<a class="btn btn-accent" href="{{ path('duty_index') }}">
+						<i class="fas fa-chevron-left"></i>
+						Retour</a>
+					<button class="btn btn-primary">{{ button_label|default('Ajouter') }}</button>
+				</div>
+				{{ form_end(form) }}
+			</div>
+			<div>
+                <button class="addDutyType">Ajouter mon type d'annonce</button>
+				<div class="background_blue"></div>
+			</div>
+		</main>
+	{% endblock %}
 
-                <a href="{{ path('duty_new', { 'type': true } ) }}">Ajouter mon type d'annonce</a>
-            </div>
-			<div class="background_blue"></div>
-        </div>
-    </main>
-{% endblock %}
+	{% block ourScripts %}
+		<script>
+			$(".addDutyType").click(function () {
+                Swal.mixin({
+                    title: "Proposition d'un type d'annonce",
+                    confirmButtonText: 'Suivant &rarr;',
+                    cancelButtonText: 'Annuler',
+                    reverseButtons: true,
+                    showCancelButton: true,
+                    progressSteps: ['1', '2']
+                }).queue([
+                    {
+                    text: 'Comment voulez-vous l\'appeler ?',
+                    input: 'text'
+                    }, 
+                    {
+                    text: 'Quel en serait le prix horaire ?',
+                    input: 'number'
+                    }
+                ]).then((result) => {
+                    if (result.value) {
+                        var route = Routing.generate('duty_type_new');
+                        var send = $.ajax({
+                            method: "POST",
+                            url: route,
+                            data: {
+                                autofunc: true,
+                                action: "newDutyType",
+                                title: result.value[0],
+                                price: result.value[1]
+                            }
+                        });
+                    }
+                })
+            });
+		</script>
+	{% endblock %}

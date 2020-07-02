@@ -17,6 +17,10 @@ class HomeController extends AbstractController
 
         $slider = $memberRepository->getSlider(1);
 
+        if ($this->getUser()) {
+            $this->redirectToRoute("duty_search");
+        }
+
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'slider' => $slider[0]
