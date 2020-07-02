@@ -2,7 +2,7 @@
 
 	<header id="BoiteASel-header">
 		<nav class="navbar navbar-expand-lg">
-			<a class="navbar-brand" href="/">
+			<a class="navbar-brand" href="{{ path('home') }}">
 				<img src="{{ asset('assets/img/BoiteASel.png') }}" height="50" alt="Logo Boîte à Sel" loading="lazy">
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#BoiteASel-nav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,7 @@
 							<a class="nav-link" href="{{ path('conversation_index') }}">Messagerie</a>
 						</li>
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown-account" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Mon espace</a>
+							<a class="nav-link dropdown-toggle" id="dropdown-account" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Mon espace</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown-account">
 								<a class="dropdown-item" href="{{ path('member_show', { 'id' : app.user.id } ) }}">
 									<i class="fas fa-user"></i>
@@ -35,7 +35,7 @@
 						</li>
 						{% if 'ROLE_ADMIN' in app.user.getroles(TRUE)  %}
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown-admin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Espace administrateur</a>
+							<a class="nav-link dropdown-toggle" id="dropdown-admin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Espace administrateur</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown-admin">
 								<a class="dropdown-item" href="{{ path('admin_dashboard') }}">
 									<i class="fas fa-chart-bar"></i>
@@ -52,78 +52,9 @@
 							</div>
 						</li>
 						{% endif %}
-{#						<li class="nav-item dropdown">#}
-{#							<a class="nav-link dropdown-toggle" href="#" id="dropdown-admin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i> Notifications</a>#}
-{#							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-admin" id="notifications_nav">#}
-{#								<ul>#}
-{#									{% for notification in app.user.getNotifications()|slice(0, 5) %}#}
-{#										<li class="nav-item dropdown-notif">#}
-{#											<span class="text">{{ notification.content }}</span>#}
-{#											<ul class="list-group w-100">#}
-{#												{% if notification.type == "proposition" %}#}
-{#													<li class="list-group-item d-flex justify-content-between align-items-center">#}
-{#														<a class="dropdown-item" href="{{ path("notification_accept_offers", {"id": notification.id, "offer": notification.originMember.id, "duty": notification.duty.id} ) }}"> Accepter </a>#}
-{#														<span class="badge badge-primary badge-pill">2</span>#}
-{#													</li>#}
-{#												{% elseif notification.type == "validation" %}#}
-{#													<li class="list-group-item d-flex justify-content-between align-items-center">#}
-{#														<a class="dropdown-item" href="{{ path("notification_confirm", {"id": notification.id, "asker": notification.originMember.id, "duty": notification.duty.id} ) }}"> Valider </a>#}
-{#														<span class="badge badge-primary badge-pill">2</span>#}
-{#													</li>#}
-{#												{% elseif notification.type == "done" %}#}
-{#													<li class="list-group-item d-flex justify-content-between align-items-center">#}
-{#														<a class="dropdown-item" href="{{ path("notification_done", {"id": notification.id, "offer": notification.originMember.id, "duty": notification.duty.id} ) }}"> Tâche effectuée </a>#}
-{#														<span class="badge badge-primary badge-pill">2</span>#}
-{#													</li>#}
-{#												{% elseif notification.type == "warning" %}#}
-{#													<li class="list-group-item d-flex justify-content-between align-items-center">#}
-{#														<a class="dropdown-item" href="#">Votre annonce à été mise en retrait pour le motif suivant : {{ notification.content }}</a>#}
-{#														<span class="badge badge-primary badge-pill">2</span>#}
-{#													</li>#}
-{#												{% elseif notification.type == "verification" %}#}
-{#													<li class="list-group-item d-flex justify-content-between align-items-center">#}
-{#														<a class="dropdown-item" href="{{ path("duties_to_check") }}">Vous avez des annonces ou types d'annonces à vérifier ! Veuillez regarder dans votre espace administrateur</a>#}
-{#														<span class="badge badge-primary badge-pill">2</span>#}
-{#													</li>#}
-{#												{% endif %}#}
-{#											</ul>#}
 
-{#											<ul class="list-group w-100">#}
-{#												<li class="list-group-item d-flex justify-content-between align-items-center">#}
-{#													<a class="dropdown-item text-danger" href="{{ path("notification_reading", {"id": notification.id} ) }}"><i class="fas fa-times"></i></a>#}
-{#													<a class="dropdown-item text-right" href="{{ path("notification") }}"> Voir plus </a>#}
-{#												</li>#}
-{#											</ul>#}
-{#										</li>#}
-{#										{% else %}#}
-{#										  <a class="disabled" href="#">Aucune notification disponible</a>#}
-{#									{% endfor %}#}
-{#								</ul>#}
-{#							</div>#}
-{#						</li>#}
-
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown-admin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i> Notifications</a>
-							<div class="dropdown-menu dropdown-menu-right" id="notifications_nav">
-								{% for notification in app.user.getNotifications()|slice(0, 5) %}
-									{% if notification.type == "proposition" %}
-										<a class="dropdown-item disabled" href="#"><span class="badge badge-primary badge-pill">Proposition</span></a>
-									{% elseif notification.type == "validation" %}
-										<a class="dropdown-item disabled" href="#"><span class="badge badge-secondary badge-pill">Validation</span></a>
-									{% elseif notification.type == "done" %}
-										<a class="dropdown-item disabled" href="#"><span class="badge badge-success badge-pill">Fin de tâche</span></a>
-									{% elseif notification.type == "warning" %}
-										<a class="dropdown-item disabled" href="#"><span class="badge badge-danger badge-pill">Attention</span></a>
-									{% elseif notification.type == "verification" %}
-										<a class="dropdown-item disabled" href="#"><span class="badge badge-accent badge-pill">Vérification</span></a>
-									{% else %}
-										<a class="dropdown-item disabled" href="#"><span class="badge badge-gray badge-pill">Autres</span></a>
-									{% endif %}
-								{% else %}
-									<a class="disabled" href="#">Aucune notification disponible</a>
-								{% endfor %}
-								<a class="dropdown-item" href="{{ path("notification") }}">Consulter</a>
-							</div>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('notification') }}"><i class="fas fa-bell"></i></a>
 						</li>
 
 						{% set money = app.user.getMoney() %}
