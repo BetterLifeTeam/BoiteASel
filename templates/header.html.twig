@@ -52,30 +52,9 @@
 							</div>
 						</li>
 						{% endif %}
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown-admin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i> Notifications</a>
-							<div class="dropdown-menu dropdown-menu-right" id="notifications_nav">
-								{% for notification in app.user.getNotifications()|slice(0, 5) %}
-									{% if notification.type == "proposition" %}
-										<a class="dropdown-item disabled" href="#"><span class="badge badge-primary badge-pill">Proposition</span></a>
-									{% elseif notification.type == "validation" %}
-										<a class="dropdown-item disabled" href="#"><span class="badge badge-secondary badge-pill">Validation</span></a>
-									{% elseif notification.type == "done" %}
-										<a class="dropdown-item disabled" href="#"><span class="badge badge-success badge-pill">Fin de tâche</span></a>
-									{% elseif notification.type == "warning" %}
-										<a class="dropdown-item disabled" href="#"><span class="badge badge-danger badge-pill">Attention</span></a>
-									{% elseif notification.type == "verification" %}
-										<a class="dropdown-item disabled" href="#"><span class="badge badge-accent badge-pill">Vérification</span></a>
-									{% else %}
-										<a class="dropdown-item disabled" href="#"><span class="badge badge-gray badge-pill">Autres</span></a>
-									{% endif %}
-								{% else %}
-									<a class="disabled" href="#">Aucune notification disponible</a>
-								{% endfor %}
-								<a class="dropdown-item" href="{{ path("notification") }}">Consulter</a>
-							</div>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('notification') }}"><i class="fas fa-bell"></i></a>
 						</li>
-
 						{% set money = app.user.getMoney() %}
 						<li class="nav-item">
 							{% if money > 0 %}
