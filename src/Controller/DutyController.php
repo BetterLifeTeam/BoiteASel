@@ -19,16 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class DutyController extends AbstractController
 {    
-    /**
-     * @Route("/", name="duty_index", methods={"GET"})
-     */
-    public function index(DutyRepository $dutyRepository): Response
-    {
-        return $this->render('duty/index.html.twig', [
-            'duties' => $dutyRepository->findAll(),
-        ]);
-    }
-  
+    // Permet l'affichage et la recherche d'une annonce
     /**
      * @Route("/search", name="duty_search", methods={"GET","POST"})
      */
@@ -69,9 +60,9 @@ class DutyController extends AbstractController
         ]);
     }
 
+    // Permet la création d'un nouvelle annonce
     /**
      * @Route("/new", name="duty_new", methods={"GET","POST"})
-     * @Route("/new/{type}", name="duty_new", methods={"GET","POST"})
      */
     public function new($type = null, Request $request): Response
     {
@@ -81,35 +72,7 @@ class DutyController extends AbstractController
 
         $user = $this->getUser();
 
-        //User propose to adding new duty type
-        if($type == true){
-//            var_dump("inside the form");
-            $dutyType = new DutyT();
-            $formType = $this->createForm(DutyTypeType::class, $dutyType);
-            $formType->handleRequest($request);
-
-            //Adding form for duty type
-            if ($formType->isSubmitted() && $formType->isValid()) {
-                var_dump("coucou");
-                $dutyType->setAskedAt(new \DateTime('now'));
-                $dutyType->setStatus(false);
-                $dutyType->setCreator($user);
-    
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($dutyType);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('duty_new');
-            }
-            
-            return $this->render('duty/new.html.twig', [
-                'duty' => $duty,
-                'form' => $form->createView(),
-                'formType' => $formType->createView(),
-            ]);
-        }
-
-        // Form to add new duty
+        //Ajout d'un nouveau duty
         if ($form->isSubmitted() && $form->isValid()) {
             $duty->setCreatedAt(new \DateTime('now'));
             $duty->setStatus('not checked');
@@ -125,10 +88,10 @@ class DutyController extends AbstractController
         return $this->render('duty/new.html.twig', [
             'duty' => $duty,
             'form' => $form->createView(),
-            'formType' => '',
         ]);
     }
 
+    // Voir les détails d'une annonce
     /**
      * @Route("/{id}", name="duty_show", methods={"GET","POST"})
      */
@@ -153,6 +116,7 @@ class DutyController extends AbstractController
         ]);
     }
 
+    // Permet la modification d'une annonce
     /**
      * @Route("/{id}/edit", name="duty_edit", methods={"GET","POST"})
      */
@@ -173,6 +137,7 @@ class DutyController extends AbstractController
         ]);
     }
 
+    // Permet la suppréssion d'une annonce
     /**
      * @Route("/{id}", name="duty_delete", methods={"DELETE"})
      */

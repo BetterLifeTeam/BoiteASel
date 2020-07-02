@@ -131,21 +131,9 @@ class Member implements UserInterface
         return $this;
     }
 
-    //Provi. les roles sont tous members
     public function getRoles(){
-        // return gettype(['ROLE_MEMBER']);
-        // $toReturn = '';
-        // foreach ($$this->roles as $value) {
-        //     $toReturn .= $value.', ';
-        // }
-        // return substr($toReturn, 0, strlen($toReturn));
         return $this->roles;
     }
-
-    // public function getRolesAsArray(): ?array
-    // {
-    //     return $this->roles;
-    // }
 
     public function setRoles(array $roles): self
     {
