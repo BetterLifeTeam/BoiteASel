@@ -1,0 +1,21 @@
+#home_page {
+  padding: 5rem;
+
+  #home_page_introduction {
+    background-color: $white;
+    border-radius: 0.2em;
+    padding: 3rem;
+  }
+
+  #home_page_caroussel {
+    .card {
+      background: linear-gradient(to bottom, $primary, $lightBlue);
+      border-radius: 0.2rem;
+      border: none;
+    }
+
+    #logo {
+      border-radius: 0.2rem;
+    }
+  }
+}

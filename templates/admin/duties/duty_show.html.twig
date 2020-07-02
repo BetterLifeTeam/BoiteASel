@@ -16,12 +16,12 @@
 							</div>
 
 							<div class="col-12 mb-4">
-								<p class="card-text text text-justify">{{ duty.description }}</p>
-								<p class="card-text w-100 mb-0 text-success text"><small>{{ duty.asker.name }} {{ duty.asker.firstname }}</small></p>
+								<p class="card-text text text-justify mb-5">{{ duty.description }}</p>
+								<p class="card-text w-100 mb-0 text-right text text-bold">{{ duty.asker.name }} {{ duty.asker.firstname }}</p>
 								<p class="card-text w-100 mb-0 text-right text"><small class="text-muted">Posté le {{ duty.createdAt ? duty.createdAt|date('d/m/Y') : '' }}</small></p>
 								<p class="card-text w-100 mb-0 text-success">Statut modifié le <small class="text-muted">{{ duty.setbackAt ? duty.setbackAt|date('d/m/Y') : '' }}</small></p>
 								<p class="card-text w-100 mb-0 text-success">Statut : <small class="text-muted">{{ duty.status }}</small></p>
-								<p class="card-text w-100 mb-0 text-success">Durée : <small class="text-muted">{{ duty.duration }}</small></p>
+								<p class="card-text w-100 mb-0 text-success">Durée : <small class="text-muted">{{ duty.duration }} heures</small></p>
 								<p class="card-text w-100 mb-0 text-success">Lieu : <small class="text-muted">{{ duty.place }}</small></p>
 								<p class="card-text w-100 mb-0 text-success">Nombre de grains de sel : <small class="text-muted">{{ duty.price }}</small></p>
 							</div>
@@ -34,8 +34,11 @@
 
 								{{ form_end(commentaryForm) }}
 							</div>
-						</div>
 
+							<div class="col-12 text-right">
+								<a href="{{ path('duties_to_check') }}" class="btn btn-primary"><i class="fas fa-chevron-left"></i> Retour</a>
+							</div>
+						</div>
 					</div>
 {#					<section id="commentaire">#}
 {#						{% for key,commentary in duty.voteCommentary %}#}
