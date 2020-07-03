@@ -71,10 +71,9 @@ class NotificationController extends AbstractController
             case 'warning' :
                 $content = $content;
                 break;
-                
             case 'verification': 
                 $content = "Vous avez des éléments à vérifier dans l'espace administrateur ";
-            
+                break;
             default:
                 $content = $content;
                 break;
