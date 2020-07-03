@@ -1,6 +1,6 @@
-jQuery(".duty_description").each(function () {
-   var description = $(".duty_description").text().substring(0,300);
-   $(".duty_description").text(description+"...");
+$(".duty_description").each(function () {
+   var description = $(this).text().substring(0,400);
+   $(this).text(description+"...");
 });
 
 $("#conversation_content").animate({ scrollTop: $(this).height() }, "slow");

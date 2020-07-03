@@ -1,50 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}DutyType
-{% endblock %}
+{% block title %}Type de service{% endblock %}
 
 {% block body %}
-	<h1>DutyType</h1>
-
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Title</th>
-				<td>{{ duty_type.title }}</td>
-			</tr>
-			<tr>
-				<th>Proposeur</th>
-				<td>{{ duty_type.creator }}</td>
-			</tr>
-			<tr>
-				<th>HourlyPrice</th>
-				<td>{{ duty_type.hourlyPrice }}</td>
-			</tr>
-		</tbody>
-	</table>
-
-	<a href="{{ path('duty_type_index') }}">back to list</a>
-
-	<a href="{{ path('duty_type_edit', {'id': duty_type.id}) }}">edit</a>
-	<h2>Les commentaires :
-	</h2>
-	<section id="commentaire">
-		{% for key,commentary in duty_type.voteCommentary %}
-			<div class="comment">
-				<div class="row">
-					<div class="col-3">
-						{{ key }}
+	<main role="main" id="dutytype_show_page">
+		<div class="container-md">
+			<div class="row">
+				<div class="col-lg-8 col-md-12" id="dutytype_section">
+					<div class="col-12">
+						<h4 class="text">{{ duty_type.title }}</h4>
+						<h6 class="text-success">{{ duty_type.creator }}</h6>
 					</div>
-					<div class="col">
-						{{ commentary }}
+
+					<div class="col-12 mb-4">
+						<p class="text mb-0"><small>{{ duty_type.hourlyPrice }}</small></p>
+					</div>
+
+					<div class="col-12 mb-4">
+						{{ form_start(commentaryForm) }}
+						<h4 class="card-title mb-2 text">Ajouter un commentaire :</h4>
+						{{ form_end(commentaryForm) }}
+					</div>
+
+					<div class="col-12 mb-4" id="commentaire">
+						<h4 class="card-title mb-2 text">Commentaires :</h4>
+						{% for key,commentary in duty_type.voteCommentary %}
+							<div class="comment">
+								<div class="row">
+									<div class="col-12">
+										<p class="text-success m-0">{{ key }} : <small class="text">{{ commentary }}</small></p>
+										<hr>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+
+					<div class="col-12 text-right">
+						<a href="{{ path('duty_type_index') }}" class="btn btn-green"><i class="fas fa-chevron-left"></i> Retour</a>
 					</div>
 				</div>
-				<hr>
 			</div>
-		{% endfor %}
-	</section>
-	<h2>Ajouter un commentaire :</h2>
-
-	{{ form(commentaryForm) }}
-    
-    {% endblock %}
+			<div class="background_green"></div>
+		</div>
+	</main>
+{% endblock %}

@@ -40,7 +40,7 @@
 										<small>({{ (((duty_type.noVote|length)*100)/ nbVoter)|round(2) }}%)</small>
 									</td>
 									<td>
-										<a href="{{ path('admin_dutytype_show', {'id': duty_type.id}) }}">show</a>
+										<a href="{{ path('admin_dutytype_show', {'id': duty_type.id}) }}"><i class="fas fa-eye"></i></a>
 										{% if app.user.id not in duty_type.yesVote and app.user.id not in duty_type.noVote %}
 											<a class="btn btn-success" href="{{ path('admin_dutytype_vote', {'id': duty_type.id, 'vote': 'yes'}) }}">
 												<i class="fas fa-check"></i>
